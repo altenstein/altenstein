@@ -6,5 +6,3 @@ Additions coming soon..
 ## Developers
 
 - [KatCote](https://github.com/KatCote)
-- [Veslo](https://github.com/vadiek)
-- [AndraxFlow](https://github.com/AndraxFlow)
