@@ -10,25 +10,61 @@ typedef struct {
 	char item[6][6];
 } item_tile;
 
-int map_char_color_num(char char_for_find_color)
+int map_color_num(char char_for_find_color, int map_type)
 {
-	if(char_for_find_color == 'W')
+	if(map_type == 49) // 49 is 1 in ASCII
+	{if(char_for_find_color == 'W')
 		return 201;
-	if(char_for_find_color == 'T')
+	else if(char_for_find_color == 'T')
 		return 202;
+	else if(char_for_find_color == '#')
+		return 203;
+	}
 	
 	return 200;
+}
+
+int init_color_location_map(void)
+{
+	init_pair(200, 8, 0); // Map default pair
+	
+	init_pair(201, 9, 0); // Water color
+	init_pair(202, 2, 0); // Tree color
+	init_pair(203, 6, 0); // Wall/Wood color
+	
+	return 0;
+}
+
+int init_color_entities(void)
+{
+	init_pair(100, 14, 0); //USER (Default)
+	init_pair(101, 4, 0); //Entity (Default)
+	
+	return 0;
+}
+
+int render_map_entities(int player_x, int player_y, interface_tile map)
+{
+	if(map.tile[21][9] == 0) return 0;
+	
+	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '0'))
+	{
+		attron(COLOR_PAIR(101));
+		mvaddch(7, 68, 'B');
+	}
 }
 
 interface_tile render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
 {
     interface_tile D;
 	int color_for_map_element;
+	int map_type = map.tile[21][9];
+	
     for(int i = 0; i < 21; i++)
 	{
 		for(int j = 0; j < 80; j++) //Load current map to interface
 		{
-			color_for_map_element = map_char_color_num(map.tile[i][j]);
+			color_for_map_element = map_color_num(map.tile[i][j], map_type);
 			attron(COLOR_PAIR(color_for_map_element));
 			printw("%c", map.tile[i][j]);
 			attroff(COLOR_PAIR(color_for_map_element));
@@ -66,6 +102,37 @@ interface_tile render_default_interface(interface_tile map, interface_tile inven
     return D;
 }
 
+interface_tile map_player_movement(int player_y, int player_x, interface_tile map)
+{
+	interface_tile D;
+	
+	attron(COLOR_PAIR(100));
+	mvaddch(player_y, player_x, '@');
+	attroff(COLOR_PAIR(100));
+	char player_move = getch();
+	do
+	{
+		int buffer_player_y = player_y;
+		int buffer_player_x = player_x;
+		
+		if ((player_move == 'w') && ((player_y - 1) != 0) && (map.tile[player_y - 1][player_x] == ' ')) player_y--;
+		else if ((player_move == 's') && ((player_y + 1) != 20) && (map.tile[player_y + 1][player_x] == ' ')) player_y++;
+		else if ((player_move == 'a') && ((player_x - 1) != 0) && (map.tile[player_y][player_x - 1] == ' ')) player_x--;
+		else if ((player_move == 'd') && ((player_x - 1) != 77) && (map.tile[player_y][player_x + 1] == ' ')) player_x++;
+		
+		attron(COLOR_PAIR(200));
+		mvaddch(buffer_player_y, buffer_player_x, ' ');
+		attroff(COLOR_PAIR(200));
+		attron(COLOR_PAIR(100));
+		mvaddch(player_y, player_x, '@');
+		attroff(COLOR_PAIR(100));
+		
+		render_map_entities(player_y, player_x, map);
+	}
+	while ((player_move = getch()) != 27);
+	return D;
+}
+
 int main(void)
 {
 	
@@ -73,24 +140,25 @@ int main(void)
 	 "+--------------------------------[LOCATION MAP]--------------------------------+",
 	 "|                                                                            WW|",
 	 "|            WWW                                                             WW|",
-	 "|            WWWW           a                                               WW |",
+	 "|            WWWW                                                           WW |",
 	 "|           WWW                                                    #        WW |",
 	 "|                                                                 # #      WW  |",
-	 "|                     T                                          #   #    WW   |",
-	 "|   T            f                                               #  B#   WW    |",
-	 "|                                                                ## ##  WW     |",
-	 "|                                                                        WW    |",
-	 "|                                  T                                     WW    |",
-	 "|                   T            T                                        WW   |",
-	 "|     T                       T       T                                   WW   |",
+	 "|                     T             T                            #   #    WW   |",
+	 "|   T                          T T                               #   #   WW    |",
+	 "|                             T       T                          ## ##  WW     |",
+	 "|                           +-------------------+                        WW    |",
+	 "|                           |A L T E N S T E I N|                        WW    |",
+	 "|                   T    T  +-------------------+                         WW   |",
+	 "|     T                      T       T                                    WW   |",
 	 "|               T              T T T                                     WW    |",
 	 "|                                  T  T                                 WW     |",
-	 "|  p                             T     T                                 WW    |",
+	 "|                                T     T                                 WW    |",
 	 "|                              T    T T                                  WW    |",
 	 "|      T                     T     T                                  WWWWWW   |",
-	 "| +                           T                                    WWWWWWWWWWWW|",
+	 "|                             T                                    WWWWWWWWWWWW|",
 	 "|                                                                 WWWWWWWWWWWWW|",
-	 "+-----------------------+------------------------------------------------------+"
+	 "+-----------------------+------------------------------------------------------+",
+	 "ID: 0000-1"	// XXXX-... - location id; ...-X - location type (world/location/dungeon/house)
     } };
 	
 	interface_tile tile_inventory = {.tile = {
@@ -156,6 +224,9 @@ int main(void)
 	curs_set(0);
 	keypad(stdscr, TRUE);
 	
+	int player_x = 2;
+	int player_y = 1;
+	
 	if (has_colors() == FALSE)
 	{
 		endwin();
@@ -164,20 +235,14 @@ int main(void)
 	}
 	
 	start_color();
-	use_default_colors();
-	
-	init_pair(1, 13, 11); //USER
+	init_color_location_map();
+	init_color_entities();
 	init_pair(2, 8, COLOR_BLACK); // Interface default pair
-	init_pair(200, 8, COLOR_BLACK); // Map default pair
-	
-	init_pair(201, 3, COLOR_BLACK); // Water color
-	init_pair(202, 2, COLOR_BLACK); // Tree color
 	
 	render_default_interface(tile_current_map, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(player_y, player_x, tile_current_map);
 	
-	attron(COLOR_PAIR(1));
-	mvaddch(3, 3, '@');
-	attroff(COLOR_PAIR(1));
+	map_player_movement(player_y, player_x, tile_current_map);
 	
 	getch();
 
