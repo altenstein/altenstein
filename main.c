@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<curses.h>
+#include"render.h"
 
 typedef struct {
 	char tile[30][120];
@@ -12,7 +13,7 @@ typedef struct {
 
 int map_color_num(char char_for_find_color, int map_type)
 {
-	if(map_type == 49) // 49 is 1 in ASCII
+	if(map_type == 50) // 50 is 1 in ASCII; Colors for location map
 	{if(char_for_find_color == 'W')
 		return 201;
 	else if(char_for_find_color == 'T')
@@ -35,6 +36,17 @@ int init_color_location_map(void)
 	return 0;
 }
 
+int init_color_service(void)
+{
+	init_pair(001, 8, 0); // Interface default pair
+	
+	init_pair(002, 10, 0); // Low difficulty
+	init_pair(003, 6, 0); // Middle difficulty
+	init_pair(004, 4, 0); // High difficulty
+	
+	return 0;
+}
+
 int init_color_entities(void)
 {
 	init_pair(100, 14, 0); //USER (Default)
@@ -50,13 +62,13 @@ int render_map_entities(int player_x, int player_y, interface_tile map)
 	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '0'))
 	{
 		attron(COLOR_PAIR(101));
-		mvaddch(7, 68, 'B');
+		mvaddch(7, 68, 'B'); // Boat
+		mvaddch(18, 10, 'T'); // Tree with chest
 	}
 }
 
-interface_tile render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
+int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
 {
-    interface_tile D;
 	int color_for_map_element;
 	int map_type = map.tile[21][9];
 	
@@ -71,9 +83,9 @@ interface_tile render_default_interface(interface_tile map, interface_tile inven
 		}
 		for(int k = 0; k < 39; k++) //Load inventory / spell book to interface
 		{
-			attron(COLOR_PAIR(2));
+			attron(COLOR_PAIR(001));
 			printw("%c", inventory.tile[i][k]);
-			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(001));
 		}
 		printw("\n");
 	}
@@ -81,31 +93,43 @@ interface_tile render_default_interface(interface_tile map, interface_tile inven
 	{
 		for(int j = 0; j < 25; j++) //Load character stats to interface
 		{
-			attron(COLOR_PAIR(2));
+			attron(COLOR_PAIR(001));
 			printw("%c", stats.tile[i][j]);
-			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(001));
 		}
 		for(int j = 0; j < 65; j++) //Load actions (attack/spells and regular) to interface
 		{
-			attron(COLOR_PAIR(2));
+			attron(COLOR_PAIR(001));
 			printw("%c", actions.tile[i][j]);
-			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(001));
 		}
 		for(int j = 0; j < 29; j++) //Load character stats to interface
 		{
-			attron(COLOR_PAIR(2));
+			attron(COLOR_PAIR(001));
 			printw("%c", world_info.tile[i][j]);
-			attroff(COLOR_PAIR(2));
+			attroff(COLOR_PAIR(001));
 		}
 		printw("\n");
 	}
-    return D;
+	
+	if(map.tile[21][11] == 49) attron(COLOR_PAIR(002));
+	else if(map.tile[21][11] == 50) attron(COLOR_PAIR(003));
+	else if(map.tile[21][11] == 51) attron(COLOR_PAIR(004));
+
+	if(map.tile[21][9] == 49) mvprintw(0, 34, "[WORLD MAP]");
+	else if(map.tile[21][9] == 50) mvprintw(0, 33, "[LOCATION MAP]");
+	else if(map.tile[21][9] == 51) mvprintw(0, 35, "[DUNGEON]");
+	else if(map.tile[21][9] == 52) mvprintw(0, 36, "[HOUSE]");
+	
+	attroff(COLOR_PAIR(002));
+	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(004));
+
+    return 0;
 }
 
-interface_tile map_player_movement(int player_y, int player_x, interface_tile map)
+int map_player_movement(int player_y, int player_x, interface_tile map)
 {
-	interface_tile D;
-	
 	attron(COLOR_PAIR(100));
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
@@ -130,14 +154,15 @@ interface_tile map_player_movement(int player_y, int player_x, interface_tile ma
 		render_map_entities(player_y, player_x, map);
 	}
 	while ((player_move = getch()) != 27);
-	return D;
+	
+	return 0;
 }
 
 int main(void)
 {
 	
 	interface_tile tile_current_map = {.tile = {
-	 "+--------------------------------[LOCATION MAP]--------------------------------+",
+	 "+-----------------------------------[TITLE]------------------------------------+",
 	 "|                                                                            WW|",
 	 "|            WWW                                                             WW|",
 	 "|            WWWW                                                           WW |",
@@ -158,7 +183,7 @@ int main(void)
 	 "|                             T                                    WWWWWWWWWWWW|",
 	 "|                                                                 WWWWWWWWWWWWW|",
 	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0000-1"	// XXXX-... - location id; ...-X - location type (world/location/dungeon/house)
+	 "ID: 0000-2-1"	// XXXX-... - location id; ...-X-... - location type (world/location/dungeon/house); ...-X - location difficulty (1-3)
     } };
 	
 	interface_tile tile_inventory = {.tile = {
@@ -233,11 +258,11 @@ int main(void)
 		puts("\nYour terminal does not support color");
 		return (1);
 	}
+	else start_color();
 	
-	start_color();
 	init_color_location_map();
 	init_color_entities();
-	init_pair(2, 8, COLOR_BLACK); // Interface default pair
+	init_color_service();
 	
 	render_default_interface(tile_current_map, tile_inventory, tile_character_info, tile_actions, tile_world_info);
 	render_map_entities(player_y, player_x, tile_current_map);
