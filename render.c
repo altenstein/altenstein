@@ -104,9 +104,9 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 		printw("\n");
 	}
 	
-	if(map.tile[21][11] == 49) attron(COLOR_PAIR(002));
-	else if(map.tile[21][11] == 50) attron(COLOR_PAIR(003));
-	else if(map.tile[21][11] == 51) attron(COLOR_PAIR(004));
+	if(map.tile[21][11] == 49) attron(COLOR_PAIR(002)); // Set low difficulty
+	else if(map.tile[21][11] == 50) attron(COLOR_PAIR(003)); // Set medium difficulty
+	else if(map.tile[21][11] == 51) attron(COLOR_PAIR(004)); // Set high difficulty
 
 	if(map.tile[21][9] == 49) mvprintw(0, 34, "[WORLD MAP]");
 	else if(map.tile[21][9] == 50) mvprintw(0, 33, "[LOCATION MAP]");

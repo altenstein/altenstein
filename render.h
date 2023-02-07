@@ -1,11 +1,30 @@
+// Structures
+
 typedef struct {
 	char tile[30][120];
 } interface_tile;
 
-int map_color_num(char char_for_find_color, int map_type);
+typedef struct {
+	char item[6][6];
+} item_tile;
+
+// Initialization
+
 int init_color_location_map(void);
 int init_color_service(void);
 int init_color_entities(void);
 
+// Functions
+
+int map_color_num(char char_for_find_color, int map_type);
 int render_map_entities(int player_x, int player_y, interface_tile map);
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info);
+
+// Variables
+
+extern interface_tile tile_map_0000_deafult;
+extern interface_tile tile_inventory;
+extern interface_tile tile_character_info;
+extern interface_tile tile_actions;
+extern interface_tile tile_world_info;
+extern int x;
