@@ -36,6 +36,11 @@ int init_color_service(void)
 	init_pair(003, 6, 0); // Middle difficulty
 	init_pair(004, 4, 0); // High difficulty
 	
+	init_pair(005, 9, 0); // Action active (BUTTON)
+	init_pair(006, 1, 0); // Action passive (BUTTON)
+	init_pair(007, 10, 0); // Action active (ACTION)
+	init_pair(010, 2, 0); // Action passive (ACTION)
+	
 	return 0;
 }
 
@@ -43,6 +48,13 @@ int init_color_entities(void)
 {
 	init_pair(100, 14, 0); //USER (Default)
 	init_pair(101, 4, 0); //Entity (Default)
+	
+	return 0;
+}
+
+int init_actions(void)
+{
+	action_6_switch_inv(action_6_mod, tile_map_0000_deafult);
 	
 	return 0;
 }
@@ -103,6 +115,23 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 		}
 		printw("\n");
 	}
+	
+	attron(COLOR_PAIR(002));
+	mvprintw(21, 1, "Live:");
+	mvprintw(21, 17, "$:%d", player_balance);
+	attroff(COLOR_PAIR(002));
+	
+	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
+	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
+	else if(player_hp <= player_hp_max) attron(COLOR_PAIR(002));
+	
+	if(player_hp/100 < 1) mvprintw(21, 9, "%d/%d", player_hp, player_hp_max);
+	else if(10 > player_hp/100 >= 1) mvprintw(21, 8, "%d/%d", player_hp, player_hp_max);
+	else if(player_hp/100 >= 10) mvprintw(21, 7, "%d/%d", player_hp, player_hp_max);
+	
+	attroff(COLOR_PAIR(002));
+	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(004));
 	
 	if(map.tile[21][11] == 49) attron(COLOR_PAIR(002)); // Set low difficulty
 	else if(map.tile[21][11] == 50) attron(COLOR_PAIR(003)); // Set medium difficulty
