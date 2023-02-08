@@ -55,20 +55,84 @@ int init_color_entities(void)
 int init_actions(void)
 {
 	action_6_switch_inv(action_6_mod, tile_map_0000_deafult);
+	action_1_special(action_1_mod, 0, 0, tile_map_0000_deafult);
 	
 	return 0;
 }
 
-int render_map_entities(int player_x, int player_y, interface_tile map)
+int render_selected_cell(int selected_cell, int action_6_flag)
 {
-	if(map.tile[21][9] == 0) return 0;
+	int cell_x;
+	int cell_y;
+	int cell_x_clear;
+	int cell_y_clear;
 	
-	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '0'))
-	{
-		attron(COLOR_PAIR(101));
-		mvaddch(7, 68, 'B'); // Boat
-		mvaddch(18, 10, 'T'); // Tree with chest
+	if(action_6_flag == 1){
+		
+		if(selected_cell >= 21){
+			cell_y = 5;
+			cell_x = selected_cell - 20;
+		} else if (selected_cell >= 16) {
+			cell_y = 4;
+			cell_x = selected_cell - 15;
+		} else if (selected_cell >= 11) {
+			cell_y = 3;
+			cell_x = selected_cell - 10;
+		} else if (selected_cell >= 6) {
+			cell_y = 2;
+			cell_x = selected_cell - 5;
+		} else if (selected_cell >= 1) {
+			cell_y = 1;
+			cell_x = selected_cell;
+		}
+		
+		attron(COLOR_PAIR(002));
+		mvprintw((cell_y * 4) - 3, 72 + (cell_x * 8), "%d", selected_cell);
+		attroff(COLOR_PAIR(002));
+		
+		attron(COLOR_PAIR(001));
+		
+		int count = 1;
+		
+		for (int i = 1; i <= 5; i++){
+			for (int j = 1; j <= 5; j++){
+				if (count != selected_cell) mvprintw((i * 4) - 3, 72 + (j * 8), "%d", count);
+				count++;
+			}
+		}
+		
+		attroff(COLOR_PAIR(001));
+		
+	} else if (action_6_flag == 0){
+		
+		if (selected_cell > 10) selected_cell = 1;
+		cell_x = 1;
+		cell_y = selected_cell;
+		
+		attron(COLOR_PAIR(002));
+		
+		if (cell_y == 1){
+			mvprintw(1, 80, "1");
+		} else if (cell_y == 10) {
+			mvprintw(19, 80, "10");
+		} else {
+			mvprintw((cell_y * 2) - 1, 80, "%d", selected_cell);
+		}
+		
+		attroff(COLOR_PAIR(002));
+		attron(COLOR_PAIR(001));
+		
+		int count = 1;
+		
+		for (int i = 1; i <= 10; i++){
+			if (count != selected_cell) mvprintw((i * 2) - 1, 80, "%d", count);
+			count++;
+		}
+		
+		attroff(COLOR_PAIR(001));
 	}
+	
+	return 0;
 }
 
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
@@ -147,4 +211,53 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	attroff(COLOR_PAIR(004));
 
     return 0;
+}
+
+int render_map_entities(int player_x, int player_y, interface_tile map)
+{
+	if(map.tile[21][9] == 0) return 0;
+	
+	// ID: 0000 | DEFAULT
+	
+	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '0'))
+	{
+		
+		// Render entities
+		
+		attron(COLOR_PAIR(101));
+		mvaddch(7, 68, 'B'); // Boat
+		mvaddch(18, 10, 'T'); // Tree with chest
+		
+		// Player check
+		
+		if((player_x == 18) && (player_y == 10))
+		{
+			mvprintw(21, 91, "Tree with a stash");
+			
+			action_1_mod = 1;
+			action_1_special(action_1_mod, player_x, player_y, map);
+			
+			return 1;
+		}
+		
+		if((player_x == 7) && (player_y == 68))
+		{
+			mvprintw(21, 91, "Boat to another place");
+			
+			action_1_mod = 2;
+			action_1_special(action_1_mod, player_x, player_y, map);
+			
+			return 2;
+		}
+		
+		// No player check
+		
+		attroff(COLOR_PAIR(101));
+		mvprintw(21, 90, "                            ");
+	}
+	
+	action_1_mod = -1;
+	action_1_special(action_1_mod, player_x, player_y, map);
+	
+	return 0;
 }
