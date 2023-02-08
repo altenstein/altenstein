@@ -35,6 +35,8 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 int player_hp;
 int player_hp_max;
 int player_balance;
+int player_inventory_limit;
+int player_spell_book_limit;
 
 int action_1_mod;
 int action_6_mod;

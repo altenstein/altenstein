@@ -69,8 +69,8 @@ int action_1_special(int mod, int player_x, int player_y, interface_tile map)
 		mvprintw(22, 28, "1");
 		attroff(COLOR_PAIR(005));
 		attron(COLOR_PAIR(007));
-		mvprintw(22, 31, "Open stash");
-		mvprintw(22, 41, "                 ");
+		mvprintw(22, 31, "Open the stash");
+		mvprintw(22, 45, "             ");
 		attroff(COLOR_PAIR(007));
 	}
 	

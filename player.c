@@ -7,6 +7,8 @@ int player_hp_max;
 int player_hp;
 int player_balance;
 int player_selected_cell = 1;
+int player_inventory_limit = 10;
+int player_spell_book_limit = 3;
 
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {

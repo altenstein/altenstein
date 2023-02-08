@@ -31,6 +31,8 @@ int init_color_location_map(void)
 int init_color_service(void)
 {
 	init_pair(001, 8, 0); // Interface default pair
+	init_pair(011, 0, 0); // Full black
+	init_pair(012, 7, 0); // Default b/w
 	
 	init_pair(002, 10, 0); // Low difficulty
 	init_pair(003, 6, 0); // Middle difficulty
@@ -67,7 +69,9 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 	int cell_x_clear;
 	int cell_y_clear;
 	
-	if(action_6_flag == 1){
+	if(action_6_flag == 1){ // Inventory cell selection
+	
+		if (selected_cell > player_inventory_limit) selected_cell = 1;
 		
 		if(selected_cell >= 21){
 			cell_y = 5;
@@ -90,12 +94,20 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		mvprintw((cell_y * 4) - 3, 72 + (cell_x * 8), "%d", selected_cell);
 		attroff(COLOR_PAIR(002));
 		
+		attron(COLOR_PAIR(011));
+		
+		attroff(COLOR_PAIR(011));
 		attron(COLOR_PAIR(001));
 		
 		int count = 1;
+		int i_limit;
 		
-		for (int i = 1; i <= 5; i++){
+		if (player_inventory_limit%10 == 0) i_limit = (player_inventory_limit/10) * 2;
+		else i_limit = ((player_inventory_limit/10) * 2) + 1;
+		
+		for (int i = 1; i <= i_limit; i++){
 			for (int j = 1; j <= 5; j++){
+				if(count == player_inventory_limit + 1) break;
 				if (count != selected_cell) mvprintw((i * 4) - 3, 72 + (j * 8), "%d", count);
 				count++;
 			}
@@ -103,28 +115,24 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		
 		attroff(COLOR_PAIR(001));
 		
-	} else if (action_6_flag == 0){
-		
+	} else if (action_6_flag == 0){ // Spell book cell selection
+	
+		if (selected_cell > player_spell_book_limit) selected_cell = 1;
 		if (selected_cell > 10) selected_cell = 1;
+		
 		cell_x = 1;
 		cell_y = selected_cell;
 		
 		attron(COLOR_PAIR(002));
 		
-		if (cell_y == 1){
-			mvprintw(1, 80, "1");
-		} else if (cell_y == 10) {
-			mvprintw(19, 80, "10");
-		} else {
-			mvprintw((cell_y * 2) - 1, 80, "%d", selected_cell);
-		}
+		mvprintw((cell_y * 2) - 1, 80, "%d", selected_cell);
 		
 		attroff(COLOR_PAIR(002));
 		attron(COLOR_PAIR(001));
 		
 		int count = 1;
 		
-		for (int i = 1; i <= 10; i++){
+		for (int i = 1; i <= player_spell_book_limit; i++){
 			if (count != selected_cell) mvprintw((i * 2) - 1, 80, "%d", count);
 			count++;
 		}
@@ -205,6 +213,11 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	else if(map.tile[21][9] == 50) mvprintw(0, 33, "[LOCATION MAP]");
 	else if(map.tile[21][9] == 51) mvprintw(0, 35, "[DUNGEON]");
 	else if(map.tile[21][9] == 52) mvprintw(0, 36, "[HOUSE]");
+	
+	attron(COLOR_PAIR(002));
+	
+	if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/25]", player_inventory_limit);
+	else if(action_6_flag == 0) mvprintw(0, 91, "[SPELL BOOK %d/10]", player_spell_book_limit);
 	
 	attroff(COLOR_PAIR(002));
 	attroff(COLOR_PAIR(003));
