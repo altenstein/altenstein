@@ -3,9 +3,16 @@
 
 Additions coming soon..
 
+### Compile gcc
+cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c actions.c -lpdcurses && main.exe
+
+### Dependencies 
+pdcurses
+
 ## Graphics
 
 To select the visual appearance of the game, use the settings of the console in which the game appears.
+
 (I recommend trying SimSun-ExtB)
 
 ## Developers
