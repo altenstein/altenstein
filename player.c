@@ -1,20 +1,30 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<curses.h>
+#include<string.h>
 #include"render.h"
+#include"items.h"
 
 int player_hp_max;
 int player_hp;
 int player_balance;
+int player_level = 0;
+int player_exp = 0;
+
 int player_selected_cell = 1;
-int player_inventory_limit = 10;
+int player_inventory_limit = 5;
+int player_inventory_used = 0;
 int player_spell_book_limit = 3;
+int player_spell_book_used = 0;
 
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
 	attron(COLOR_PAIR(100));
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
+	
+	render_item(1, tile_potion); // NEED TO CREATE RENDER_ALL_ITEMS AND REPLASE ALL RENDER_ITEMS WITH IT
+	
 	char player_action;
 	
 	do
@@ -49,10 +59,14 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		}
 	
 		//attron(COLOR_PAIR(001));
-		//mvprintw(29, 0, "%d ", player_selected_cell); // Underline information
+		//mvprintw(29, 0, "%s ", backpack[0].backpack_name); // Underline information
 		//attroff(COLOR_PAIR(001));
 		
-		if (player_action == '6') action_6_switch_inv(action_6_mod, map); // Action 6 button
+		if (player_action == '6')
+		{ 
+			action_6_switch_inv(action_6_mod, map); // Action 6 button
+			if(action_6_flag == 1) render_item(1, tile_potion);
+		}
 		
 		attron(COLOR_PAIR(200));
 		mvaddch(buffer_player_y, buffer_player_x, ' ');

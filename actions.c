@@ -1,7 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<curses.h>
+#include<string.h>
 #include"render.h"
+#include"items.h"
 
 int action_6_mod = 1;
 int action_6_flag = 0;

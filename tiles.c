@@ -2,35 +2,9 @@
 #include<stdlib.h>
 #include<curses.h>
 #include"render.h"
-
-interface_tile tile_map_0000_deafult = {.tile = {
-	 "+-----------------------------------[TITLE]------------------------------------+",
-	 "|                                                                           WWW|",
-	 "|            WWW                                                             WW|",
-	 "|            WWWW                                                           WWW|",
-	 "|           WWW                                                    #        WWW|",
-	 "|                                                                 # #      WWW |",
-	 "|                     T             T                            #   #    WWW  |",
-	 "|   T                          T T                               #   #   WWW   |",
-	 "|                             T       T                          ## ##  WWW    |",
-	 "|                           +-------------------+                        WWW   |",
-	 "|                           |A L T E N S T E I N|                        WWW   |",
-	 "|                   T    T  +-------------------+                         WWW  |",
-	 "|     T                      T       T                                    WWW  |",
-	 "|               T              T T T                                     WWW   |",
-	 "|                                  T  T                                 WWW    |",
-	 "|                                T     T                                 WWW   |",
-	 "|                              T    T T                                  WWW   |",
-	 "|      T                     T     T                                   WWWWWW  |",
-	 "|                             T                   WWW                 WWWWWWW  |",
-	 "|                                               WWWWWWWW               WWWWWWWW|",
-	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0000-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: DEFAULT"
-} };
 	
 interface_tile tile_inventory = {.tile = {
-	 "------++---[INVENTORY  N/N ]--++------+", // NN/NN - Weight/Weight_limit
+	 "----------------[TITLE]---------------+", // NN/NN - Weight/Weight_limit
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
@@ -54,7 +28,7 @@ interface_tile tile_inventory = {.tile = {
 } };
 
 interface_tile tile_spell_book = {.tile = {
-	 "-----------[SPELL BOOK N/N ]----------+", // NN/NN - Weight/Weight_limit
+	 "----------------[TITLE]---------------+", // NN/NN - Weight/Weight_limit
 	 "                                      |",
 	 "--------------------------------------|",
 	 "                                      |",
@@ -108,5 +82,31 @@ interface_tile tile_world_info = {.tile = {
 	 "                            |",
 	 "                            |",
 	 "                            |",
-	 "---------[Settings]---------+"
+	 "----------------------------+"
+} };
+
+interface_tile tile_map_0000_deafult = {.tile = {
+	 "+-----------------------------------[TITLE]------------------------------------+",
+	 "|                                                                           WWW|",
+	 "|            WWW                                                             WW|",
+	 "|            WWWW                                                           WWW|",
+	 "|           WWW                                                    #        WWW|",
+	 "|                                                                 # #      WWW |",
+	 "|                     T             T                            #   #    WWW  |",
+	 "|   T                          T T                               #   #   WWW   |",
+	 "|                             T       T                          ## ##  WWW    |",
+	 "|                           +-------------------+                        WWW   |",
+	 "|                           |A L T E N S T E I N|                        WWW   |",
+	 "|                   T    T  +-------------------+                         WWW  |",
+	 "|     T                      T       T                                    WWW  |",
+	 "|               T              T T T                                     WWW   |",
+	 "|                                  T  T                                 WWW    |",
+	 "|                                T     T                                 WWW   |",
+	 "|                              T    T T                                  WWW   |",
+	 "|      T                     T     T                                   WWWWWW  |",
+	 "|                             T                   WWW                 WWWWWWW  |",
+	 "|                                               WWWWWWWW               WWWWWWWW|",
+	 "+-----------------------+------------------------------------------------------+",
+	 "ID: 0000-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: DEFAULT"
 } };

@@ -7,10 +7,6 @@ typedef struct {
 	char tile[30][120];
 } interface_tile;
 
-typedef struct {
-	char item[6][6];
-} item_tile;
-
 // Initialization
 
 int init_color_location_map(void);
@@ -35,12 +31,19 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 int player_hp;
 int player_hp_max;
 int player_balance;
+int player_level;
+int player_exp;
+
 int player_inventory_limit;
+int player_inventory_used;
 int player_spell_book_limit;
+int player_spell_book_used;
 
 int action_1_mod;
 int action_6_mod;
 int action_6_flag;
+
+// Tiles
 
 extern interface_tile tile_inventory;
 extern interface_tile tile_spell_book;
