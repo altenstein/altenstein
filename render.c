@@ -46,7 +46,9 @@ int init_color_service(void)
 	init_pair(010, 2, 0); // Action passive (ACTION)
 	
 	init_pair(013, 11, 0); // Blue for potion
-	init_pair(014, 12, 0); // Red for potion
+	init_pair(014, 12, 0); // Blink Red for potion
+	init_pair(015, 10, 0); // Green for potion
+	init_pair(016, 6, 0); // Yellow for potion
 	
 	return 0;
 }
@@ -60,7 +62,7 @@ int init_color_entities(void)
 }
 
 int init_actions(void)
-{
+{	
 	action_6_switch_inv(action_6_mod, tile_map_0000_deafult);
 	action_1_special(action_1_mod, 0, 0, tile_map_0000_deafult);
 	
@@ -68,7 +70,28 @@ int init_actions(void)
 }
 
 int render_selected_cell(int selected_cell, int action_6_flag)
-{
+{	
+	attron(COLOR_PAIR(100));
+
+	mvprintw(23, 90, "                            ");
+	mvprintw(24, 90, "                            ");
+	mvprintw(25, 90, "                            ");
+	
+	if (inventory_cell[selected_cell] == 1){
+		mvprintw(23, 91, "Treatment Potion");
+		mvprintw(25, 91, "[Description]");
+	} else if (inventory_cell[selected_cell] == 2){
+		mvprintw(23, 91, "Toxic poison");
+		mvprintw(25, 91, "[Description]");
+	} else if (inventory_cell[selected_cell] == 3){
+		mvprintw(23, 91, "Empty bottle");
+	} else if ((inventory_cell[selected_cell] > 999) && (inventory_cell[selected_cell] < 1256)){
+		mvprintw(23, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_name);
+		mvprintw(25, 91, "[Description]");
+	}
+
+	attroff(COLOR_PAIR(100));
+
 	int cell_x;
 	int cell_y;
 	int cell_x_clear;
@@ -217,6 +240,10 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	
 	attron(COLOR_PAIR(002));
 	
+	player_inventory_used = 0;
+	
+	for(int i2 = 0; i2 < 25; i2++) if (inventory_cell[i2] != 0) player_inventory_used++;
+	
 	if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/%d]", player_inventory_used, player_inventory_limit);
 	else if(action_6_flag == 0) mvprintw(0, 91, "[SPELL BOOK %d/%d]", player_spell_book_used, player_spell_book_limit);
 	
@@ -232,22 +259,84 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
-int render_item(int selected_cell, item_tile selected_item)
+int render_item(int selected_cell, item_tile selected_item, int ID)
 {
-	if (selected_cell == 1)
-	{
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 6; j++){
-				
+	int base_y;
+	int base_x;
+	
+	if (selected_cell == 1) {base_y = 1; base_x = 80;}
+	else if (selected_cell == 2) {base_y = 1; base_x = 88;}
+	else if (selected_cell == 3) {base_y = 1; base_x = 96;}
+	else if (selected_cell == 4) {base_y = 1; base_x = 104;}
+	else if (selected_cell == 5) {base_y = 1; base_x = 112;}
+	else if (selected_cell == 6) {base_y = 5; base_x = 80;}
+	else if (selected_cell == 7) {base_y = 5; base_x = 88;}
+	else if (selected_cell == 8) {base_y = 5; base_x = 96;}
+	else if (selected_cell == 9) {base_y = 5; base_x = 104;}
+	else if (selected_cell == 10) {base_y = 5; base_x = 112;}
+	else if (selected_cell == 11) {base_y = 9; base_x = 80;}
+	else if (selected_cell == 12) {base_y = 9; base_x = 88;}
+	else if (selected_cell == 13) {base_y = 9; base_x = 96;}
+	else if (selected_cell == 14) {base_y = 9; base_x = 104;}
+	else if (selected_cell == 15) {base_y = 9; base_x = 112;}
+	else if (selected_cell == 16) {base_y = 13; base_x = 80;}
+	else if (selected_cell == 17) {base_y = 13; base_x = 88;}
+	else if (selected_cell == 18) {base_y = 13; base_x = 96;}
+	else if (selected_cell == 19) {base_y = 13; base_x = 104;}
+	else if (selected_cell == 20) {base_y = 13; base_x = 112;}
+	else if (selected_cell == 21) {base_y = 17; base_x = 80;}
+	else if (selected_cell == 22) {base_y = 17; base_x = 88;}
+	else if (selected_cell == 23) {base_y = 17; base_x = 96;}
+	else if (selected_cell == 24) {base_y = 17; base_x = 104;}
+	else if (selected_cell == 25) {base_y = 17; base_x = 112;}
+		
+	for (int i = 0; i < 3; i++){
+		for (int j = 0; j < 6; j++){
+			
+			if (ID == 1){
 				if(selected_item.item[i][j] == ')') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '(') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '%') attron(COLOR_PAIR(014));
-				
-				mvaddch(i+1, j+80, selected_item.item[i][j]);
-				
-				attroff(COLOR_PAIR(013));
-				attroff(COLOR_PAIR(014));
+				else if(selected_item.item[i][j] == '#') attron(COLOR_PAIR(015));
+				else if(selected_item.item[i][j] == ']') attron(COLOR_PAIR(013));
+				else if(selected_item.item[i][j] == '[') attron(COLOR_PAIR(013));
+				else if(selected_item.item[i][j] == '_') attron(COLOR_PAIR(013));
+			} else if((ID > 999) && (ID < 1256)) {
+				if(selected_item.item[i][j] == '{') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == '}') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == '[') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == ']') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == '*') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == '_') attron(COLOR_PAIR(016));
+			}
+			
+			mvaddch(base_y + i, base_x + j, selected_item.item[i][j]);
+			
+			attroff(COLOR_PAIR(001));
+			attroff(COLOR_PAIR(013));
+			attroff(COLOR_PAIR(014));
+			attroff(COLOR_PAIR(015));
+			attroff(COLOR_PAIR(016));
 		} }
+	
+	return 0;
+}
+
+int render_inventory(void)
+{
+	int ID;
+	
+	for (int cell = 1; cell <= player_inventory_limit; cell++)
+	{
+		item_tile current_item_tile;
+		
+		if (inventory_cell[cell] == 0){continue;}
+		else if (inventory_cell[cell] == 1) {current_item_tile = tile_potion; ID = 1;} 
+		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; ID = 1;} 
+		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; ID = 1;} 
+		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; ID = 1000;}
+		
+		render_item(cell, current_item_tile, ID);
 	}
 	
 	return 0;

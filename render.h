@@ -25,6 +25,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map);
 int render_map_entities(int player_x, int player_y, interface_tile map);
 int render_selected_cell(int selected_cell, int action_6_flag);
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info);
+int render_inventory(void);
 
 // Variables
 

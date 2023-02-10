@@ -23,7 +23,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
 	
-	render_item(1, tile_potion); // NEED TO CREATE RENDER_ALL_ITEMS AND REPLASE ALL RENDER_ITEMS WITH IT
+	render_inventory(); // NEED TO CREATE RENDER_ALL_ITEMS AND REPLASE ALL RENDER_ITEMS WITH IT
 	
 	char player_action;
 	
@@ -65,7 +65,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		if (player_action == '6')
 		{ 
 			action_6_switch_inv(action_6_mod, map); // Action 6 button
-			if(action_6_flag == 1) render_item(1, tile_potion);
+			if(action_6_flag == 1) render_inventory();
 		}
 		
 		attron(COLOR_PAIR(200));
