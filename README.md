@@ -4,7 +4,7 @@
 Additions coming soon..
 
 ### Compile gcc
-cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c actions.c -lpdcurses && main.exe
+cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c -lpdcurses && main.exe
 
 ### Dependencies 
 pdcurses
