@@ -18,6 +18,7 @@ int init_actions(void);
 
 int action_6_switch_inv(int mod, interface_tile map);
 int action_1_special(int mod, int player_x, int player_y, interface_tile map);
+int action_2_inventory_usage(int mod, int item_id);
 
 int map_color_num(char char_for_find_color, int map_type);
 int map_player_movement(int player_y, int player_x, interface_tile map);
@@ -35,12 +36,17 @@ int player_balance;
 int player_level;
 int player_exp;
 
+int player_selected_cell;
+int buffer_inventory_selected_cell;
+int buffer_spell_book_selected_cell;
 int player_inventory_limit;
+int player_additional_limit;
 int player_inventory_used;
 int player_spell_book_limit;
 int player_spell_book_used;
 
 int action_1_mod;
+int action_2_mod;
 int action_6_mod;
 int action_6_flag;
 

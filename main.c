@@ -30,6 +30,7 @@ int main(void)
 	init_color_entities();
 	init_color_service();
 	init_default_items();
+	init_items_with_info();
 	
 	render_default_interface(tile_map_0000_deafult, tile_inventory, tile_character_info, tile_actions, tile_world_info);
 	render_map_entities(player_y, player_x, tile_map_0000_deafult);

@@ -8,7 +8,14 @@ typedef struct {
 } item_tile;
 
 typedef struct {
+	char item_name[32];
+	char item_description[32];
+	bool item_usable;
+} item_info;
+
+typedef struct {
 	char backpack_name[32];
+	char backpack_description[32];
 	int backpack_add_cells;
 	int backpack_used;
 	
@@ -18,15 +25,18 @@ typedef struct {
 // Initialization
 
 int init_default_items(void);
+int init_items_with_info(void);
 
 // Functions
 
 int item_backpack_create(int id, char name[32], int add_cells);
 int render_item(int player_selected_cell, item_tile item, int ID);
 
+
 // Variables
 
 item_backpack backpack[255];
+item_info item_with_info[1024];
 int inventory_cell[25];
 
 // Items

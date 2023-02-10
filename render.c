@@ -65,32 +65,20 @@ int init_actions(void)
 {	
 	action_6_switch_inv(action_6_mod, tile_map_0000_deafult);
 	action_1_special(action_1_mod, 0, 0, tile_map_0000_deafult);
+	action_2_inventory_usage(action_2_mod, 0);
 	
 	return 0;
 }
 
 int render_selected_cell(int selected_cell, int action_6_flag)
 {	
-	attron(COLOR_PAIR(100));
+	player_additional_limit = player_inventory_limit;
 
-	mvprintw(23, 90, "                            ");
-	mvprintw(24, 90, "                            ");
-	mvprintw(25, 90, "                            ");
-	
-	if (inventory_cell[selected_cell] == 1){
-		mvprintw(23, 91, "Treatment Potion");
-		mvprintw(25, 91, "[Description]");
-	} else if (inventory_cell[selected_cell] == 2){
-		mvprintw(23, 91, "Toxic poison");
-		mvprintw(25, 91, "[Description]");
-	} else if (inventory_cell[selected_cell] == 3){
-		mvprintw(23, 91, "Empty bottle");
-	} else if ((inventory_cell[selected_cell] > 999) && (inventory_cell[selected_cell] < 1256)){
-		mvprintw(23, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_name);
-		mvprintw(25, 91, "[Description]");
-	}
-
-	attroff(COLOR_PAIR(100));
+	for (int i = 1; i <= 25; i++)
+	{
+		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
+			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
+	}	}	
 
 	int cell_x;
 	int cell_y;
@@ -99,7 +87,30 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 	
 	if(action_6_flag == 1){ // Inventory cell selection
 	
-		if (selected_cell > player_inventory_limit) selected_cell = 1;
+		action_2_inventory_usage(-1, inventory_cell[selected_cell]);
+	
+		attron(COLOR_PAIR(100));
+	
+		mvprintw(23, 90, "                            ");
+		//mvprintw(24, 90, "                            ");
+		mvprintw(25, 90, "                            ");
+	
+		if (inventory_cell[selected_cell] != 0){ // Item information by ID
+			mvprintw(23, 91, "%s", item_with_info[inventory_cell[selected_cell]].item_name);
+			mvprintw(25, 91, "%s", item_with_info[inventory_cell[selected_cell]].item_description);
+			if (item_with_info[inventory_cell[selected_cell]].item_usable == 1) {
+				action_2_inventory_usage(1, inventory_cell[selected_cell]);
+			}
+		}
+		
+		if (inventory_cell[selected_cell] > 999 && inventory_cell[selected_cell] < 1256){ // Backpack information by ID
+			mvprintw(23, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_name);
+			mvprintw(25, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_description);
+		}
+		
+		attroff(COLOR_PAIR(100));
+	
+		if (selected_cell > player_additional_limit) selected_cell = 1;
 		
 		if(selected_cell >= 21){
 			cell_y = 5;
@@ -126,12 +137,12 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		int count = 1;
 		int i_limit;
 		
-		if (player_inventory_limit%10 == 0) i_limit = (player_inventory_limit/10) * 2;
-		else i_limit = ((player_inventory_limit/10) * 2) + 1;
+		if (player_inventory_limit%10 == 0) i_limit = (player_additional_limit/10) * 2;
+		else i_limit = ((player_additional_limit/10) * 2) + 1;
 		
 		for (int i = 1; i <= i_limit; i++){
 			for (int j = 1; j <= 5; j++){
-				if(count == player_inventory_limit + 1) break;
+				if(count == player_additional_limit + 1) break;
 				if (count != selected_cell) mvprintw((i * 4) - 3, 72 + (j * 8), "%d", count);
 				count++;
 			}
@@ -139,7 +150,11 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		
 		attroff(COLOR_PAIR(001));
 		
+		buffer_inventory_selected_cell = selected_cell;
+		
 	} else if (action_6_flag == 0){ // Spell book cell selection
+	
+		action_2_inventory_usage(1, inventory_cell[buffer_inventory_selected_cell]);
 	
 		if (selected_cell > player_spell_book_limit) selected_cell = 1;
 		if (selected_cell > 10) selected_cell = 1;
@@ -162,6 +177,8 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		}
 		
 		attroff(COLOR_PAIR(001));
+		
+		buffer_spell_book_selected_cell = selected_cell;
 	}
 	
 	return 0;
@@ -244,7 +261,7 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	
 	for(int i2 = 0; i2 < 25; i2++) if (inventory_cell[i2] != 0) player_inventory_used++;
 	
-	if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/%d]", player_inventory_used, player_inventory_limit);
+	if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/%d]", player_inventory_used, player_additional_limit);
 	else if(action_6_flag == 0) mvprintw(0, 91, "[SPELL BOOK %d/%d]", player_spell_book_used, player_spell_book_limit);
 	
 	attroff(COLOR_PAIR(002));
@@ -259,7 +276,7 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
-int render_item(int selected_cell, item_tile selected_item, int ID)
+int render_item(int selected_cell, item_tile selected_item, int color_map_id)
 {
 	int base_y;
 	int base_x;
@@ -293,7 +310,7 @@ int render_item(int selected_cell, item_tile selected_item, int ID)
 	for (int i = 0; i < 3; i++){
 		for (int j = 0; j < 6; j++){
 			
-			if (ID == 1){
+			if (color_map_id == 1){
 				if(selected_item.item[i][j] == ')') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '(') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '%') attron(COLOR_PAIR(014));
@@ -301,7 +318,7 @@ int render_item(int selected_cell, item_tile selected_item, int ID)
 				else if(selected_item.item[i][j] == ']') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '[') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '_') attron(COLOR_PAIR(013));
-			} else if((ID > 999) && (ID < 1256)) {
+			} else if((color_map_id > 999) && (color_map_id < 1256)) {
 				if(selected_item.item[i][j] == '{') attron(COLOR_PAIR(016));
 				else if(selected_item.item[i][j] == '}') attron(COLOR_PAIR(016));
 				else if(selected_item.item[i][j] == '[') attron(COLOR_PAIR(016));
@@ -324,19 +341,19 @@ int render_item(int selected_cell, item_tile selected_item, int ID)
 
 int render_inventory(void)
 {
-	int ID;
+	int color_map_id;
 	
-	for (int cell = 1; cell <= player_inventory_limit; cell++)
+	for (int cell = 1; cell <= player_additional_limit; cell++)
 	{
 		item_tile current_item_tile;
 		
 		if (inventory_cell[cell] == 0){continue;}
-		else if (inventory_cell[cell] == 1) {current_item_tile = tile_potion; ID = 1;} 
-		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; ID = 1;} 
-		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; ID = 1;} 
-		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; ID = 1000;}
+		else if (inventory_cell[cell] == 1) {current_item_tile = tile_potion; color_map_id = 1;} 
+		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
+		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
+		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
-		render_item(cell, current_item_tile, ID);
+		render_item(cell, current_item_tile, color_map_id);
 	}
 	
 	return 0;

@@ -12,18 +12,24 @@ int player_level = 0;
 int player_exp = 0;
 
 int player_selected_cell = 1;
+int buffer_inventory_selected_cell = 1;
+int buffer_spell_book_selected_cell = 1;
 int player_inventory_limit = 5;
+int player_additional_limit = 5;
 int player_inventory_used = 0;
 int player_spell_book_limit = 3;
 int player_spell_book_used = 0;
 
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
+	player_additional_limit = player_inventory_limit;
+	
 	attron(COLOR_PAIR(100));
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
 	
-	render_inventory(); // NEED TO CREATE RENDER_ALL_ITEMS AND REPLASE ALL RENDER_ITEMS WITH IT
+	render_selected_cell(player_selected_cell, action_6_flag);
+	render_inventory();
 	
 	char player_action;
 	
@@ -41,17 +47,17 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		
 		if(action_6_flag == 1){ // Player cell selection
 			
-			if((key_buffer) == 2) player_selected_cell += 5;
+			if((key_buffer) == 2 && player_selected_cell + 5 <= player_additional_limit) player_selected_cell += 5;
 			else if((key_buffer) == 3) player_selected_cell -= 5;
 			else if((key_buffer) == 4) player_selected_cell -= 1;
-			else if((key_buffer) == 5) player_selected_cell += 1;
+			else if((key_buffer) == 5 && player_selected_cell + 1 <= player_additional_limit) player_selected_cell += 1;
 			
-			if(player_selected_cell > 25) player_selected_cell = 1;
-			else if(player_selected_cell < 1) player_selected_cell = 25;
+			if(player_selected_cell > player_additional_limit) player_selected_cell = 1;
+			else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
 			
 		} else if (action_6_flag == 0){
 			
-			if((key_buffer) == 2) player_selected_cell += 1;
+			if((key_buffer) == 2  && player_selected_cell + 1 <= player_spell_book_limit) player_selected_cell += 1;
 			else if((key_buffer) == 3) player_selected_cell -= 1;
 			
 			if(player_selected_cell > 10) player_selected_cell = 1;
