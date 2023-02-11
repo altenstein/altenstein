@@ -48,6 +48,8 @@ int player_inventory_used;
 int player_spell_book_limit;
 int player_spell_book_used;
 
+int current_inventory_item;
+
 int action_1_mod;
 int action_2_mod;
 int action_6_mod;

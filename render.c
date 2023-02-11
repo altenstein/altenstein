@@ -411,7 +411,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			mvprintw(21, 91, "Tree with a stash");
 			
 			action_1_mod = 1;
-			action_1_special(action_1_mod, player_x, player_y, map);
+			action_1_special(action_1_mod, player_y, player_x, map);
 			
 			return 1;
 		}

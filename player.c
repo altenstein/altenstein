@@ -20,6 +20,8 @@ int player_inventory_used = 0;
 int player_spell_book_limit = 3;
 int player_spell_book_used = 0;
 
+int current_inventory_item = 0;
+
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
 	player_additional_limit = player_inventory_limit;
@@ -76,7 +78,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		
 		if (player_action == '1')
 		{
-			if (action_1_mod == 1) action_1_special(11, player_x, player_y, map);
+			if (action_1_mod == 1) action_1_special(11, player_y, player_x, map);
 		}
 		
 		attron(COLOR_PAIR(200));

@@ -20,6 +20,7 @@ int item_backpack_create(int id, char name[32], int add_cells) // The ID must be
 int init_default_items(void)
 {
 	inventory_cell[1] = 1;
+	inventory_cell[1] = 1;
 	
 	// ID: 1000; BACKPACK IN THE DEFAULT LOCATION
 	strcpy(backpack[0].backpack_name, "Old small bag");
@@ -31,10 +32,9 @@ int init_default_items(void)
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
 	}   }
 	
-	chest[0].chest_cell[14] = 1;
 	chest[0].chest_cell[7] = 3;
-	chest[0].chest_cell[15] = 2;
-	chest[0].chest_cell[10] = 1000;
+	chest[0].chest_cell[14] = 2;
+	chest[0].chest_cell[15] = 1000;
 	
 	return 0;
 }
@@ -51,7 +51,7 @@ ID: 1000-1255 - Backpacks
 int init_items_with_info(void)
 {
 	strcpy(item_with_info[1].item_name, "Treatment Potion");
-	strcpy(item_with_info[1].item_description, "[Description 1]");
+	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec");
 	item_with_info[1].item_usable = 1;
 	
 	strcpy(item_with_info[2].item_name, "Toxic Poison");
@@ -59,7 +59,7 @@ int init_items_with_info(void)
 	item_with_info[2].item_usable = 1;
 	
 	strcpy(item_with_info[3].item_name, "Empty bottle");
-	strcpy(item_with_info[3].item_description, "[Description 3]");
+	strcpy(item_with_info[3].item_description, "");
 	item_with_info[3].item_usable = 0;
 }
 
