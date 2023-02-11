@@ -10,6 +10,22 @@ int action_6_flag = 0;
 int action_1_mod = -1;
 int action_2_mod = -1;
 
+int action_transfer_from_chest(int chest_id, int chest_selected_cell)
+{
+	if (chest[chest_id].chest_cell[chest_selected_cell] != 0)
+	{
+		for (int cell = 0; cell < player_additional_limit; cell++)
+		{
+			if (inventory_cell[cell + 1] == 0)
+			{
+				inventory_cell[cell + 1] = chest[chest_id].chest_cell[chest_selected_cell];
+				mvprintw(29, 0, "%d %d %d", inventory_cell[cell + 1], cell, chest[chest_id].chest_cell[chest_selected_cell]);
+				chest[chest_id].chest_cell[chest_selected_cell] = 0;
+			}
+		}
+	}
+}
+
 int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id)
 {
 	/*
@@ -34,10 +50,13 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		{
 			char key_buffer = player_action;
 			
-			if (player_action == 'w');
-			else if (player_action == 's');
-			else if (player_action == 'a');
-			else if (player_action == 'd');
+			if (player_action == 'w') chest_selected_cell -= 5;
+			else if (player_action == 's') chest_selected_cell += 5;
+			else if (player_action == 'a') chest_selected_cell -= 1;
+			else if (player_action == 'd') chest_selected_cell += 1;
+			
+			if (chest_selected_cell > 15) chest_selected_cell = 1;
+			else if (chest_selected_cell < 1) chest_selected_cell = 15;
 			
 			if(action_6_flag == 1){ // Player cell selection
 			
@@ -50,12 +69,19 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 				else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
 			}
 			
+			if (player_action == 32)
+			{
+				action_transfer_from_chest(structure_id, chest_selected_cell);
+			}
+			
 			if(action_6_flag == 1) {
 				render_inventory();
 				render_selected_cell(player_selected_cell, action_6_flag);
 			}
 			
 			render_structure_chest(chest_selected_cell, structure_id);
+			render_chest_items(structure_id);
+			render_chest_selected_cell(chest_selected_cell, structure_id);
 		}
 		while ((player_action = getch()) != 49);
 		
@@ -63,7 +89,11 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		
 		render_default_interface(current_map_tile, current_inventory_tile, tile_character_info, tile_actions, tile_world_info);
 		render_map_entities(player_y, player_x, current_map_tile);
-		render_inventory();
+		
+		if(action_6_flag == 1) {
+			render_inventory();
+			render_selected_cell(player_selected_cell, action_6_flag);
+		}
 		
 	}
 }

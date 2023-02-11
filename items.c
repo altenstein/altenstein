@@ -20,26 +20,28 @@ int item_backpack_create(int id, char name[32], int add_cells) // The ID must be
 int init_default_items(void)
 {
 	inventory_cell[1] = 1;
-	inventory_cell[3] = 2;
-	inventory_cell[5] = 1000;
-	inventory_cell[4] = 3;
 	
 	// ID: 1000; BACKPACK IN THE DEFAULT LOCATION
 	strcpy(backpack[0].backpack_name, "Old small bag");
 	backpack[0].backpack_add_cells = 5;
-	strcpy(backpack[0].backpack_description, "Additional slots: 5");
+	strcpy(backpack[0].backpack_description, "Add slots: 5");
 	
 	for (int i = 1; i <= 25; i++){
 		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
 	}   }
 	
-	chest[0].chest_cell[0] = 2;
+	chest[0].chest_cell[14] = 1;
+	chest[0].chest_cell[7] = 3;
+	chest[0].chest_cell[15] = 2;
+	chest[0].chest_cell[10] = 1000;
 	
 	return 0;
 }
 
 /*
+!!! ITEM NAME NOT MORE THAN 17 (of course this also applies to the description) (CHEST INFO WINDOW IS 19) !!!
+-------|-----------------| - Critical point
 ID: 1 - Treatment Potion
 ID: 2 - Toxic Poison
 ID: 3 - Empty bottle

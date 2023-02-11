@@ -32,7 +32,7 @@ typedef struct {
 typedef struct {
 	char chest_name[64];
 	char chest_type[16];
-	int chest_cell[15]; // Default chest size
+	int chest_cell[16]; // Default chest size
 	
 	int chest_map_id_1; // X...
 	int chest_map_id_2; // .X..
@@ -51,8 +51,8 @@ int init_items_with_info(void);
 
 int item_backpack_create(int id, char name[32], int add_cells);
 int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id);
+int action_transfer_from_chest(int chest_id, int chest_selected_cell);
 int render_item(int selected_cell, item_tile selected_item, int color_map_id, int mod_y, int mod_x);
-
 
 // Variables
 

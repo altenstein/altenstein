@@ -38,6 +38,7 @@ int init_color_service(void)
 	init_pair(001, 8, 0); // Interface default pair
 	init_pair(011, 0, 0); // Full black
 	init_pair(012, 7, 0); // Default b/w
+	init_pair(017, 8, 0); // Chest
 	
 	init_pair(002, 10, 0); // Low difficulty
 	init_pair(003, 6, 0); // Middle difficulty
@@ -99,7 +100,6 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		attron(COLOR_PAIR(100));
 	
 		mvprintw(23, 90, "                            ");
-		//mvprintw(24, 90, "                            ");
 		mvprintw(25, 90, "                            ");
 	
 		if (inventory_cell[selected_cell] != 0){ // Item information by ID
@@ -441,10 +441,10 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 int render_structure_chest(int chest_selected_cell, int chest_id)
 {
 	int base_y = 4;
-	int base_x = 20;
-	int title_x_pos = 20 + (40 - strlen(chest[chest_id].chest_type))/2;
+	int base_x = 10;
+	int title_x_pos = 10 + (40 - strlen(chest[chest_id].chest_type))/2;
 	
-	attron(COLOR_PAIR(004));
+	attron(COLOR_PAIR(017));
 	
 	for(int i = 0; i < 21; i++)
 	{
@@ -453,17 +453,69 @@ int render_structure_chest(int chest_selected_cell, int chest_id)
 	
 	mvprintw(4, title_x_pos, "[%s]", chest[chest_id].chest_type);
 	
-	attroff(COLOR_PAIR(004));
+	attroff(COLOR_PAIR(017));
 	
 	return 0;
 }
 
-int render_chest_selected_cell(int chest_selected_cell,int chest_id)
+int render_chest_selected_cell(int chest_selected_cell, int chest_id)
 {
+	int cell_y;
+	int cell_x;
+	
+	if (chest_selected_cell > 15) chest_selected_cell = 1;
+	
+	if (chest_selected_cell >= 11) {
+		cell_y = 3;
+		cell_x = chest_selected_cell - 10;
+	} else if (chest_selected_cell >= 6) {
+		cell_y = 2;
+		cell_x = chest_selected_cell - 5;
+	} else if (chest_selected_cell >= 1) {
+		cell_y = 1;
+		cell_x = chest_selected_cell;
+	}
+	
+	attron(COLOR_PAIR(001));
+	mvprintw((cell_y * 4) + 1, (cell_x * 8) + 3, "%d", chest_selected_cell);
+	attroff(COLOR_PAIR(001));
+	
+	mvprintw(6, 50, "                   ");
+	mvprintw(8, 50, "                   ");
+	
+	attron(COLOR_PAIR(100));
+	
+	if (chest[chest_id].chest_cell[chest_selected_cell] != 0){ // Item information by ID
+			mvprintw(6, 51, "%s", item_with_info[chest[chest_id].chest_cell[chest_selected_cell]].item_name);
+			mvprintw(8, 51, "%s", item_with_info[chest[chest_id].chest_cell[chest_selected_cell]].item_description);
+		}
+		
+	if (chest[chest_id].chest_cell[chest_selected_cell] > 999 && chest[chest_id].chest_cell[chest_selected_cell] < 1256){ // Backpack information by ID
+		mvprintw(6, 51, "%s", backpack[chest[chest_id].chest_cell[chest_selected_cell] - 1000].backpack_name);
+		mvprintw(8, 51, "%s", backpack[chest[chest_id].chest_cell[chest_selected_cell] - 1000].backpack_description);
+	}
+	
+	attroff(COLOR_PAIR(100));
+	
 	return 0;	
 }
 
 int render_chest_items(int chest_id)
 {
+	int color_map_id;
+	
+	for (int cell = 1; cell <= 15; cell++)
+	{
+		item_tile current_item_tile;
+		
+		if (chest[chest_id].chest_cell[cell] == 0){continue;}
+		else if (chest[chest_id].chest_cell[cell] == 1) {current_item_tile = tile_potion; color_map_id = 1;} 
+		else if (chest[chest_id].chest_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
+		else if (chest[chest_id].chest_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
+		else if ((1256 > chest[chest_id].chest_cell[cell]) && (chest[chest_id].chest_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
+		
+		render_item(cell, current_item_tile, color_map_id, 4, -69);
+	}
+	
 	return 0;	
 }
