@@ -74,6 +74,11 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 			if(action_6_flag == 1) render_inventory();
 		}
 		
+		if (player_action == '1')
+		{
+			if (action_1_mod == 1) action_1_special(11, player_x, player_y, map);
+		}
+		
 		attron(COLOR_PAIR(200));
 		mvaddch(buffer_player_y, buffer_player_x, ' ');
 		attroff(COLOR_PAIR(200));

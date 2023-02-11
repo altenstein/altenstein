@@ -32,12 +32,12 @@ int main(void)
 	init_default_items();
 	init_items_with_info();
 	
-	render_default_interface(tile_map_0000_deafult, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-	render_map_entities(player_y, player_x, tile_map_0000_deafult);
+	render_default_interface(tile_map_0001_deafult, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(player_y, player_x, tile_map_0001_deafult);
 	
 	init_actions();
 	
-	map_player_movement(player_y, player_x, tile_map_0000_deafult);
+	map_player_movement(player_y, player_x, tile_map_0001_deafult);
 	
 	getch();
 	endwin();

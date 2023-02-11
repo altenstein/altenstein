@@ -4,7 +4,7 @@
 #include"render.h"
 	
 interface_tile tile_inventory = {.tile = {
-	 "----------------[TITLE]---------------+", // NN/NN - Weight/Weight_limit
+	 "----------------[TITLE]---------------+",
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
@@ -24,11 +24,11 @@ interface_tile tile_inventory = {.tile = {
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
 	 "      ||      ||      ||      ||      |",
-	 "------++-+----++------++------++------+",
+	 "---------+----------------------------+"
 } };
 
 interface_tile tile_spell_book = {.tile = {
-	 "----------------[TITLE]---------------+", // NN/NN - Weight/Weight_limit
+	 "----------------[TITLE]---------------+",
 	 "                                      |",
 	 "--------------------------------------|",
 	 "                                      |",
@@ -48,8 +48,23 @@ interface_tile tile_spell_book = {.tile = {
 	 "                                      |",
 	 "--------------------------------------|",
 	 "                                      |",
-	 "---------+----------------------------+",
+	 "---------+----------------------------+"
+} };
 
+interface_tile tile_chest = {.tile = {
+	 "+----------------[TITLE]---------------+",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "|------++------++------++------++------|",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "|------++------++------++------++------|",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "|      ||      ||      ||      ||      |",
+	 "+--------------------------------------+"
 } };
 
 interface_tile tile_character_info = {.tile = {
@@ -85,7 +100,7 @@ interface_tile tile_world_info = {.tile = {
 	 "----------------------------+"
 } };
 
-interface_tile tile_map_0000_deafult = {.tile = {
+interface_tile tile_map_0001_deafult = {.tile = {
 	 "+-----------------------------------[TITLE]------------------------------------+",
 	 "|                                                                           WWW|",
 	 "|            WWW                                                             WW|",
@@ -107,6 +122,6 @@ interface_tile tile_map_0000_deafult = {.tile = {
 	 "|                             T                   WWW                 WWWWWWW  |",
 	 "|                                               WWWWWWWW               WWWWWWWW|",
 	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0000-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "ID: 0001-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
 	 "TAG: DEFAULT"
 } };

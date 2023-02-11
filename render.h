@@ -27,6 +27,9 @@ int render_map_entities(int player_x, int player_y, interface_tile map);
 int render_selected_cell(int selected_cell, int action_6_flag);
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info);
 int render_inventory(void);
+int render_structure_chest(int chest_selected_cell, int chest_id);
+int render_chest_selected_cell(int chest_selected_cell,int chest_id);
+int render_chest_items(int chest_id);
 
 // Variables
 
@@ -52,12 +55,16 @@ int action_6_flag;
 
 // Tiles
 
+extern interface_tile current_map_tile;
+extern interface_tile current_inventory_tile;
+
 extern interface_tile tile_inventory;
 extern interface_tile tile_spell_book;
+extern interface_tile tile_chest;
 extern interface_tile tile_character_info;
 extern interface_tile tile_actions;
 extern interface_tile tile_world_info;
 
-extern interface_tile tile_map_0000_deafult;
+extern interface_tile tile_map_0001_deafult;
 
 #endif

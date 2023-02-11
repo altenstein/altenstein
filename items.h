@@ -11,6 +11,10 @@ typedef struct {
 	char item_name[32];
 	char item_description[32];
 	bool item_usable;
+	
+	int item_drop_map_id;
+	int item_drop_y;
+	int item_drop_x;
 } item_info;
 
 typedef struct {
@@ -18,9 +22,25 @@ typedef struct {
 	char backpack_description[32];
 	int backpack_add_cells;
 	int backpack_used;
-	
 	int backpack_cell[20]; // 20 is the maximum size of a backpack
+	
+	int backpack_drop_map_id;
+	int backpack_drop_y;
+	int backpack_drop_x;
 } item_backpack;
+
+typedef struct {
+	char chest_name[64];
+	char chest_type[16];
+	int chest_cell[15]; // Default chest size
+	
+	int chest_map_id_1; // X...
+	int chest_map_id_2; // .X..
+	int chest_map_id_3; // ..X.
+	int chest_map_id_4; // ...X
+	int chest_y;
+	int chest_x;
+} structure_chest;
 
 // Initialization
 
@@ -30,13 +50,15 @@ int init_items_with_info(void);
 // Functions
 
 int item_backpack_create(int id, char name[32], int add_cells);
-int render_item(int player_selected_cell, item_tile item, int ID);
+int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id);
+int render_item(int selected_cell, item_tile selected_item, int color_map_id, int mod_y, int mod_x);
 
 
 // Variables
 
 item_backpack backpack[255];
 item_info item_with_info[1024];
+structure_chest chest[1024];
 int inventory_cell[25];
 
 // Items
@@ -45,5 +67,6 @@ extern item_tile tile_backpack;
 extern item_tile tile_potion;
 extern item_tile tile_poison;
 extern item_tile tile_bottle;
+extern item_tile tile_ale;
 
 #endif

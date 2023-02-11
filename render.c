@@ -5,6 +5,9 @@
 #include"render.h"
 #include"items.h"
 
+interface_tile current_map_tile;
+interface_tile current_inventory_tile;
+
 int map_color_num(char char_for_find_color, int map_type)
 {
 	if(map_type == 50) // 50 is 1 in ASCII; Colors for location map
@@ -63,8 +66,8 @@ int init_color_entities(void)
 
 int init_actions(void)
 {	
-	action_6_switch_inv(action_6_mod, tile_map_0000_deafult);
-	action_1_special(action_1_mod, 0, 0, tile_map_0000_deafult);
+	action_6_switch_inv(action_6_mod, tile_map_0001_deafult);
+	action_1_special(action_1_mod, 0, 0, tile_map_0001_deafult);
 	action_2_inventory_usage(action_2_mod, 0);
 	
 	return 0;
@@ -72,13 +75,17 @@ int init_actions(void)
 
 int render_selected_cell(int selected_cell, int action_6_flag)
 {	
+	int current_backpack_id = 0;
 	player_additional_limit = player_inventory_limit;
 
 	for (int i = 1; i <= 25; i++)
 	{
 		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
+			current_backpack_id = inventory_cell[i];
 	}	}	
+	
+	//mvprintw(29, 0, "%d", current_backpack_id);
 
 	int cell_x;
 	int cell_y;
@@ -150,11 +157,23 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		
 		attroff(COLOR_PAIR(001));
 		
+		if (current_backpack_id != 0) backpack[current_backpack_id - 1000].backpack_used = 0;
+		
+		for (int k = player_inventory_limit + 1; k <= player_additional_limit; k++)
+		{
+			if (current_backpack_id != 0){
+				if (inventory_cell[k] < 1000 || inventory_cell[k] > 1255){
+				backpack[current_backpack_id - 1000].backpack_cell[k - player_inventory_limit - 1] = inventory_cell[k];
+				if (inventory_cell[k] != 0) backpack[current_backpack_id - 1000].backpack_used++;
+		}	}	}
+		
 		buffer_inventory_selected_cell = selected_cell;
 		
 	} else if (action_6_flag == 0){ // Spell book cell selection
 	
+		if (inventory_cell[buffer_inventory_selected_cell] != 0){
 		action_2_inventory_usage(1, inventory_cell[buffer_inventory_selected_cell]);
+		} else {action_2_inventory_usage(-1, 0);}
 	
 		if (selected_cell > player_spell_book_limit) selected_cell = 1;
 		if (selected_cell > 10) selected_cell = 1;
@@ -186,6 +205,9 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
 {
+	current_map_tile = map;
+	current_inventory_tile = inventory;
+	
 	int color_for_map_element;
 	int map_type = map.tile[21][9];
 	
@@ -276,37 +298,37 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
-int render_item(int selected_cell, item_tile selected_item, int color_map_id)
+int render_item(int selected_cell, item_tile selected_item, int color_map_id, int mod_y, int mod_x)
 {
 	int base_y;
 	int base_x;
 	
-	if (selected_cell == 1) {base_y = 1; base_x = 80;}
-	else if (selected_cell == 2) {base_y = 1; base_x = 88;}
-	else if (selected_cell == 3) {base_y = 1; base_x = 96;}
-	else if (selected_cell == 4) {base_y = 1; base_x = 104;}
-	else if (selected_cell == 5) {base_y = 1; base_x = 112;}
-	else if (selected_cell == 6) {base_y = 5; base_x = 80;}
-	else if (selected_cell == 7) {base_y = 5; base_x = 88;}
-	else if (selected_cell == 8) {base_y = 5; base_x = 96;}
-	else if (selected_cell == 9) {base_y = 5; base_x = 104;}
-	else if (selected_cell == 10) {base_y = 5; base_x = 112;}
-	else if (selected_cell == 11) {base_y = 9; base_x = 80;}
-	else if (selected_cell == 12) {base_y = 9; base_x = 88;}
-	else if (selected_cell == 13) {base_y = 9; base_x = 96;}
-	else if (selected_cell == 14) {base_y = 9; base_x = 104;}
-	else if (selected_cell == 15) {base_y = 9; base_x = 112;}
-	else if (selected_cell == 16) {base_y = 13; base_x = 80;}
-	else if (selected_cell == 17) {base_y = 13; base_x = 88;}
-	else if (selected_cell == 18) {base_y = 13; base_x = 96;}
-	else if (selected_cell == 19) {base_y = 13; base_x = 104;}
-	else if (selected_cell == 20) {base_y = 13; base_x = 112;}
-	else if (selected_cell == 21) {base_y = 17; base_x = 80;}
-	else if (selected_cell == 22) {base_y = 17; base_x = 88;}
-	else if (selected_cell == 23) {base_y = 17; base_x = 96;}
-	else if (selected_cell == 24) {base_y = 17; base_x = 104;}
-	else if (selected_cell == 25) {base_y = 17; base_x = 112;}
-		
+	if (selected_cell == 1) {base_y = 1 + mod_y; base_x = 80 + mod_x;}
+	else if (selected_cell == 2) {base_y = 1 + mod_y; base_x = 88 + mod_x;}
+	else if (selected_cell == 3) {base_y = 1 + mod_y; base_x = 96 + mod_x;}
+	else if (selected_cell == 4) {base_y = 1 + mod_y; base_x = 104 + mod_x;}
+	else if (selected_cell == 5) {base_y = 1 + mod_y; base_x = 112 + mod_x;}
+	else if (selected_cell == 6) {base_y = 5 + mod_y; base_x = 80 + mod_x;}
+	else if (selected_cell == 7) {base_y = 5 + mod_y; base_x = 88 + mod_x;}
+	else if (selected_cell == 8) {base_y = 5 + mod_y; base_x = 96 + mod_x;}
+	else if (selected_cell == 9) {base_y = 5 + mod_y; base_x = 104 + mod_x;}
+	else if (selected_cell == 10) {base_y = 5 + mod_y; base_x = 112 + mod_x;}
+	else if (selected_cell == 11) {base_y = 9 + mod_y; base_x = 80 + mod_x;}
+	else if (selected_cell == 12) {base_y = 9 + mod_y; base_x = 88 + mod_x;}
+	else if (selected_cell == 13) {base_y = 9 + mod_y; base_x = 96 + mod_x;}
+	else if (selected_cell == 14) {base_y = 9 + mod_y; base_x = 104 + mod_x;}
+	else if (selected_cell == 15) {base_y = 9 + mod_y; base_x = 112 + mod_x;}
+	else if (selected_cell == 16) {base_y = 13 + mod_y; base_x = 80 + mod_x;}
+	else if (selected_cell == 17) {base_y = 13 + mod_y; base_x = 88 + mod_x;}
+	else if (selected_cell == 18) {base_y = 13 + mod_y; base_x = 96 + mod_x;}
+	else if (selected_cell == 19) {base_y = 13 + mod_y; base_x = 104 + mod_x;}
+	else if (selected_cell == 20) {base_y = 13 + mod_y; base_x = 112 + mod_x;}
+	else if (selected_cell == 21) {base_y = 17 + mod_y; base_x = 80 + mod_x;}
+	else if (selected_cell == 22) {base_y = 17 + mod_y; base_x = 88 + mod_x;}
+	else if (selected_cell == 23) {base_y = 17 + mod_y; base_x = 96 + mod_x;}
+	else if (selected_cell == 24) {base_y = 17 + mod_y; base_x = 104 + mod_x;}
+	else if (selected_cell == 25) {base_y = 17 + mod_y; base_x = 112 + mod_x;}
+	
 	for (int i = 0; i < 3; i++){
 		for (int j = 0; j < 6; j++){
 			
@@ -353,21 +375,18 @@ int render_inventory(void)
 		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
 		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
-		render_item(cell, current_item_tile, color_map_id);
+		render_item(cell, current_item_tile, color_map_id, 0, 0);
 	}
 	
 	return 0;
 }
 
-int render_map_entities(int player_x, int player_y, interface_tile map)
+int render_map_entities(int player_y, int player_x, interface_tile map)
 {
-	if(map.tile[21][9] == 0) return 0;
-	
 	// ID: 0000 | DEFAULT
 	
-	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '0'))
+	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '1'))
 	{
-		
 		// Render entities
 		
 		attron(COLOR_PAIR(101));
@@ -376,8 +395,19 @@ int render_map_entities(int player_x, int player_y, interface_tile map)
 		
 		// Player check
 		
-		if((player_x == 18) && (player_y == 10))
-		{
+		if((player_y == 18) && (player_x == 10))
+		{ 
+			// CHEST ID: 0000
+			
+			strcpy(chest[0].chest_name, "Default location tree stash");
+			strcpy(chest[0].chest_type, "STASH IN A TREE");
+			chest[0].chest_map_id_1 = 0;
+			chest[0].chest_map_id_2 = 0;
+			chest[0].chest_map_id_3 = 0;
+			chest[0].chest_map_id_4 = 1;
+			chest[0].chest_x = player_x;
+			chest[0].chest_y = player_y;
+			
 			mvprintw(21, 91, "Tree with a stash");
 			
 			action_1_mod = 1;
@@ -386,12 +416,12 @@ int render_map_entities(int player_x, int player_y, interface_tile map)
 			return 1;
 		}
 		
-		if((player_x == 7) && (player_y == 68))
+		if((player_y == 7) && (player_x == 68))
 		{
 			mvprintw(21, 91, "Boat to another place");
 			
 			action_1_mod = 2;
-			action_1_special(action_1_mod, player_x, player_y, map);
+			action_1_special(action_1_mod, player_y, player_x, map);
 			
 			return 2;
 		}
@@ -406,4 +436,34 @@ int render_map_entities(int player_x, int player_y, interface_tile map)
 	action_1_special(action_1_mod, player_x, player_y, map);
 	
 	return 0;
+}
+
+int render_structure_chest(int chest_selected_cell, int chest_id)
+{
+	int base_y = 4;
+	int base_x = 20;
+	int title_x_pos = 20 + (40 - strlen(chest[chest_id].chest_type))/2;
+	
+	attron(COLOR_PAIR(004));
+	
+	for(int i = 0; i < 21; i++)
+	{
+		for(int j = 0; j < 80; j++) mvprintw(i + base_y, j + base_x, "%c", tile_chest.tile[i][j]);
+	}
+	
+	mvprintw(4, title_x_pos, "[%s]", chest[chest_id].chest_type);
+	
+	attroff(COLOR_PAIR(004));
+	
+	return 0;
+}
+
+int render_chest_selected_cell(int chest_selected_cell,int chest_id)
+{
+	return 0;	
+}
+
+int render_chest_items(int chest_id)
+{
+	return 0;	
 }
