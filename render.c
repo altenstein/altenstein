@@ -47,7 +47,7 @@ int init_color_service(void)
 	init_pair(005, 9, 0); // Action active (BUTTON)
 	init_pair(006, 1, 0); // Action passive (BUTTON)
 	init_pair(007, 10, 0); // Action active (ACTION)
-	init_pair(010, 2, 0); // Action passive (ACTION)
+	init_pair(010, 8, 0); // Action passive (ACTION)
 	
 	init_pair(013, 11, 0); // Blue for potion
 	init_pair(014, 12, 0); // Blink Red for potion
@@ -369,7 +369,7 @@ int render_inventory(void)
 	{
 		item_tile current_item_tile;
 		
-		if (inventory_cell[cell] == 0){continue;}
+		if (inventory_cell[cell] == 0){current_item_tile = tile_empty;}
 		else if (inventory_cell[cell] == 1) {current_item_tile = tile_potion; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 

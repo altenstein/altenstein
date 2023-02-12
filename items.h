@@ -64,6 +64,7 @@ int inventory_cell[25];
 
 // Items
 
+extern item_tile tile_empty;
 extern item_tile tile_backpack;
 extern item_tile tile_potion;
 extern item_tile tile_poison;

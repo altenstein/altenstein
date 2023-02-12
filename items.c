@@ -33,6 +33,7 @@ int init_default_items(void)
 	}   }
 	
 	chest[0].chest_cell[7] = 3;
+	chest[0].chest_cell[1] = 1;
 	chest[0].chest_cell[14] = 2;
 	chest[0].chest_cell[15] = 1000;
 	
@@ -62,6 +63,12 @@ int init_items_with_info(void)
 	strcpy(item_with_info[3].item_description, "");
 	item_with_info[3].item_usable = 0;
 }
+
+item_tile tile_empty = {.item = {
+"      ",
+"      ",
+"      "
+} };
 
 item_tile tile_backpack = {.item = {
 "      ",

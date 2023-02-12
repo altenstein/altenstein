@@ -28,7 +28,7 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 
 int action_transfer_to_chest(int chest_id, int player_selected_cell)
 {
-	if (inventory_cell[player_selected_cell] > 999 && inventory_cell[player_selected_cell] < 1256)
+	if (inventory_cell[player_selected_cell] > 999 && inventory_cell[player_selected_cell] < 1256) // Backpack fullness check
 	{
 		for (int backpack_cell = 0; backpack_cell < 20; backpack_cell++)
 		{
@@ -36,7 +36,7 @@ int action_transfer_to_chest(int chest_id, int player_selected_cell)
 		}
 	}
 	
-	if (inventory_cell[player_selected_cell] != 0)
+	if (inventory_cell[player_selected_cell] != 0) // Item transfer
 	{
 		for (int cell = 1; cell <= 15; cell++)
 		{
@@ -77,6 +77,8 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		
 		do
 		{
+			// Actions
+			
 			char key_buffer = player_action;
 			
 			if (player_action == 'w') chest_selected_cell -= 5;
@@ -102,31 +104,37 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			
 			if (player_action == '\n' && action_6_flag == 1) action_transfer_to_chest(structure_id, player_selected_cell);
 			
+			// Render
+			
 			if(action_6_flag == 1) {
-				
-				clear();
-				
-				render_default_interface(current_map_tile, current_inventory_tile, tile_character_info, tile_actions, tile_world_info);
-				render_map_entities(player_y, player_x, current_map_tile);
 				render_inventory();
 				render_selected_cell(player_selected_cell, action_6_flag);
 			}
 			
 			action_6_switch_inv(0, current_map_tile);
 			
+			{ // Inventory limit update
+			player_inventory_used = 0;
+	
+			for(int i2 = 0; i2 < 25; i2++) if (inventory_cell[i2] != 0) player_inventory_used++;
+			
+			attron(COLOR_PAIR(001));
+			if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/%d]--", player_inventory_used, player_additional_limit);
+			else if(action_6_flag == 0) mvprintw(0, 91, "[SPELL BOOK %d/%d]--", player_spell_book_used, player_spell_book_limit);
+			attron(COLOR_PAIR(002));
+			if(action_6_flag == 1) mvprintw(0, 91, "[INVENTORY %d/%d]", player_inventory_used, player_additional_limit);
+			else if(action_6_flag == 0) mvprintw(0, 91, "[SPELL BOOK %d/%d]", player_spell_book_used, player_spell_book_limit);
+			attroff(COLOR_PAIR(001));
+			attroff(COLOR_PAIR(002));
+			} // End
+			
 			render_structure_chest(chest_selected_cell, structure_id);
 			render_chest_items(structure_id);
 			render_chest_selected_cell(chest_selected_cell, structure_id);
-			
-			attron(COLOR_PAIR(005));
-			mvprintw(22, 28, "1");
-			attroff(COLOR_PAIR(005));
-			attron(COLOR_PAIR(007));
-			mvprintw(22, 31, "Close the chest");
-			mvprintw(22, 46, "            ");
-			attroff(COLOR_PAIR(007));
 		}
 		while ((player_action = getch()) != 49);
+		
+		// Full interface render
 		
 		clear();
 		
