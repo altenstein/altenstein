@@ -6,7 +6,7 @@
 **Altenstein** is a Rouglike medival text RPG, that we write right now.
 
 Additions coming soon..
-## Build 0.0.1.8
+## Build 0.0.1.9
 <p align="center">
       <img src="https://i.ibb.co/YhV4Y9F/image.png" width="967">
 </p>

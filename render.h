@@ -16,6 +16,8 @@ int init_actions(void);
 
 // Functions
 
+int launch(int player_y, int player_x, interface_tile map_deafult);
+
 int action_6_switch_inv(int mod, interface_tile map);
 int action_1_special(int mod, int player_x, int player_y, interface_tile map);
 int action_2_inventory_usage(int mod, int item_id);
@@ -40,15 +42,19 @@ int player_level;
 int player_exp;
 
 int player_selected_cell;
-int buffer_inventory_selected_cell;
-int buffer_spell_book_selected_cell;
 int player_inventory_limit;
 int player_additional_limit;
 int player_inventory_used;
 int player_spell_book_limit;
 int player_spell_book_used;
 
+int buffer_inventory_selected_cell;
+int buffer_spell_book_selected_cell;
+int buffer_item_to_move;
+int buffer_cell_to_move;
+
 int current_inventory_item;
+int transfer_inside_inventory_flag;
 
 int action_1_mod;
 int action_2_mod;

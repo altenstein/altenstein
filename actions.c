@@ -24,6 +24,8 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 			} 
 		} 
 	}
+	
+	return 0;
 }
 
 int action_transfer_to_chest(int chest_id, int player_selected_cell)
@@ -55,16 +57,45 @@ int action_transfer_to_chest(int chest_id, int player_selected_cell)
 	return 0;
 }
 
+int action_transfer_inside_inventory(void)
+{
+	if (transfer_inside_inventory_flag == 0) // Selecting an item and a cell
+	{
+		transfer_inside_inventory_flag = 1;
+		
+		buffer_item_to_move = inventory_cell[player_selected_cell];
+		buffer_cell_to_move = player_selected_cell;
+		
+		inventory_cell[player_selected_cell] = 0;
+		
+		return 0;
+	}
+	
+	if (transfer_inside_inventory_flag == 1) // Moving an item and a cell
+	{
+		transfer_inside_inventory_flag = 0;
+		
+		inventory_cell[buffer_cell_to_move] = inventory_cell[player_selected_cell];
+		inventory_cell[player_selected_cell] = buffer_item_to_move;
+		
+		buffer_item_to_move = 0;
+		buffer_cell_to_move = 0;
+		
+		return 0;
+	}
+	
+	return 0;
+}
+
 int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id)
 {
 	/*
 	ID: 1 - Chest
 	*/
 	
-	int chest_selected_cell = 1;
-	
-	if (structure_type == 1)
+	if (structure_type == 1) // Chest usage
 	{
+		int chest_selected_cell = 1;
 		char player_action;
 		
 		attron(COLOR_PAIR(005));
@@ -151,6 +182,8 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		}
 		
 	}
+	
+	return 0;
 }
 
 int action_1_special(int mod, int player_y, int player_x, interface_tile map)
@@ -249,7 +282,7 @@ int action_2_inventory_usage(int mod, int item_id)
 		attroff(COLOR_PAIR(010));
 	}
 	
-	else if(mod == 1) // Staff usage active
+	else if(mod == 1 && item_with_info[item_id].item_usable == 1) // Staff usage active
 	{
 		current_inventory_item = item_id;
 		
@@ -262,7 +295,7 @@ int action_2_inventory_usage(int mod, int item_id)
 		attroff(COLOR_PAIR(007));
 	}
 	
-	else if(mod == 2) // Staff usage passive
+	else if(mod == 2 && item_with_info[item_id].item_usable == 1) // Staff usage passive
 	{
 		current_inventory_item = item_id;
 		
@@ -275,7 +308,7 @@ int action_2_inventory_usage(int mod, int item_id)
 		attroff(COLOR_PAIR(010));
 	}
 	
-	else if(mod == 3) // Staff usage action
+	else if(mod == 3 && item_with_info[item_id].item_usable == 1) // Staff usage action
 	{
 		current_inventory_item = item_id;
 		
@@ -287,6 +320,10 @@ int action_2_inventory_usage(int mod, int item_id)
 		//mvprintw(24, 44, "              ");
 		attroff(COLOR_PAIR(007));
 	}
+	
+	else if(item_with_info[item_id].item_usable != 1) action_2_inventory_usage(-1, item_id);
+	
+	return 0;
 }
 
 int action_6_switch_inv(int mod, interface_tile map)
@@ -327,6 +364,13 @@ int action_6_switch_inv(int mod, interface_tile map)
 		else if(action_6_flag == 1) mvprintw(26, 62, "Switch to Spell book");
 		attroff(COLOR_PAIR(007));
 	}
+	
+	return 0;
+}
+
+int launch(int player_y, int player_x, interface_tile map_deafult) // Launch default actions
+{
+	map_player_movement(player_y, player_x, map_deafult);
 	
 	return 0;
 }

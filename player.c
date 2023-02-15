@@ -12,13 +12,16 @@ int player_level = 0;
 int player_exp = 0;
 
 int player_selected_cell = 1;
-int buffer_inventory_selected_cell = 1;
-int buffer_spell_book_selected_cell = 1;
 int player_inventory_limit = 5;
 int player_additional_limit = 5;
 int player_inventory_used = 0;
 int player_spell_book_limit = 3;
 int player_spell_book_used = 0;
+
+int buffer_inventory_selected_cell = 1;
+int buffer_spell_book_selected_cell = 1;
+int buffer_item_to_move;
+int buffer_cell_to_move;
 
 int current_inventory_item = 0;
 
@@ -76,9 +79,15 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 			if(action_6_flag == 1) render_inventory();
 		}
 		
-		if (player_action == '1')
+		if (player_action == '1' || player_action == 32)
 		{
 			if (action_1_mod == 1) action_1_special(11, player_y, player_x, map);
+		}
+		
+		if (player_action == '\n') 
+		{
+			action_transfer_inside_inventory();
+			if(action_6_flag == 1) render_inventory();
 		}
 		
 		attron(COLOR_PAIR(200));

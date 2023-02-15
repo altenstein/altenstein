@@ -37,7 +37,7 @@ int main(void)
 	
 	init_actions();
 	
-	map_player_movement(player_y, player_x, tile_map_0001_deafult);
+	launch(player_y, player_x, tile_map_0001_deafult);
 	
 	getch();
 	endwin();

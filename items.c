@@ -20,7 +20,6 @@ int item_backpack_create(int id, char name[32], int add_cells) // The ID must be
 int init_default_items(void)
 {
 	inventory_cell[1] = 1;
-	inventory_cell[1] = 1;
 	
 	// ID: 1000; BACKPACK IN THE DEFAULT LOCATION
 	strcpy(backpack[0].backpack_name, "Old small bag");

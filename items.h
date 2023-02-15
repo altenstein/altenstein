@@ -12,7 +12,10 @@ typedef struct {
 	char item_description[32];
 	bool item_usable;
 	
-	int item_drop_map_id;
+	int drop_map_id_1; // X...
+	int drop_map_id_2; // .X..
+	int drop_map_id_3; // ..X.
+	int drop_map_id_4; // ...X
 	int item_drop_y;
 	int item_drop_x;
 } item_info;
@@ -53,6 +56,7 @@ int item_backpack_create(int id, char name[32], int add_cells);
 int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id);
 int action_transfer_from_chest(int chest_id, int chest_selected_cell);
 int action_transfer_to_chest(int chest_id, int player_selected_cell);
+int action_transfer_inside_inventory(void);
 int render_item(int selected_cell, item_tile selected_item, int color_map_id, int mod_y, int mod_x);
 
 // Variables
