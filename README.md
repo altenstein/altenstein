@@ -1,5 +1,5 @@
 <p align="center">
-      <img src="https://i.ibb.co/cxS6rTL/Altenstein.png" width="967">
+      <img src="https://i.ibb.co/ry5Z04M/Altenstein-2.png" width="1452">
 </p>
 
 ## About 
