@@ -1,3 +1,5 @@
+#define Potion Зелье
+
 #ifndef RENDER_INCLUDE_GUARDIAN
 #define RENDER_INCLUDE_GUARDIAN
 

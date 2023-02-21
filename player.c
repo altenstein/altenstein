@@ -86,8 +86,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		
 		if (player_action == '\n') 
 		{
-			action_transfer_inside_inventory();
-			if(action_6_flag == 1) render_inventory();
+			if(action_6_flag == 1) { action_transfer_inside_inventory(); render_inventory(); }
 		}
 		
 		attron(COLOR_PAIR(200));
@@ -101,6 +100,13 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		render_map_entities(player_y, player_x, map);
 	}
 	while ((player_action = getch()) != 27);
+	
+	return 0;
+}
+
+int launch(int player_y, int player_x, interface_tile map_deafult) // Launch default actions
+{
+	map_player_movement(player_y, player_x, map_deafult);
 	
 	return 0;
 }

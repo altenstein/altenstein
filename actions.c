@@ -120,7 +120,7 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			if (chest_selected_cell > 15) chest_selected_cell = 1;
 			else if (chest_selected_cell < 1) chest_selected_cell = 15;
 			
-			if(action_6_flag == 1){ // Player cell selection
+			if(action_6_flag == 1){ // Player inventory cell selection
 			
 				if((key_buffer) == 2 && player_selected_cell + 5 <= player_additional_limit) player_selected_cell += 5;
 				else if((key_buffer) == 3) player_selected_cell -= 5;
@@ -129,6 +129,9 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			
 				if(player_selected_cell > player_additional_limit) player_selected_cell = 1;
 				else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
+				
+			} else if (action_6_flag == 0) {
+				
 			}
 			
 			if (player_action == 32 && action_6_flag == 1) action_transfer_from_chest(structure_id, chest_selected_cell);
@@ -162,6 +165,12 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			render_structure_chest(chest_selected_cell, structure_id);
 			render_chest_items(structure_id);
 			render_chest_selected_cell(chest_selected_cell, structure_id);
+			
+			if (action_6_flag == 1) {
+				
+			} else if (action_6_flag == 0) {
+				action_2_inventory_usage(2, inventory_cell[buffer_inventory_selected_cell]);
+			}
 		}
 		while ((player_action = getch()) != 49);
 		
@@ -364,13 +373,6 @@ int action_6_switch_inv(int mod, interface_tile map)
 		else if(action_6_flag == 1) mvprintw(26, 62, "Switch to Spell book");
 		attroff(COLOR_PAIR(007));
 	}
-	
-	return 0;
-}
-
-int launch(int player_y, int player_x, interface_tile map_deafult) // Launch default actions
-{
-	map_player_movement(player_y, player_x, map_deafult);
 	
 	return 0;
 }

@@ -45,6 +45,7 @@ int init_default_items(void)
 ID: 1 - Treatment Potion
 ID: 2 - Toxic Poison
 ID: 3 - Empty bottle
+ID: 4 - Mug of Ale
 ID: 1000-1255 - Backpacks
 */
 
@@ -61,6 +62,10 @@ int init_items_with_info(void)
 	strcpy(item_with_info[3].item_name, "Empty bottle");
 	strcpy(item_with_info[3].item_description, "");
 	item_with_info[3].item_usable = 0;
+	
+	strcpy(item_with_info[4].item_name, "Mug of Ale");
+	strcpy(item_with_info[4].item_description, "[Description 4]");
+	item_with_info[4].item_usable = 1;
 }
 
 item_tile tile_empty = {.item = {
@@ -84,7 +89,7 @@ item_tile tile_potion = {.item = {
 item_tile tile_poison = {.item = {
 "      ",
 "   )( ",
-"  [##]"
+"  [XX]"
 } };
 
 item_tile tile_bottle = {.item = {
@@ -93,8 +98,8 @@ item_tile tile_bottle = {.item = {
 "  (__)"
 } };
 
-item_tile tile_ale = {.item = { // Not described
-"      ",
-" |~~|+",
+item_tile tile_ale = {.item = {
+"   .  ",
+" |:.|+",
 " |##|+"
 } };

@@ -12,10 +12,10 @@ typedef struct {
 	char item_description[32];
 	bool item_usable;
 	
-	int drop_map_id_1; // X...
-	int drop_map_id_2; // .X..
-	int drop_map_id_3; // ..X.
-	int drop_map_id_4; // ...X
+	int item_drop_map_id_1; // X...
+	int item_drop_map_id_2; // .X..
+	int item_drop_map_id_3; // ..X.
+	int item_drop_map_id_4; // ...X
 	int item_drop_y;
 	int item_drop_x;
 } item_info;
@@ -62,7 +62,7 @@ int render_item(int selected_cell, item_tile selected_item, int color_map_id, in
 // Variables
 
 item_backpack backpack[255];
-item_info item_with_info[1024];
+item_info item_with_info[8192];
 structure_chest chest[1024];
 int inventory_cell[25];
 

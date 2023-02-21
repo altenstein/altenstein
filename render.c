@@ -53,6 +53,7 @@ int init_color_service(void)
 	init_pair(014, 12, 0); // Blink Red for potion
 	init_pair(015, 10, 0); // Green for potion
 	init_pair(016, 6, 0); // Yellow for potion
+	// FOR WHITE USE DEFAULT B/W (012)
 	
 	return 0;
 }
@@ -336,10 +337,15 @@ int render_item(int selected_cell, item_tile selected_item, int color_map_id, in
 				if(selected_item.item[i][j] == ')') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '(') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '%') attron(COLOR_PAIR(014));
-				else if(selected_item.item[i][j] == '#') attron(COLOR_PAIR(015));
+				else if(selected_item.item[i][j] == 'X') attron(COLOR_PAIR(015));
 				else if(selected_item.item[i][j] == ']') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '[') attron(COLOR_PAIR(013));
 				else if(selected_item.item[i][j] == '_') attron(COLOR_PAIR(013));
+				else if(selected_item.item[i][j] == '|') attron(COLOR_PAIR(013));
+				else if(selected_item.item[i][j] == '+') attron(COLOR_PAIR(013));
+				else if(selected_item.item[i][j] == '#') attron(COLOR_PAIR(016));
+				else if(selected_item.item[i][j] == '.') attron(COLOR_PAIR(012));
+				else if(selected_item.item[i][j] == ':') attron(COLOR_PAIR(012));
 			} else if((color_map_id > 999) && (color_map_id < 1256)) {
 				if(selected_item.item[i][j] == '{') attron(COLOR_PAIR(016));
 				else if(selected_item.item[i][j] == '}') attron(COLOR_PAIR(016));
@@ -373,6 +379,7 @@ int render_inventory(void)
 		else if (inventory_cell[cell] == 1) {current_item_tile = tile_potion; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
+		else if (inventory_cell[cell] == 4) {current_item_tile = tile_ale; color_map_id = 1;} 
 		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 0, 0);
@@ -383,9 +390,14 @@ int render_inventory(void)
 
 int render_map_entities(int player_y, int player_x, interface_tile map)
 {
+	int map_id_1 = map.tile[21][4] - 48;
+	int map_id_2 = map.tile[21][5] - 48;
+	int map_id_3 = map.tile[21][6] - 48;
+	int map_id_4 = map.tile[21][7] - 48;
+	
 	// ID: 0000 | DEFAULT
 	
-	if((map.tile[21][4] == '0') && (map.tile[21][5] == '0') && (map.tile[21][6] == '0') && (map.tile[21][7] == '1'))
+	if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 1))
 	{
 		// Render entities
 		
@@ -401,10 +413,10 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			
 			strcpy(chest[0].chest_name, "Default location tree stash");
 			strcpy(chest[0].chest_type, "STASH IN A TREE");
-			chest[0].chest_map_id_1 = 0;
-			chest[0].chest_map_id_2 = 0;
-			chest[0].chest_map_id_3 = 0;
-			chest[0].chest_map_id_4 = 1;
+			chest[0].chest_map_id_1 = map_id_1;
+			chest[0].chest_map_id_2 = map_id_2;
+			chest[0].chest_map_id_3 = map_id_3;
+			chest[0].chest_map_id_4 = map_id_4;
 			chest[0].chest_x = player_x;
 			chest[0].chest_y = player_y;
 			
@@ -512,6 +524,7 @@ int render_chest_items(int chest_id)
 		else if (chest[chest_id].chest_cell[cell] == 1) {current_item_tile = tile_potion; color_map_id = 1;} 
 		else if (chest[chest_id].chest_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
 		else if (chest[chest_id].chest_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
+		else if (chest[chest_id].chest_cell[cell] == 4) {current_item_tile = tile_ale; color_map_id = 1;} 
 		else if ((1256 > chest[chest_id].chest_cell[cell]) && (chest[chest_id].chest_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 4, -69);
