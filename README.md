@@ -4,18 +4,20 @@
 
 ## About 
 **Altenstein** is a Rouglike medival text RPG, that we write right now.
+Based on the Dungeons and Dragons.
 
 Additions coming soon..
-## Build 0.0.1.10
+## Build 0.0.1.11
 <p align="center">
       <img src="https://i.ibb.co/YhV4Y9F/image.png" width="967">
 </p>
 
-### Compile gcc
-cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c -lpdcurses && main.exe
+### Compile GCC (MinGW)
+cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c -lpdcurses -lpthread && main.exe
 
 ### Dependencies 
 pdcurses
+pthread
 
 ## Graphics
 

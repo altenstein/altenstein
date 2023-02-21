@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<curses.h>
 #include<string.h>
+#include<pthread.h>
 #include"render.h"
 #include"items.h"
 
@@ -85,6 +86,22 @@ item_tile tile_potion = {.item = {
 "   )( ",
 "  (%%)"
 } };
+
+int action_item_potion_heal(int potion_id)
+{
+	int health_hps;
+	int health_timer;
+	
+	if (potion_id == 1) // Treatment Potion
+	{
+		health_hps = 2;
+		health_timer = 60;
+	}
+	
+	/* THEAD WITH 1 SEC HEAL TIMER */ 											//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
+	
+	return 0;
+}
 
 item_tile tile_poison = {.item = {
 "      ",

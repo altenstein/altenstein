@@ -75,4 +75,8 @@ extern item_tile tile_poison;
 extern item_tile tile_bottle;
 extern item_tile tile_ale;
 
+// Items actions
+
+int action_item_potion_heal(int potion_id);
+
 #endif

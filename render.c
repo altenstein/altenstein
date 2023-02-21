@@ -53,6 +53,7 @@ int init_color_service(void)
 	init_pair(014, 12, 0); // Blink Red for potion
 	init_pair(015, 10, 0); // Green for potion
 	init_pair(016, 6, 0); // Yellow for potion
+	
 	// FOR WHITE USE DEFAULT B/W (012)
 	
 	return 0;

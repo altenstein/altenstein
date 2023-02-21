@@ -100,7 +100,7 @@ interface_tile tile_world_info = {.tile = {
 	 "----------------------------+"
 } };
 
-interface_tile tile_map_0001_deafult = {.tile = {
+interface_tile tile_map_0001_deafult = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------------------[TITLE]------------------------------------+",
 	 "|                                                                           WWW|",
 	 "|            WWW                                                             WW|",

@@ -22,7 +22,7 @@ int main(void)
 	{
 		endwin();
 		puts("\nYour terminal does not support color");
-		return (1);
+		return 1;
 	}
 	else start_color();
 	

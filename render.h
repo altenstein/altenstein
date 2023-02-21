@@ -75,6 +75,8 @@ extern interface_tile tile_character_info;
 extern interface_tile tile_actions;
 extern interface_tile tile_world_info;
 
+// Map tiles
+
 extern interface_tile tile_map_0001_deafult;
 
 #endif
