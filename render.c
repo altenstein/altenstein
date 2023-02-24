@@ -221,6 +221,10 @@ int render_player_info(void)
 	else if(10 > player_hp/100 >= 1) mvprintw(21, 8, "%d/%d", player_hp, player_hp_max);
 	else if(player_hp/100 >= 10) mvprintw(21, 7, "%d/%d", player_hp, player_hp_max);
 	
+	attron(COLOR_PAIR(001));
+	if(player_potion_cooldown > 0){ mvprintw(28, 27, "[PCD: %d]--", player_potion_cooldown); } else { mvprintw(28, 27, "----------"); }
+	attroff(COLOR_PAIR(001));
+	
 	attroff(COLOR_PAIR(002));
 	attroff(COLOR_PAIR(003));
 	attroff(COLOR_PAIR(004));
@@ -301,8 +305,6 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	attron(COLOR_PAIR(001));
 	mvprintw(28, 93, "[Lvl: %d]", player_level);
 	mvprintw(28, 104, "[Exp: %d]", player_exp);
-	
-	if(player_potion_cooldown > 0){ mvprintw(20, 93, "[PCD: %d]", player_potion_cooldown); } else { mvprintw(20, 93, "----------"); }
 	
 	attroff(COLOR_PAIR(001));
 

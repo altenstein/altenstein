@@ -92,7 +92,7 @@ int usage_item_potion_heal(int potion_id)
 {
 	int res;
 	
-	if (player_hp == player_hp_max) return -1; // Do not replace potion to empty bottle
+	if (player_hp >= player_hp_max - 2) return -1; // Do not replace potion to empty bottle
 	
 	void *thread_func_heal(void *arg) // Heal function by ID
 	{
@@ -101,7 +101,7 @@ int usage_item_potion_heal(int potion_id)
 		int potion_timer;
 		
 		player_potion_cooldown = -1; 
-		inventory_cell[buffer_inventory_selected_cell] = 3;
+		inventory_cell[buffer_inventory_selected_cell] = 3; // Replace potion to empty bottle
 		
 		if (arg_potion_id == 1) // Treatment Potion
 		{
@@ -121,10 +121,6 @@ int usage_item_potion_heal(int potion_id)
 		for (int cooldown = 180; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
-			
-			attron(COLOR_PAIR(001));
-			if(player_potion_cooldown > 0){ mvprintw(20, 93, "[PCD: %d]--", player_potion_cooldown); } else { mvprintw(20, 93, "----------"); }
-			attroff(COLOR_PAIR(001));
 			
 			Sleep(1000);
 		}
@@ -150,7 +146,7 @@ int usage_item_potion_heal(int potion_id)
 
 	getch();
 	
-	return 0; // Replace potion to empty bottle
+	return 0;
 }
 
 item_tile tile_poison = {.item = {
