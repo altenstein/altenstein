@@ -3,6 +3,7 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
+#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -53,7 +54,7 @@ ID: 1000-1255 - Backpacks
 int init_items_with_info(void)
 {
 	strcpy(item_with_info[1].item_name, "Treatment Potion");
-	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec");
+	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec;");
 	item_with_info[1].item_usable = 1;
 	
 	strcpy(item_with_info[2].item_name, "Toxic Poison");
@@ -87,24 +88,69 @@ item_tile tile_potion = {.item = {
 "  (%%)"
 } };
 
-int action_item_potion_heal(int potion_id)
+int usage_item_potion_heal(int potion_id)
 {
-	int health_hps;
-	int health_timer;
+	int res;
 	
-	// Heal function 															//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
+	if (player_hp == player_hp_max) return -1; // Do not replace potion to empty bottle
 	
-	// Pthread Create 															//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
-	
-	if (potion_id == 1) // Treatment Potion
+	void *thread_func_heal(void *arg) // Heal function by ID
 	{
-		health_hps = 2;
-		health_timer = 60;
+		int arg_potion_id = * (int *) arg;
+		int potion_hps;
+		int potion_timer;
+		
+		player_potion_cooldown = -1; 
+		inventory_cell[buffer_inventory_selected_cell] = 3;
+		
+		if (arg_potion_id == 1) // Treatment Potion
+		{
+			potion_hps = 2;
+			potion_timer = 60;
+		}
+		
+		for (int p_i = 0; p_i < potion_timer; p_i++)
+		{
+			if ((player_hp + potion_hps) >= player_hp_max) { player_hp = player_hp_max; break; }
+			
+			player_hp += potion_hps;
+			
+			Sleep(1000);
+		}
+		
+		for (int cooldown = 180; cooldown >= 0; cooldown--)
+		{
+			player_potion_cooldown = cooldown; 
+			
+			attron(COLOR_PAIR(001));
+			if(player_potion_cooldown > 0){ mvprintw(20, 93, "[PCD: %d]--", player_potion_cooldown); } else { mvprintw(20, 93, "----------"); }
+			attroff(COLOR_PAIR(001));
+			
+			Sleep(1000);
+		}
+		
+		pthread_exit(NULL);
 	}
 	
-	/* THEAD WITH 1 SEC HEAL TIMER */ 											//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
+	pthread_t item_thread_potion_heal;
 	
-	return 0;
+	res = pthread_create (&item_thread_potion_heal, NULL, thread_func_heal, &potion_id);
+	
+	if (res != 0) {
+        mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
+        exit(-10);
+    }
+
+	res = pthread_detach(item_thread_potion_heal);
+	
+	if (res != 0) {
+        mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
+        exit(-10);
+    }
+
+	getch();
+	
+	return 0; // Replace potion to empty bottle
 }
 
 item_tile tile_poison = {.item = {

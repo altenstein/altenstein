@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<curses.h>
 #include<string.h>
+#include<pthread.h>
+#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -277,7 +279,9 @@ int action_1_special(int mod, int player_y, int player_x, interface_tile map)
 }
 
 int action_2_inventory_usage(int mod, int item_id)
-{
+{	
+	if (mod != -1 && item_with_info[item_id].item_usable == 1 && player_potion_cooldown != 0) mod = 2;
+
 	if(mod == -1) // Staff usage passive
 	{
 		current_inventory_item = 0;
@@ -293,6 +297,7 @@ int action_2_inventory_usage(int mod, int item_id)
 	
 	else if(mod == 1 && item_with_info[item_id].item_usable == 1) // Staff usage active
 	{
+		action_2_mod = 1;
 		current_inventory_item = item_id;
 		
 		attron(COLOR_PAIR(005));
@@ -328,6 +333,8 @@ int action_2_inventory_usage(int mod, int item_id)
 		mvprintw(24, 31, "Use %s", item_with_info[item_id].item_name);
 		//mvprintw(24, 44, "              ");
 		attroff(COLOR_PAIR(007));
+		
+		if (item_id == 1) usage_item_potion_heal(1);
 	}
 	
 	else if(item_with_info[item_id].item_usable != 1) action_2_inventory_usage(-1, item_id);

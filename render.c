@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<curses.h>
 #include<string.h>
+#include<pthread.h>
 #include"render.h"
 #include"items.h"
 
@@ -205,6 +206,28 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 	return 0;
 }
 
+int render_player_info(void)
+{
+	attron(COLOR_PAIR(002));
+	mvprintw(21, 1, "Live:");
+	mvprintw(21, 17, "$:%d", player_balance);
+	attroff(COLOR_PAIR(002));
+	
+	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
+	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
+	else if(player_hp <= player_hp_max) attron(COLOR_PAIR(002));
+	
+	if(player_hp/100 < 1) mvprintw(21, 9, "%d/%d", player_hp, player_hp_max);
+	else if(10 > player_hp/100 >= 1) mvprintw(21, 8, "%d/%d", player_hp, player_hp_max);
+	else if(player_hp/100 >= 10) mvprintw(21, 7, "%d/%d", player_hp, player_hp_max);
+	
+	attroff(COLOR_PAIR(002));
+	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(004));
+	
+	/* PLAYER STATS WILL BE HERE*/
+}
+
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
 {
 	current_map_tile = map;
@@ -253,23 +276,6 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 		printw("\n");
 	}
 	
-	attron(COLOR_PAIR(002));
-	mvprintw(21, 1, "Live:");
-	mvprintw(21, 17, "$:%d", player_balance);
-	attroff(COLOR_PAIR(002));
-	
-	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
-	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
-	else if(player_hp <= player_hp_max) attron(COLOR_PAIR(002));
-	
-	if(player_hp/100 < 1) mvprintw(21, 9, "%d/%d", player_hp, player_hp_max);
-	else if(10 > player_hp/100 >= 1) mvprintw(21, 8, "%d/%d", player_hp, player_hp_max);
-	else if(player_hp/100 >= 10) mvprintw(21, 7, "%d/%d", player_hp, player_hp_max);
-	
-	attroff(COLOR_PAIR(002));
-	attroff(COLOR_PAIR(003));
-	attroff(COLOR_PAIR(004));
-	
 	if(map.tile[21][11] == 49) attron(COLOR_PAIR(002)); // Set low difficulty
 	else if(map.tile[21][11] == 50) attron(COLOR_PAIR(003)); // Set medium difficulty
 	else if(map.tile[21][11] == 51) attron(COLOR_PAIR(004)); // Set high difficulty
@@ -295,6 +301,9 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	attron(COLOR_PAIR(001));
 	mvprintw(28, 93, "[Lvl: %d]", player_level);
 	mvprintw(28, 104, "[Exp: %d]", player_exp);
+	
+	if(player_potion_cooldown > 0){ mvprintw(20, 93, "[PCD: %d]", player_potion_cooldown); } else { mvprintw(20, 93, "----------"); }
+	
 	attroff(COLOR_PAIR(001));
 
     return 0;

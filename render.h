@@ -34,6 +34,7 @@ int render_inventory(void);
 int render_structure_chest(int chest_selected_cell, int chest_id);
 int render_chest_selected_cell(int chest_selected_cell,int chest_id);
 int render_chest_items(int chest_id);
+int render_player_info(void);
 
 // Variables
 
@@ -42,6 +43,7 @@ int player_hp_max;
 int player_balance;
 int player_level;
 int player_exp;
+int player_potion_cooldown;
 
 int player_selected_cell;
 int player_inventory_limit;

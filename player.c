@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<curses.h>
 #include<string.h>
+#include<pthread.h>
+#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -10,6 +12,7 @@ int player_hp;
 int player_balance;
 int player_level = 0;
 int player_exp = 0;
+int player_potion_cooldown = 0;
 
 int player_selected_cell = 1;
 int player_inventory_limit = 5;
@@ -35,6 +38,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	
 	render_selected_cell(player_selected_cell, action_6_flag);
 	render_inventory();
+	render_player_info();
 	
 	char player_action;
 	
@@ -82,14 +86,20 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 			if(action_6_flag == 1) render_inventory();
 		}
 		
-		if (player_action == '1' || player_action == 32)
+		else if (player_action == '1' || player_action == 32)
 		{
 			if (action_1_mod == 1) action_1_special(11, player_y, player_x, map);
 		}
 		
-		if (player_action == '\n') 
+		else if (player_action == '\n') 
 		{
 			if(action_6_flag == 1) { action_transfer_inside_inventory(); render_inventory(); }
+		}
+		
+		else if (player_action == '2') 
+		{
+			if(action_2_mod == 1) { action_2_inventory_usage(3, inventory_cell[buffer_inventory_selected_cell]); }
+			render_inventory();
 		}
 		
 		attron(COLOR_PAIR(200));
@@ -101,6 +111,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		
 		render_selected_cell(player_selected_cell, action_6_flag);
 		render_map_entities(player_y, player_x, map);
+		render_player_info();
 	}
 	while ((player_action = getch()) != 27);
 	

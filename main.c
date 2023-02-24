@@ -27,6 +27,7 @@ int main(void)
 	
 	int player_x = 2;
 	int player_y = 1;
+	
 	player_hp = 23;
 	player_hp_max = 100;
 	
