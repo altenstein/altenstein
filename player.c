@@ -68,9 +68,12 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 			if(player_selected_cell > 10) player_selected_cell = 1;
 			else if(player_selected_cell < 1) player_selected_cell = 10;
 		}
+		
+		//int *asd = &player_y;
+		//int *bsd = &player_x;
 	
 		//attron(COLOR_PAIR(001));
-		//mvprintw(29, 0, "%s ", backpack[0].backpack_name); // Underline information
+		//mvprintw(29, 0, "%p %p", asd, bsd); // Underline information
 		//attroff(COLOR_PAIR(001));
 		
 		if (player_action == '6')

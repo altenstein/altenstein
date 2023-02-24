@@ -92,6 +92,10 @@ int action_item_potion_heal(int potion_id)
 	int health_hps;
 	int health_timer;
 	
+	// Heal function 															//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
+	
+	// Pthread Create 															//<----------------------[SUPER HIGH PRIORITY TODO]-----------------------<<<
+	
 	if (potion_id == 1) // Treatment Potion
 	{
 		health_hps = 2;
