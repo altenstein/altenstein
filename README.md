@@ -2,6 +2,12 @@
       <img src="https://i.ibb.co/ry5Z04M/Altenstein-2.png" width="1452">
 </p>
 
+<p align="center">
+   <img src="https://img.shields.io/badge/Build-0.0.2.3-success" alt="Build">
+   <img src="https://img.shields.io/badge/Ready-pre--alpha-orange" alt="Developer">
+   <img src="https://img.shields.io/badge/License-BSD--3_Clause-red" alt="License">
+</p>
+
 ## About 
 **Altenstein** is a Rouglike medival text RPG, that we write right now.
 Based on the Dungeons and Dragons.
