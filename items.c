@@ -28,6 +28,11 @@ int init_default_items(void)
 	backpack[0].backpack_add_cells = 5;
 	strcpy(backpack[0].backpack_description, "Add slots: 5");
 	
+	// ID: 1001; TEST BACKPACK
+	strcpy(backpack[1].backpack_name, "TEST BACKPACK");
+	backpack[1].backpack_add_cells = 20;
+	strcpy(backpack[1].backpack_description, "Add slots: 20");
+	
 	for (int i = 1; i <= 25; i++){
 		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
@@ -37,7 +42,17 @@ int init_default_items(void)
 	chest[0].chest_cell[1] = 1;
 	chest[0].chest_cell[14] = 2;
 	chest[0].chest_cell[15] = 1000;
-	chest[0].chest_cell[8] = 8;
+	chest[0].chest_cell[8] = 6;
+	
+	chest[1].chest_cell[1] = 5;
+	chest[1].chest_cell[2] = 6;
+	chest[1].chest_cell[3] = 7;
+	chest[1].chest_cell[4] = 8;
+	chest[1].chest_cell[5] = 1001;
+	chest[1].chest_cell[6] = 1;
+	chest[1].chest_cell[7] = 2;
+	chest[1].chest_cell[8] = 3;
+	chest[1].chest_cell[9] = 4;
 	
 	return 0;
 }
@@ -49,10 +64,10 @@ ID: 1 - Treatment Potion
 ID: 2 - Toxic Poison
 ID: 3 - Empty bottle
 ID: 4 - Mug of Ale
-ID: 5 - Money (1 $)
-ID: 6 - Money (10 $)
-ID: 7 - Money (100 $)
-ID: 8 - Money (1000 $)
+ID: 5 - Money (1 GC)
+ID: 6 - Money (10 GC)
+ID: 7 - Money (100 GC)
+ID: 8 - Money (1000 GC)
 ID: 1000-1255 - Backpacks
 */
 
@@ -165,7 +180,7 @@ int usage_item_potion_heal(int potion_id)
         exit(-11);
     }
 
-	getch();
+	int a = getch();
 	
 	return 0;
 }

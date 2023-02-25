@@ -30,6 +30,10 @@ int current_inventory_item = 0;
 
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
+	dev_mode = 0;
+	
+	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; }
+	
 	player_additional_limit = player_inventory_limit;
 	
 	attron(COLOR_PAIR(100));
@@ -46,6 +50,11 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	{
 		int buffer_player_y = player_y;
 		int buffer_player_x = player_x;
+		
+		if(dev_mode == 1 && player_hp < 1000) player_hp = 1000;
+		attron(COLOR_PAIR(004));
+		if(dev_mode == 1 ) mvprintw(19, 1, "DEV MODE");
+		attroff(COLOR_PAIR(004));
 		
 		if ((player_action == 'w') && ((player_y - 1) != 0) && (map.tile[player_y - 1][player_x] == ' ')) player_y--;
 		else if ((player_action == 's') && ((player_y + 1) != 20) && (map.tile[player_y + 1][player_x] == ' ')) player_y++;
@@ -118,9 +127,9 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	return 0;
 }
 
-int launch(int player_y, int player_x, interface_tile map_deafult) // Launch default actions
+int launch(int player_y, int player_x, interface_tile current_map) // Launch default actions
 {
-	map_player_movement(player_y, player_x, map_deafult);
+	map_player_movement(player_y, player_x, current_map);
 	
 	return 0;
 }

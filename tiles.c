@@ -100,7 +100,7 @@ interface_tile tile_world_info = {.tile = {
 	 "----------------------------+"
 } };
 
-interface_tile tile_map_0001_deafult = {.tile = {	// tile_map_ID_TAG
+interface_tile tile_map_0001_default = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------------------[TITLE]------------------------------------+",
 	 "|                                                                           WWW|",
 	 "|            WWW                                                             WW|",
@@ -124,4 +124,30 @@ interface_tile tile_map_0001_deafult = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------+------------------------------------------------------+",
 	 "ID: 0001-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
 	 "TAG: DEFAULT"
+} };
+
+interface_tile tile_map_0002_dev = {.tile = {	// tile_map_ID_TAG
+	 "+-----------------------------------[TITLE]------------------------------------+",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                   W  T  #                                    |",
+	 "|                                   W  T  #                                    |",
+	 "|                                   W  T  #                                    |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "|                                                                              |",
+	 "+--------+                                                                     |",
+	 "|DEV-TEST|                                                                     |",
+	 "+--------+--------------+------------------------------------------------------+",
+	 "ID: 0002-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: DEV"
 } };

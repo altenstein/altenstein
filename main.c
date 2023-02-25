@@ -45,12 +45,15 @@ int main(void)
 	init_default_items();
 	init_items_with_info();
 	
-	render_default_interface(tile_map_0001_deafult, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-	render_map_entities(player_y, player_x, tile_map_0001_deafult);
+	current_map_tile = tile_map_0001_default;
+	
+	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(player_y, player_x, current_map_tile);
 	
 	init_actions();
 	
-	launch(player_y, player_x, tile_map_0001_deafult);
+	launch(player_y, player_x, current_map_tile);
+	mvprintw(28, 0, "%s", current_map_tile.tile[21]);
 	
 	getch();
 	endwin();

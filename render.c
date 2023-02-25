@@ -70,8 +70,8 @@ int init_color_entities(void)
 
 int init_actions(void)
 {	
-	action_6_switch_inv(action_6_mod, tile_map_0001_deafult);
-	action_1_special(action_1_mod, 0, 0, tile_map_0001_deafult);
+	action_6_switch_inv(action_6_mod, current_map_tile);
+	action_1_special(action_1_mod, 0, 0, current_map_tile);
 	action_2_inventory_usage(action_2_mod, 0);
 	
 	return 0;
@@ -208,6 +208,11 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 
 int render_player_info(void)
 {
+	attron(COLOR_PAIR(001));
+	mvprintw(28, 93, "[Lvl: %d]", player_level);
+	mvprintw(28, 104, "[Exp: %d]", player_exp);
+	attroff(COLOR_PAIR(001));
+	
 	attron(COLOR_PAIR(002));
 	mvprintw(21, 1, "Live:");
 	attroff(COLOR_PAIR(002));
@@ -304,12 +309,6 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 	attroff(COLOR_PAIR(002));
 	attroff(COLOR_PAIR(003));
 	attroff(COLOR_PAIR(004));
-	
-	attron(COLOR_PAIR(001));
-	mvprintw(28, 93, "[Lvl: %d]", player_level);
-	mvprintw(28, 104, "[Exp: %d]", player_exp);
-	
-	attroff(COLOR_PAIR(001));
 
     return 0;
 }
@@ -451,6 +450,53 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 		if((player_y == 7) && (player_x == 68))
 		{
 			mvprintw(21, 91, "Boat to another place");
+			
+			action_1_mod = 2;
+			action_1_special(action_1_mod, player_y, player_x, map);
+			
+			return 2;
+		}
+		
+		// No player check
+		
+		attroff(COLOR_PAIR(101));
+		mvprintw(21, 90, "                            ");
+	}
+	
+	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 2))
+	{
+		// Render entities
+		
+		attron(COLOR_PAIR(101));
+		mvaddch(11, 3, 'B'); // Test boat (need to add a teleportation function to any location)
+		mvaddch(9, 3, 'C'); // Test chest 1 (CURRENT ITEMS)
+		
+		// Player check
+		
+		if((player_y == 9) && (player_x == 3))
+		{ 
+			// CHEST ID: 0001
+			
+			strcpy(chest[1].chest_name, "TEST CHEST");
+			strcpy(chest[1].chest_type, "TEST CHEST");
+			chest[1].chest_map_id_1 = map_id_1;
+			chest[1].chest_map_id_2 = map_id_2;
+			chest[1].chest_map_id_3 = map_id_3;
+			chest[1].chest_map_id_4 = map_id_4;
+			chest[1].chest_x = player_x;
+			chest[1].chest_y = player_y;
+			
+			mvprintw(21, 91, "TEST CHEST");
+			
+			action_1_mod = 1;
+			action_1_special(action_1_mod, player_y, player_x, map);
+			
+			return 1;
+		}
+		
+		if((player_y == 11) && (player_x == 3))
+		{
+			mvprintw(21, 91, "BOAT (NOT WORKING NOW)");
 			
 			action_1_mod = 2;
 			action_1_special(action_1_mod, player_y, player_x, map);

@@ -18,7 +18,7 @@ int init_actions(void);
 
 // Functions
 
-int launch(int player_y, int player_x, interface_tile map_deafult);
+int launch(int player_y, int player_x, interface_tile current_map);
 
 int action_6_switch_inv(int mod, interface_tile map);
 int action_1_special(int mod, int player_x, int player_y, interface_tile map);
@@ -37,6 +37,8 @@ int render_chest_items(int chest_id);
 int render_player_info(void);
 
 // Variables
+
+bool dev_mode;
 
 int player_hp;
 int player_hp_max;
@@ -79,6 +81,7 @@ extern interface_tile tile_world_info;
 
 // Map tiles
 
-extern interface_tile tile_map_0001_deafult;
+extern interface_tile tile_map_0001_default;
+extern interface_tile tile_map_0002_dev;
 
 #endif
