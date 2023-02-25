@@ -210,8 +210,11 @@ int render_player_info(void)
 {
 	attron(COLOR_PAIR(002));
 	mvprintw(21, 1, "Live:");
-	mvprintw(21, 17, "$:%d", player_balance);
 	attroff(COLOR_PAIR(002));
+	
+	attron(COLOR_PAIR(003));
+	mvprintw(21, 17, "$:%d", player_balance);
+	attroff(COLOR_PAIR(003));
 	
 	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
 	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
@@ -365,6 +368,10 @@ int render_item(int selected_cell, item_tile selected_item, int color_map_id, in
 				else if(selected_item.item[i][j] == ']') attron(COLOR_PAIR(016));
 				else if(selected_item.item[i][j] == '*') attron(COLOR_PAIR(016));
 				else if(selected_item.item[i][j] == '_') attron(COLOR_PAIR(016));
+			} else if (color_map_id == 2) {
+				if(selected_item.item[i][j] == '$') attron(COLOR_PAIR(003));
+				if(selected_item.item[i][j] == ':') attron(COLOR_PAIR(003));
+				if(selected_item.item[i][j] == '.') attron(COLOR_PAIR(003));
 			}
 			
 			mvaddch(base_y + i, base_x + j, selected_item.item[i][j]);
@@ -392,6 +399,7 @@ int render_inventory(void)
 		else if (inventory_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 4) {current_item_tile = tile_ale; color_map_id = 1;} 
+		else if (inventory_cell[cell] == 5) {current_item_tile = tile_money_1; color_map_id = 2;} 
 		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 0, 0);
@@ -537,6 +545,10 @@ int render_chest_items(int chest_id)
 		else if (chest[chest_id].chest_cell[cell] == 2) {current_item_tile = tile_poison; color_map_id = 1;} 
 		else if (chest[chest_id].chest_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
 		else if (chest[chest_id].chest_cell[cell] == 4) {current_item_tile = tile_ale; color_map_id = 1;} 
+		else if (chest[chest_id].chest_cell[cell] == 5) {current_item_tile = tile_money_1; color_map_id = 2;} 
+		else if (chest[chest_id].chest_cell[cell] == 6) {current_item_tile = tile_money_2; color_map_id = 2;} 
+		else if (chest[chest_id].chest_cell[cell] == 7) {current_item_tile = tile_money_3; color_map_id = 2;} 
+		else if (chest[chest_id].chest_cell[cell] == 8) {current_item_tile = tile_money_4; color_map_id = 2;} 
 		else if ((1256 > chest[chest_id].chest_cell[cell]) && (chest[chest_id].chest_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 4, -69);

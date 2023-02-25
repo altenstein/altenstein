@@ -16,6 +16,42 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 {
 	if (chest[chest_id].chest_cell[chest_selected_cell] != 0)
 	{
+		if (chest[chest_id].chest_cell[chest_selected_cell] == 5)
+		{
+			player_balance += 1;
+			chest[chest_id].chest_cell[chest_selected_cell] = 0;
+			render_player_info();
+			
+			return 0;
+		}
+		
+		else if (chest[chest_id].chest_cell[chest_selected_cell] == 6)
+		{
+			player_balance += 10;
+			chest[chest_id].chest_cell[chest_selected_cell] = 0;
+			render_player_info();
+			
+			return 0;
+		}
+		
+		else if (chest[chest_id].chest_cell[chest_selected_cell] == 7)
+		{
+			player_balance += 100;
+			chest[chest_id].chest_cell[chest_selected_cell] = 0;
+			render_player_info();
+			
+			return 0;
+		}
+		
+		else if (chest[chest_id].chest_cell[chest_selected_cell] == 8)
+		{
+			player_balance += 1000;
+			chest[chest_id].chest_cell[chest_selected_cell] = 0;
+			render_player_info();
+			
+			return 0;
+		}
+		
 		for (int cell = 1; cell <= player_additional_limit; cell++)
 		{
 			if (inventory_cell[cell] == 0){
@@ -140,6 +176,12 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			
 			if (player_action == '\n' && action_6_flag == 1) action_transfer_to_chest(structure_id, player_selected_cell);
 			
+			else if (player_action == '2') 
+			{
+				if(action_2_mod == 1) { action_2_inventory_usage(3, inventory_cell[buffer_inventory_selected_cell]); }
+				render_inventory();
+			}
+			
 			// Render
 			
 			if(action_6_flag == 1) {
@@ -148,6 +190,7 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 			}
 			
 			action_6_switch_inv(0, current_map_tile);
+			render_player_info();
 			
 			{ // Inventory limit update
 			player_inventory_used = 0;
@@ -182,6 +225,7 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		
 		render_default_interface(current_map_tile, current_inventory_tile, tile_character_info, tile_actions, tile_world_info);
 		render_map_entities(player_y, player_x, current_map_tile);
+		render_player_info();
 		
 		if (action_6_flag == 0) action_6_flag = 1;
 		else if (action_6_flag == 1) action_6_flag = 0;

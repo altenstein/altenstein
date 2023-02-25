@@ -74,6 +74,10 @@ extern item_tile tile_potion;
 extern item_tile tile_poison;
 extern item_tile tile_bottle;
 extern item_tile tile_ale;
+extern item_tile tile_money_1;
+extern item_tile tile_money_2;
+extern item_tile tile_money_3;
+extern item_tile tile_money_4;
 
 // Items usages
 

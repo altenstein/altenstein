@@ -37,6 +37,7 @@ int init_default_items(void)
 	chest[0].chest_cell[1] = 1;
 	chest[0].chest_cell[14] = 2;
 	chest[0].chest_cell[15] = 1000;
+	chest[0].chest_cell[8] = 8;
 	
 	return 0;
 }
@@ -48,6 +49,10 @@ ID: 1 - Treatment Potion
 ID: 2 - Toxic Poison
 ID: 3 - Empty bottle
 ID: 4 - Mug of Ale
+ID: 5 - Money (1 $)
+ID: 6 - Money (10 $)
+ID: 7 - Money (100 $)
+ID: 8 - Money (1000 $)
 ID: 1000-1255 - Backpacks
 */
 
@@ -68,6 +73,22 @@ int init_items_with_info(void)
 	strcpy(item_with_info[4].item_name, "Mug of Ale");
 	strcpy(item_with_info[4].item_description, "[Description 4]");
 	item_with_info[4].item_usable = 1;
+	
+	strcpy(item_with_info[5].item_name, "1 GC");
+	strcpy(item_with_info[5].item_description, "Gold Coin");
+	item_with_info[5].item_usable = 0;
+	
+	strcpy(item_with_info[6].item_name, "10 GC");
+	strcpy(item_with_info[6].item_description, "Some Gold Coins");
+	item_with_info[6].item_usable = 0;
+	
+	strcpy(item_with_info[7].item_name, "100 GC");
+	strcpy(item_with_info[7].item_description, "Many Gold Coins");
+	item_with_info[7].item_usable = 0;
+	
+	strcpy(item_with_info[8].item_name, "1000 GC");
+	strcpy(item_with_info[8].item_description, "A lot of Gold");
+	item_with_info[8].item_usable = 0;
 }
 
 item_tile tile_empty = {.item = {
@@ -140,8 +161,8 @@ int usage_item_potion_heal(int potion_id)
 	res = pthread_detach(item_thread_potion_heal);
 	
 	if (res != 0) {
-        mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
-        exit(-10);
+        mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
+        exit(-11);
     }
 
 	getch();
@@ -165,4 +186,28 @@ item_tile tile_ale = {.item = {
 "   .  ",
 " |:.|+",
 " |##|+"
+} };
+
+item_tile tile_money_1 = {.item = {
+"      ",
+"      ",
+"     $"
+} };
+
+item_tile tile_money_2 = {.item = {
+"      ",
+"      ",
+"    $$"
+} };
+
+item_tile tile_money_3 = {.item = {
+"      ",
+"    .$",
+":. .$$"
+} };
+
+item_tile tile_money_4 = {.item = {
+"  .::$",
+".:::$$",
+"::$$$$"
 } };

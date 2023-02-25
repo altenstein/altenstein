@@ -7,9 +7,9 @@
 Based on the Dungeons and Dragons.
 
 Additions coming soon..
-## Build 0.0.2.1
+## Build 0.0.2.2
 <p align="center">
-      <img src="https://i.ibb.co/YhV4Y9F/image.png" width="967">
+      <img src="https://i.ibb.co/ftgwRjC/image-2023-02-25-03-45-55.png" width="965">
 </p>
 
 ### Compile GCC (MinGW)
