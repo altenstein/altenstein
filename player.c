@@ -3,7 +3,6 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -30,7 +29,7 @@ int current_inventory_item = 0;
 
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
-	dev_mode = 0;
+	bool dev_mode = 0;
 	
 	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; }
 	

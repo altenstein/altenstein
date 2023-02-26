@@ -38,34 +38,34 @@ int render_player_info(void);
 
 // Variables
 
-bool dev_mode;
+extern bool dev_mode;
 
-int player_hp;
-int player_hp_max;
-int player_balance;
-int player_level;
-int player_exp;
-int player_potion_cooldown;
+extern int player_hp;
+extern int player_hp_max;
+extern int player_balance;
+extern int player_level;
+extern int player_exp;
+extern int player_potion_cooldown;
 
-int player_selected_cell;
-int player_inventory_limit;
-int player_additional_limit;
-int player_inventory_used;
-int player_spell_book_limit;
-int player_spell_book_used;
+extern int player_selected_cell;
+extern int player_inventory_limit;
+extern int player_additional_limit;
+extern int player_inventory_used;
+extern int player_spell_book_limit;
+extern int player_spell_book_used;
 
-int buffer_inventory_selected_cell;
-int buffer_spell_book_selected_cell;
-int buffer_item_to_move;
-int buffer_cell_to_move;
+extern int buffer_inventory_selected_cell;
+extern int buffer_spell_book_selected_cell;
+extern int buffer_item_to_move;
+extern int buffer_cell_to_move;
 
-int current_inventory_item;
-int transfer_inside_inventory_flag;
+extern int current_inventory_item;
+extern int transfer_inside_inventory_flag;
 
-int action_1_mod;
-int action_2_mod;
-int action_6_mod;
-int action_6_flag;
+extern int action_1_mod;
+extern int action_2_mod;
+extern int action_6_mod;
+extern int action_6_flag;
 
 // Tiles
 

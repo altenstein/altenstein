@@ -3,10 +3,14 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<windows.h>
+#include<unistd.h>
+#include<windows.h> // Comment for linux build
 #include"render.h"
 #include"items.h"
 
+item_backpack backpack[255];
+item_info item_with_info[8192];
+structure_chest chest[1024];
 int inventory_cell[25];
 
 int item_backpack_create(int id, char name[32], int add_cells) // The ID must be from 1000 to 1255
@@ -31,6 +35,7 @@ int init_default_items(void)
 	// ID: 1001; TEST BACKPACK
 	strcpy(backpack[1].backpack_name, "TEST BACKPACK");
 	backpack[1].backpack_add_cells = 20;
+	backpack[1].backpack_cell[19] = 5;
 	strcpy(backpack[1].backpack_description, "Add slots: 20");
 	
 	for (int i = 1; i <= 25; i++){
@@ -151,14 +156,14 @@ int usage_item_potion_heal(int potion_id)
 			
 			player_hp += potion_hps;
 			
-			Sleep(1000);
+			Sleep(1000); // usleep(x1000) for linux build
 		}
 		
 		for (int cooldown = 180; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
 			
-			Sleep(1000);
+			Sleep(1000); // usleep(x1000) for linux build
 		}
 		
 		pthread_exit(NULL);

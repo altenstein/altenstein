@@ -61,10 +61,10 @@ int render_item(int selected_cell, item_tile selected_item, int color_map_id, in
 
 // Variables
 
-item_backpack backpack[255];
-item_info item_with_info[8192];
-structure_chest chest[1024];
-int inventory_cell[25];
+extern item_backpack backpack[255];
+extern item_info item_with_info[8192];
+extern structure_chest chest[1024];
+extern int inventory_cell[25];
 
 // Items
 

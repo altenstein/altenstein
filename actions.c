@@ -3,7 +3,6 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -11,6 +10,8 @@ int action_6_mod = 1;
 int action_6_flag = 0;
 int action_1_mod = -1;
 int action_2_mod = -1;
+
+int transfer_inside_inventory_flag;
 
 int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 {
