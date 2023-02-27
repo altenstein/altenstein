@@ -53,7 +53,6 @@ int main(void)
 	init_actions();
 	
 	launch(player_y, player_x, current_map_tile);
-	mvprintw(28, 0, "%s", current_map_tile.tile[21]);
 	
 	getch();
 	endwin();

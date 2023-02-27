@@ -3,6 +3,7 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
+#include<windows.h> // Comment for linux build
 #include"render.h"
 #include"items.h"
 
@@ -126,8 +127,33 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	return 0;
 }
 
-int launch(int player_y, int player_x, interface_tile current_map) // Launch default actions
+int launch(int player_y, int player_x, interface_tile current_map)
 {
+	int res;
+	
+	pthread_t thread_render_engine;
+	
+	void *thread_func_render_engine(void * arg) 
+	{
+		/* RENDER ENGINE REALIZATION*/
+		
+		pthread_exit(NULL);
+	}
+	
+	res = pthread_create (&thread_render_engine, NULL, thread_func_render_engine, NULL);
+	
+	if (res != 0) {
+		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
+		exit(-10);
+	}
+
+	res = pthread_detach(thread_render_engine);
+	
+	if (res != 0) {
+		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
+		exit(-11);
+	}
+	
 	map_player_movement(player_y, player_x, current_map);
 	
 	return 0;
