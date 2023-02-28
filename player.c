@@ -28,6 +28,8 @@ int buffer_cell_to_move;
 
 int current_inventory_item = 0;
 
+int lake = 0;
+
 int map_player_movement(int player_y, int player_x, interface_tile map)
 {
 	bool dev_mode = 0;
@@ -129,13 +131,37 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 
 int launch(int player_y, int player_x, interface_tile current_map)
 {
+	//---------------------------------------------------------------------------------------
+	
 	int res;
+	bool work = 1;
+	
+	//---------------------------------------------------------------------------------------
 	
 	pthread_t thread_render_engine;
 	
 	void *thread_func_render_engine(void * arg) 
 	{
-		/* RENDER ENGINE REALIZATION*/
+		do
+		{
+			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
+			
+			//attron(COLOR_PAIR(200));
+			//mvaddch(buffer_player_y, buffer_player_x, ' ');
+			//attroff(COLOR_PAIR(200));
+			//attron(COLOR_PAIR(100));
+			//mvaddch(player_y, player_x, '@');
+			//attroff(COLOR_PAIR(100));
+			
+			//render_selected_cell(player_selected_cell, action_6_flag);
+			//render_map_entities(player_y, player_x, current_map);
+			//render_player_info();
+			
+			//refresh();
+			
+			//Sleep(10);
+		}
+		while(work);
 		
 		pthread_exit(NULL);
 	}
@@ -154,7 +180,13 @@ int launch(int player_y, int player_x, interface_tile current_map)
 		exit(-11);
 	}
 	
+	//---------------------------------------------------------------------------------------
+	
 	map_player_movement(player_y, player_x, current_map);
 	
+	//---------------------------------------------------------------------------------------
+	
 	return 0;
+	
+	//---------------------------------------------------------------------------------------
 }

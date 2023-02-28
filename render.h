@@ -58,6 +58,8 @@ extern int buffer_inventory_selected_cell;
 extern int buffer_spell_book_selected_cell;
 extern int buffer_item_to_move;
 extern int buffer_cell_to_move;
+extern int buffer_player_y;
+extern int buffer_player_x;	
 
 extern int current_inventory_item;
 extern int transfer_inside_inventory_flag;
