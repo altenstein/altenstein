@@ -7,6 +7,8 @@
 #include"render.h"
 #include"items.h"
 
+int player_x;
+int player_y;
 int player_hp_max;
 int player_hp;
 int player_balance;
@@ -25,12 +27,14 @@ int buffer_inventory_selected_cell = 1;
 int buffer_spell_book_selected_cell = 1;
 int buffer_item_to_move;
 int buffer_cell_to_move;
+int buffer_player_y;
+int buffer_player_x;	
 
 int current_inventory_item = 0;
 
 int lake = 0;
 
-int map_player_movement(int player_y, int player_x, interface_tile map)
+int map_player_movement(interface_tile map)
 {
 	bool dev_mode = 0;
 	
@@ -50,8 +54,8 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	
 	do
 	{
-		int buffer_player_y = player_y;
-		int buffer_player_x = player_x;
+		buffer_player_y = player_y;
+		buffer_player_x = player_x;
 		
 		if(dev_mode == 1 && player_hp < 1000) player_hp = 1000;
 		attron(COLOR_PAIR(004));
@@ -99,7 +103,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		
 		else if (player_action == '1' || player_action == 32)
 		{
-			if (action_1_mod == 1) action_1_special(11, player_y, player_x, map);
+			if (action_1_mod == 1) action_1_special(11, map);
 		}
 		
 		else if (player_action == '\n') 
@@ -121,7 +125,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 		attroff(COLOR_PAIR(100));
 		
 		render_selected_cell(player_selected_cell, action_6_flag);
-		render_map_entities(player_y, player_x, map);
+		render_map_entities(map);
 		render_player_info();
 	}
 	while ((player_action = getch()) != 27);
@@ -129,7 +133,7 @@ int map_player_movement(int player_y, int player_x, interface_tile map)
 	return 0;
 }
 
-int launch(int player_y, int player_x, interface_tile current_map)
+int launch(interface_tile current_map)
 {
 	//---------------------------------------------------------------------------------------
 	
@@ -145,21 +149,6 @@ int launch(int player_y, int player_x, interface_tile current_map)
 		do
 		{
 			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
-			
-			//attron(COLOR_PAIR(200));
-			//mvaddch(buffer_player_y, buffer_player_x, ' ');
-			//attroff(COLOR_PAIR(200));
-			//attron(COLOR_PAIR(100));
-			//mvaddch(player_y, player_x, '@');
-			//attroff(COLOR_PAIR(100));
-			
-			//render_selected_cell(player_selected_cell, action_6_flag);
-			//render_map_entities(player_y, player_x, current_map);
-			//render_player_info();
-			
-			//refresh();
-			
-			//Sleep(10);
 		}
 		while(work);
 		
@@ -182,7 +171,7 @@ int launch(int player_y, int player_x, interface_tile current_map)
 	
 	//---------------------------------------------------------------------------------------
 	
-	map_player_movement(player_y, player_x, current_map);
+	map_player_movement(current_map);
 	
 	//---------------------------------------------------------------------------------------
 	

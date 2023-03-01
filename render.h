@@ -18,16 +18,16 @@ int init_actions(void);
 
 // Functions
 
-int launch(int player_y, int player_x, interface_tile current_map);
+int launch(interface_tile current_map);
 
 int action_6_switch_inv(int mod, interface_tile map);
-int action_1_special(int mod, int player_x, int player_y, interface_tile map);
+int action_1_special(int mod, interface_tile map);
 int action_2_inventory_usage(int mod, int item_id);
 
 int map_color_num(char char_for_find_color, int map_type);
-int map_player_movement(int player_y, int player_x, interface_tile map);
+int map_player_movement(interface_tile map);
 
-int render_map_entities(int player_x, int player_y, interface_tile map);
+int render_map_entities(interface_tile map);
 int render_selected_cell(int selected_cell, int action_6_flag);
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info);
 int render_inventory(void);
@@ -40,6 +40,8 @@ int render_player_info(void);
 
 extern bool dev_mode;
 
+extern int player_y;
+extern int player_x;
 extern int player_hp;
 extern int player_hp_max;
 extern int player_balance;

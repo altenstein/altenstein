@@ -25,12 +25,6 @@ int main(void)
 	curs_set(0);
 	keypad(stdscr, TRUE);
 	
-	int player_x = 2;
-	int player_y = 1;
-	
-	player_hp = 23;
-	player_hp_max = 100;
-	
 	if (has_colors() == FALSE)
 	{
 		endwin();
@@ -46,13 +40,17 @@ int main(void)
 	init_items_with_info();
 	
 	current_map_tile = tile_map_0001_default;
+	player_hp = 23;
+	player_hp_max = 100;
+	player_y = 1;
+	player_x = 2;
 	
 	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-	render_map_entities(player_y, player_x, current_map_tile);
+	render_map_entities(current_map_tile);
 	
 	init_actions();
 	
-	launch(player_y, player_x, current_map_tile);
+	launch(current_map_tile);
 	
 	getch();
 	endwin();

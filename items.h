@@ -53,7 +53,7 @@ int init_items_with_info(void);
 // Functions
 
 int item_backpack_create(int id, char name[32], int add_cells);
-int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id);
+int action_structure_usage(int structure_type, int structure_id);
 int action_transfer_from_chest(int chest_id, int chest_selected_cell);
 int action_transfer_to_chest(int chest_id, int player_selected_cell);
 int action_transfer_inside_inventory(void);

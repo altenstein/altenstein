@@ -71,7 +71,7 @@ int init_color_entities(void)
 int init_actions(void)
 {	
 	action_6_switch_inv(action_6_mod, current_map_tile);
-	action_1_special(action_1_mod, 0, 0, current_map_tile);
+	action_1_special(action_1_mod, current_map_tile);
 	action_2_inventory_usage(action_2_mod, 0);
 	
 	return 0;
@@ -407,7 +407,7 @@ int render_inventory(void)
 	return 0;
 }
 
-int render_map_entities(int player_y, int player_x, interface_tile map)
+int render_map_entities(interface_tile map)
 {
 	int map_id_1 = map.tile[21][4] - 48;
 	int map_id_2 = map.tile[21][5] - 48;
@@ -442,7 +442,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			mvprintw(21, 91, "Tree with a stash");
 			
 			action_1_mod = 1;
-			action_1_special(action_1_mod, player_y, player_x, map);
+			action_1_special(action_1_mod, map);
 			
 			return 1;
 		}
@@ -452,7 +452,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			mvprintw(21, 91, "Boat to another place");
 			
 			action_1_mod = 2;
-			action_1_special(action_1_mod, player_y, player_x, map);
+			action_1_special(action_1_mod, map);
 			
 			return 2;
 		}
@@ -489,7 +489,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			mvprintw(21, 91, "TEST CHEST");
 			
 			action_1_mod = 1;
-			action_1_special(action_1_mod, player_y, player_x, map);
+			action_1_special(action_1_mod, map);
 			
 			return 1;
 		}
@@ -499,7 +499,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 			mvprintw(21, 91, "BOAT (NOT WORKING NOW)");
 			
 			action_1_mod = 2;
-			action_1_special(action_1_mod, player_y, player_x, map);
+			action_1_special(action_1_mod, map);
 			
 			return 2;
 		}
@@ -511,7 +511,7 @@ int render_map_entities(int player_y, int player_x, interface_tile map)
 	}
 	
 	action_1_mod = -1;
-	action_1_special(action_1_mod, player_x, player_y, map);
+	action_1_special(action_1_mod, map);
 	
 	return 0;
 }

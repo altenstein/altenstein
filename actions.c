@@ -126,7 +126,7 @@ int action_transfer_inside_inventory(void)
 	return 0;
 }
 
-int action_structure_usage(int player_y, int player_x, int structure_type, int structure_id)
+int action_structure_usage(int structure_type, int structure_id)
 {
 	/*
 	ID: 1 - Chest
@@ -225,7 +225,7 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 		clear();
 		
 		render_default_interface(current_map_tile, current_inventory_tile, tile_character_info, tile_actions, tile_world_info);
-		render_map_entities(player_y, player_x, current_map_tile);
+		render_map_entities(current_map_tile);
 		render_player_info();
 		
 		if (action_6_flag == 0) action_6_flag = 1;
@@ -242,7 +242,7 @@ int action_structure_usage(int player_y, int player_x, int structure_type, int s
 	return 0;
 }
 
-int action_1_special(int mod, int player_y, int player_x, interface_tile map)
+int action_1_special(int mod, interface_tile map)
 {
 	
 	// Button initializations
@@ -308,7 +308,7 @@ int action_1_special(int mod, int player_y, int player_x, interface_tile map)
 		
 		if (current_chest_id != -1)
 		{
-			action_structure_usage(player_y, player_x, 1, current_chest_id);
+			action_structure_usage(1, current_chest_id);
 		}
 		
 		attron(COLOR_PAIR(005));
