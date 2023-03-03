@@ -23,7 +23,7 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 			chest[chest_id].chest_cell[chest_selected_cell] = 0;
 			render_player_info();
 			
-			return 0;
+			return 1;
 		}
 		
 		else if (chest[chest_id].chest_cell[chest_selected_cell] == 6)
@@ -32,7 +32,7 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 			chest[chest_id].chest_cell[chest_selected_cell] = 0;
 			render_player_info();
 			
-			return 0;
+			return 1;
 		}
 		
 		else if (chest[chest_id].chest_cell[chest_selected_cell] == 7)
@@ -41,7 +41,7 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 			chest[chest_id].chest_cell[chest_selected_cell] = 0;
 			render_player_info();
 			
-			return 0;
+			return 1;
 		}
 		
 		else if (chest[chest_id].chest_cell[chest_selected_cell] == 8)
@@ -50,8 +50,11 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 			chest[chest_id].chest_cell[chest_selected_cell] = 0;
 			render_player_info();
 			
-			return 0;
+			return 1;
 		}
+		
+		else if (chest[chest_id].chest_cell[chest_selected_cell] > 999 && chest[chest_id].chest_cell[chest_selected_cell] < 1256
+		&& player_inventory_limit != player_additional_limit) return 1;
 		
 		for (int cell = 1; cell <= player_additional_limit; cell++)
 		{
@@ -286,6 +289,19 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
+	else if(mod == 3) // Boat action init
+	{
+		attron(COLOR_PAIR(005));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(005));
+		attron(COLOR_PAIR(007));
+		mvprintw(22, 31, "Use teleport");
+		mvprintw(22, 44, "              ");
+		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
 	// Button actions
 	
 	else if(mod == 11) // Chest action
@@ -328,7 +344,7 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
-	else if(mod == 22) // Boat action
+	else if(mod == 22) // Teleport action (Moving between locations)
 	{
 		render_loaded_location();
 		

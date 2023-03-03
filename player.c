@@ -102,7 +102,8 @@ int map_player_movement(interface_tile map)
 		else if (player_action == '1' || player_action == 32)
 		{
 			if (action_1_mod == 1) action_1_special(11, map);
-			if (action_1_mod == 2) { action_1_special(22, map); return 1; }
+			else if (action_1_mod == 2) { action_1_special(22, map); return 1; }
+			else if (action_1_mod == 3) { action_1_special(22, map); return 1; }
 		}
 		
 		else if (player_action == '\n') 

@@ -424,8 +424,15 @@ int render_map_entities(interface_tile map)
 		attron(COLOR_PAIR(101));
 		mvaddch(7, 68, 'B'); // Boat
 		mvaddch(18, 10, 'T'); // Tree with chest
+		attroff(COLOR_PAIR(101));
+		
+		attron(COLOR_PAIR(011));
+		mvaddch(15, 38, '*'); // Dev location teleport
+		attroff(COLOR_PAIR(011));
 		
 		// Player check
+		
+		attron(COLOR_PAIR(101));
 		
 		if((player_y == 18) && (player_x == 10))
 		{ 
@@ -445,6 +452,8 @@ int render_map_entities(interface_tile map)
 			action_1_mod = 1;
 			action_1_special(action_1_mod, map);
 			
+			attroff(COLOR_PAIR(101));
+			
 			return 1;
 		}
 		
@@ -456,12 +465,26 @@ int render_map_entities(interface_tile map)
 			action_1_mod = 2;
 			action_1_special(action_1_mod, map);
 			
+			attroff(COLOR_PAIR(101));
+			
+			return 2;
+		}
+		
+		if((player_y == 15) && (player_x == 38))
+		{
+			mvprintw(21, 91, "Dev location teleport");
+			preload_map_tile = tile_map_0002_dev;
+			
+			action_1_mod = 3;
+			action_1_special(action_1_mod, map);
+			
+			attroff(COLOR_PAIR(101));
+			
 			return 2;
 		}
 		
 		// No player check
 		
-		attroff(COLOR_PAIR(101));
 		mvprintw(21, 90, "                            ");
 	}
 	
@@ -624,14 +647,14 @@ int render_loaded_location(void)
 	{ // 0001
 		current_map_tile = preload_map_tile;
 		
-		player_y = 10;
+		player_y = 11;
 		player_x = 3;
 	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
 	{ // 0002
 		current_map_tile = preload_map_tile;
 		
-		player_y = 7;
-		player_x = 67;
+		player_y = 15;
+		player_x = 38;
 	}
 	
 	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
