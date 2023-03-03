@@ -32,8 +32,6 @@ int buffer_player_x;
 
 int current_inventory_item = 0;
 
-int lake = 0;
-
 int map_player_movement(interface_tile map)
 {
 	bool dev_mode = 0;
@@ -104,6 +102,7 @@ int map_player_movement(interface_tile map)
 		else if (player_action == '1' || player_action == 32)
 		{
 			if (action_1_mod == 1) action_1_special(11, map);
+			if (action_1_mod == 2) { action_1_special(22, map); return 1; }
 		}
 		
 		else if (player_action == '\n') 
@@ -148,11 +147,12 @@ int launch(interface_tile current_map)
 	{
 		do
 		{
+			pthread_exit(NULL);
 			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
 		}
 		while(work);
 		
-		pthread_exit(NULL);
+		//pthread_exit(NULL);
 	}
 	
 	res = pthread_create (&thread_render_engine, NULL, thread_func_render_engine, NULL);

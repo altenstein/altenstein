@@ -35,6 +35,7 @@ int render_structure_chest(int chest_selected_cell, int chest_id);
 int render_chest_selected_cell(int chest_selected_cell,int chest_id);
 int render_chest_items(int chest_id);
 int render_player_info(void);
+int render_loaded_location(void);
 
 // Variables
 
@@ -73,6 +74,7 @@ extern int action_6_flag;
 
 // Tiles
 
+extern interface_tile preload_map_tile;
 extern interface_tile current_map_tile;
 extern interface_tile current_inventory_tile;
 

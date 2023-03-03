@@ -256,6 +256,8 @@ int action_1_special(int mod, interface_tile map)
 		mvprintw(22, 31, "[NO ACTION]"); // Need to replace with Look around
 		mvprintw(22, 42, "                ");
 		attroff(COLOR_PAIR(010));
+		
+		return 1;
 	}
 	
 	else if(mod == 1) // Chest action init
@@ -267,9 +269,11 @@ int action_1_special(int mod, interface_tile map)
 		mvprintw(22, 31, "Open the chest");
 		mvprintw(22, 45, "             ");
 		attroff(COLOR_PAIR(007));
+		
+		return 1;
 	}
 	
-	else if(mod == 2) // Boat init
+	else if(mod == 2) // Boat action init
 	{
 		attron(COLOR_PAIR(005));
 		mvprintw(22, 28, "1");
@@ -278,6 +282,8 @@ int action_1_special(int mod, interface_tile map)
 		mvprintw(22, 31, "Take the boat");
 		mvprintw(22, 44, "              ");
 		attroff(COLOR_PAIR(007));
+		
+		return 1;
 	}
 	
 	// Button actions
@@ -318,6 +324,15 @@ int action_1_special(int mod, interface_tile map)
 		mvprintw(22, 31, "Open the chest");
 		mvprintw(22, 45, "             ");
 		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
+	else if(mod == 22) // Boat action
+	{
+		render_loaded_location();
+		
+		return 1;
 	}
 	
 	return 0;

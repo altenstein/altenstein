@@ -40,6 +40,7 @@ int main(void)
 	init_items_with_info();
 	
 	current_map_tile = tile_map_0001_default;
+	
 	player_hp = 23;
 	player_hp_max = 100;
 	player_y = 1;

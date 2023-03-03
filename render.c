@@ -7,6 +7,7 @@
 #include"items.h"
 
 interface_tile current_map_tile;
+interface_tile preload_map_tile;
 interface_tile current_inventory_tile;
 
 int map_color_num(char char_for_find_color, int map_type)
@@ -450,6 +451,7 @@ int render_map_entities(interface_tile map)
 		if((player_y == 7) && (player_x == 68))
 		{
 			mvprintw(21, 91, "Boat to another place");
+			preload_map_tile = tile_map_0002_dev;
 			
 			action_1_mod = 2;
 			action_1_special(action_1_mod, map);
@@ -496,7 +498,8 @@ int render_map_entities(interface_tile map)
 		
 		if((player_y == 11) && (player_x == 3))
 		{
-			mvprintw(21, 91, "BOAT (NOT WORKING NOW)");
+			mvprintw(21, 91, "BOAT TO DEFAULT LOCATION");
+			preload_map_tile = tile_map_0001_default;
 			
 			action_1_mod = 2;
 			action_1_special(action_1_mod, map);
@@ -601,4 +604,43 @@ int render_chest_items(int chest_id)
 	}
 	
 	return 0;	
+}
+
+int render_loaded_location(void)
+{
+	/*
+	
+	if (current_map_tile.tile[21][4] == preload_map_tile.tile[21][4]
+	 && current_map_tile.tile[21][5] == preload_map_tile.tile[21][5]
+	 && current_map_tile.tile[21][6] == preload_map_tile.tile[21][6]
+	 && current_map_tile.tile[21][7] == preload_map_tile.tile[21][7])
+	{
+		return 0;
+	} */
+	
+	clear();
+	
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49)
+	{ // 0001
+		current_map_tile = preload_map_tile;
+		
+		player_y = 10;
+		player_x = 3;
+	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
+	{ // 0002
+		current_map_tile = preload_map_tile;
+		
+		player_y = 7;
+		player_x = 67;
+	}
+	
+	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(current_map_tile);
+	render_selected_cell(player_selected_cell, action_6_flag);
+	render_inventory();
+	render_player_info();
+	
+	map_player_movement(current_map_tile);
+	
+	return 0;
 }
