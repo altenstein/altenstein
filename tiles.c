@@ -151,3 +151,30 @@ interface_tile tile_map_0002_dev = {.tile = {	// tile_map_ID_TAG
 	 "ID: 0002-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
 	 "TAG: DEV"
 } };
+
+
+interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
+	 "+-----------------------------------[TITLE]------------------------------------+",
+	 "| T     T        T     T       T                                               |",
+	 "|   T       T         T                                                        |",
+	 "|T         T     T        T                                                    |",
+	 "|      T       T      T                                                        |",
+	 "|  T      T       T                                                            |",
+	 "|     #      T                                                                 |",
+	 "| # T  #                                                                       |",
+	 "|   #   T #      T                                                             |",
+	 "|T  #   #    T                                                                 |",
+	 "|   ## ##                                                                      |",
+	 "|W                                                                             |",
+	 "|WW                                                                            |",
+	 "|WWW                                                                           |",
+	 "| WWWWW                                                                        |",
+	 "|  WWWWWW                                                                      |",
+	 "|    WWWWW                                                                     |",
+	 "|      WWWWW                                                                   |",
+	 "|       WWWWW                                                                  |",
+	 "|      WWWWW                                                                   |",
+	 "+-----------------------+------------------------------------------------------+",
+	 "ID: 0003-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: CHARGEN"
+} };

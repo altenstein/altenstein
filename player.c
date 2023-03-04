@@ -45,8 +45,9 @@ int map_player_movement(interface_tile map)
 	attroff(COLOR_PAIR(100));
 	
 	render_selected_cell(player_selected_cell, action_6_flag);
-	render_inventory();
 	render_player_info();
+	
+	if (action_6_flag == 1) render_inventory();
 	
 	char player_action;
 	
@@ -148,12 +149,13 @@ int launch(interface_tile current_map)
 	{
 		do
 		{
-			pthread_exit(NULL);
 			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
+		
+			Sleep(1000);
 		}
 		while(work);
 		
-		//pthread_exit(NULL);
+		pthread_exit(NULL);
 	}
 	
 	res = pthread_create (&thread_render_engine, NULL, thread_func_render_engine, NULL);

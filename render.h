@@ -36,6 +36,7 @@ int render_chest_selected_cell(int chest_selected_cell,int chest_id);
 int render_chest_items(int chest_id);
 int render_player_info(void);
 int render_loaded_location(void);
+int render_message(int mod, char message_title, char message_body);
 
 // Variables
 
@@ -89,5 +90,6 @@ extern interface_tile tile_world_info;
 
 extern interface_tile tile_map_0001_default;
 extern interface_tile tile_map_0002_dev;
+extern interface_tile tile_map_0003_chargen;
 
 #endif

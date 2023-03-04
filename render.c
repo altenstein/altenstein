@@ -460,7 +460,7 @@ int render_map_entities(interface_tile map)
 		if((player_y == 7) && (player_x == 68))
 		{
 			mvprintw(21, 91, "Boat to another place");
-			preload_map_tile = tile_map_0002_dev;
+			preload_map_tile = tile_map_0003_chargen;
 			
 			action_1_mod = 2;
 			action_1_special(action_1_mod, map);
@@ -472,7 +472,7 @@ int render_map_entities(interface_tile map)
 		
 		if((player_y == 15) && (player_x == 38))
 		{
-			mvprintw(21, 91, "Dev location teleport");
+			mvprintw(21, 91, "Teleport to Develop map");
 			preload_map_tile = tile_map_0002_dev;
 			
 			action_1_mod = 3;
@@ -521,10 +521,10 @@ int render_map_entities(interface_tile map)
 		
 		if((player_y == 11) && (player_x == 3))
 		{
-			mvprintw(21, 91, "BOAT TO DEFAULT LOCATION");
+			mvprintw(21, 91, "TELEPORT TO DEFAULT MAP");
 			preload_map_tile = tile_map_0001_default;
 			
-			action_1_mod = 2;
+			action_1_mod = 3;
 			action_1_special(action_1_mod, map);
 			
 			return 2;
@@ -629,39 +629,53 @@ int render_chest_items(int chest_id)
 	return 0;	
 }
 
-int render_loaded_location(void)
+int render_message(int mod, char message_title, char message_body)
 {
 	/*
+	mod: 1 - [Enter] only message
+	mod: 2 - [No] [Yes] dialogue
+	*/
 	
-	if (current_map_tile.tile[21][4] == preload_map_tile.tile[21][4]
-	 && current_map_tile.tile[21][5] == preload_map_tile.tile[21][5]
-	 && current_map_tile.tile[21][6] == preload_map_tile.tile[21][6]
-	 && current_map_tile.tile[21][7] == preload_map_tile.tile[21][7])
-	{
-		return 0;
-	} */
-	
+	return 0;
+}
+
+int render_loaded_location(void)
+{	
 	clear();
 	
-	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49)
-	{ // 0001
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
+	 && preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 50)
+	{ // 0001 - > 0002
 		current_map_tile = preload_map_tile;
 		
 		player_y = 11;
 		player_x = 3;
+	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
+			&& preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 51)
+	{ // 0001 -> 0003
+		current_map_tile = preload_map_tile;
+		
+		player_y = 9;
+		player_x = 6;
 	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
-	{ // 0002
+	{ // 0002 -> 0001
 		current_map_tile = preload_map_tile;
 		
 		player_y = 15;
 		player_x = 38;
 	}
 	
+	//Sleep(2000);
+	
 	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
 	render_map_entities(current_map_tile);
 	render_selected_cell(player_selected_cell, action_6_flag);
-	render_inventory();
 	render_player_info();
+	
+	if (action_6_flag == 1) render_inventory();
+	
+	action_6_switch_inv(1, current_map_tile);
+	action_6_switch_inv(1, current_map_tile);
 	
 	map_player_movement(current_map_tile);
 	
