@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Build-0.0.3.2-success" alt="Build">
+   <img src="https://img.shields.io/badge/Build-0.0.3.3-success" alt="Build">
    <img src="https://img.shields.io/badge/Ready-pre--alpha-orange" alt="Developer">
    <img src="https://img.shields.io/badge/License-BSD--3_Clause-red" alt="License">
 </p>
@@ -13,13 +13,13 @@
 Based on the Dungeons and Dragons.
 
 Additions coming soon..
-## Build 0.0.3.2
+## Build 0.0.3.3
 <p align="center">
       <img src="https://i.ibb.co/ftgwRjC/image-2023-02-25-03-45-55.png" width="965">
 </p>
 
 ### Compile GCC (MinGW)
-cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c -lpdcurses -lpthread && main.exe
+cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c messages.c -lpdcurses -lpthread && main.exe
 
 -lpdcurses -> -lncurses (for linux build)
 

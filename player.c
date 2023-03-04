@@ -115,7 +115,7 @@ int map_player_movement(interface_tile map)
 		else if (player_action == '2') 
 		{
 			if(action_2_mod == 1) { action_2_inventory_usage(3, inventory_cell[buffer_inventory_selected_cell]); }
-			render_inventory();
+			//render_inventory();
 		}
 		
 		attron(COLOR_PAIR(200));

@@ -144,7 +144,7 @@ int usage_item_potion_heal(int potion_id)
 		player_potion_cooldown = -1; 
 		inventory_cell[buffer_inventory_selected_cell] = 3; // Replace potion to empty bottle
 		
-		render_inventory();
+		if (action_6_flag == 1) render_inventory();
 		render_selected_cell(player_selected_cell, action_6_flag);
 		
 		refresh();
@@ -160,7 +160,7 @@ int usage_item_potion_heal(int potion_id)
 			if ((player_hp + potion_hps) >= player_hp_max) { player_hp = player_hp_max; break; }
 			
 			player_hp += potion_hps;
-			render_player_info();
+			if (stop_render_flag == 0) { render_player_info(); refresh(); }
 			
 			refresh();
 			
@@ -170,9 +170,7 @@ int usage_item_potion_heal(int potion_id)
 		for (int cooldown = 180; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
-			render_player_info();
-			
-			refresh();
+			if (stop_render_flag == 0) { render_player_info(); refresh(); }
 			
 			Sleep(1000); // usleep(x1000) for linux build
 		}

@@ -36,11 +36,12 @@ int render_chest_selected_cell(int chest_selected_cell,int chest_id);
 int render_chest_items(int chest_id);
 int render_player_info(void);
 int render_loaded_location(void);
-int render_message(int mod, char message_title, char message_body);
+int render_message(int mod, int msg_id);
 
 // Variables
 
 extern bool dev_mode;
+extern bool stop_render_flag;
 
 extern int player_y;
 extern int player_x;

@@ -10,6 +10,8 @@ interface_tile current_map_tile;
 interface_tile preload_map_tile;
 interface_tile current_inventory_tile;
 
+bool stop_render_flag = 0;
+
 int map_color_num(char char_for_find_color, int map_type)
 {
 	if(map_type == 50) // 50 is 1 in ASCII; Colors for location map
@@ -629,18 +631,10 @@ int render_chest_items(int chest_id)
 	return 0;	
 }
 
-int render_message(int mod, char message_title, char message_body)
-{
-	/*
-	mod: 1 - [Enter] only message
-	mod: 2 - [No] [Yes] dialogue
-	*/
-	
-	return 0;
-}
-
 int render_loaded_location(void)
 {	
+	int moving_msg_flag = -1;
+
 	clear();
 	
 	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
@@ -654,6 +648,7 @@ int render_loaded_location(void)
 			&& preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 51)
 	{ // 0001 -> 0003
 		current_map_tile = preload_map_tile;
+		moving_msg_flag = 1;
 		
 		player_y = 9;
 		player_x = 6;
@@ -664,6 +659,8 @@ int render_loaded_location(void)
 		player_y = 15;
 		player_x = 38;
 	}
+	
+	if (moving_msg_flag == 1) render_message(10000, 1); // 0001 -> 0003
 	
 	//Sleep(2000);
 	
