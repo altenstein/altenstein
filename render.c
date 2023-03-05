@@ -648,7 +648,9 @@ int render_loaded_location(void)
 			&& preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 51)
 	{ // 0001 -> 0003
 		current_map_tile = preload_map_tile;
-		moving_msg_flag = 1;
+		
+		render_message(10000, 1);
+		render_message(10000, 2);
 		
 		player_y = 9;
 		player_x = 6;
@@ -659,8 +661,6 @@ int render_loaded_location(void)
 		player_y = 15;
 		player_x = 38;
 	}
-	
-	if (moving_msg_flag == 1) render_message(10000, 1); // 0001 -> 0003
 	
 	//Sleep(2000);
 	

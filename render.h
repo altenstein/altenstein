@@ -37,6 +37,8 @@ int render_chest_items(int chest_id);
 int render_player_info(void);
 int render_loaded_location(void);
 int render_message(int mod, int msg_id);
+int render_text_cbc(int cbc_y, int cbc_x, char cbc_text[]);
+int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_width);
 
 // Variables
 
