@@ -18,6 +18,8 @@ typedef struct {
 	int item_drop_map_id_4; // ...X
 	int item_drop_y;
 	int item_drop_x;
+	
+	int item_cost;
 } item_info;
 
 typedef struct {
@@ -52,7 +54,7 @@ int init_items_with_info(void);
 
 // Functions
 
-int item_backpack_create(int id, char name[32], int add_cells);
+int item_backpack_create(int id, char name[32], char description[32], int add_cells);
 int action_structure_usage(int structure_type, int structure_id);
 int action_transfer_from_chest(int chest_id, int chest_selected_cell);
 int action_transfer_to_chest(int chest_id, int player_selected_cell);
@@ -78,6 +80,7 @@ extern item_tile tile_money_1;
 extern item_tile tile_money_2;
 extern item_tile tile_money_3;
 extern item_tile tile_money_4;
+extern item_tile tile_mug;
 
 // Items usages
 

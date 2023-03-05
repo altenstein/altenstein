@@ -56,6 +56,9 @@ int action_transfer_from_chest(int chest_id, int chest_selected_cell)
 		else if (chest[chest_id].chest_cell[chest_selected_cell] > 999 && chest[chest_id].chest_cell[chest_selected_cell] < 1256
 		&& player_inventory_limit != player_additional_limit) return 1;
 		
+		else if (chest[chest_id].chest_cell[chest_selected_cell] > 999 && chest[chest_id].chest_cell[chest_selected_cell] < 1256
+		&& player_inventory_limit == 25) return 1;
+		
 		for (int cell = 1; cell <= player_additional_limit; cell++)
 		{
 			if (inventory_cell[cell] == 0){
@@ -276,6 +279,19 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
+	else if(mod == 10) // Chest action init
+	{
+		attron(COLOR_PAIR(006));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(006));
+		attron(COLOR_PAIR(010));
+		mvprintw(22, 31, "Open the chest");
+		mvprintw(22, 45, "             ");
+		attroff(COLOR_PAIR(010));
+		
+		return 1;
+	}
+	
 	else if(mod == 2) // Boat action init
 	{
 		attron(COLOR_PAIR(005));
@@ -289,7 +305,7 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
-	else if(mod == 3) // Boat action init
+	else if(mod == 3) // Teleport action init
 	{
 		attron(COLOR_PAIR(005));
 		mvprintw(22, 28, "1");
@@ -410,7 +426,7 @@ int action_2_inventory_usage(int mod, int item_id)
 		//mvprintw(24, 44, "              ");
 		attroff(COLOR_PAIR(007));
 		
-		if (item_id == 1) usage_item_potion_heal(1);
+		usage_item_potion_heal(item_id);
 	}
 	
 	else if(item_with_info[item_id].item_usable != 1) action_2_inventory_usage(-1, item_id);

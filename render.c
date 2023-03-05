@@ -89,6 +89,8 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 	{
 		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
+			if (player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells >= 25) player_additional_limit = 25;
+			
 			current_backpack_id = inventory_cell[i];
 	}	}	
 	
@@ -402,6 +404,7 @@ int render_inventory(void)
 		else if (inventory_cell[cell] == 3) {current_item_tile = tile_bottle; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 4) {current_item_tile = tile_ale; color_map_id = 1;} 
 		else if (inventory_cell[cell] == 5) {current_item_tile = tile_money_1; color_map_id = 2;} 
+		else if (inventory_cell[cell] == 9) {current_item_tile = tile_mug; color_map_id = 1;} 
 		else if ((1256 > inventory_cell[cell]) && (inventory_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 0, 0);
@@ -451,8 +454,15 @@ int render_map_entities(interface_tile map)
 			
 			mvprintw(21, 91, "Tree with a stash");
 			
-			action_1_mod = 1;
-			action_1_special(action_1_mod, map);
+			if (transfer_inside_inventory_flag == 1) {
+				action_1_mod = 10;
+				action_1_special(action_1_mod, map);
+			} else {
+				action_1_mod = 1;
+				action_1_special(action_1_mod, map);
+			}
+			
+			
 			
 			attroff(COLOR_PAIR(101));
 			
@@ -623,6 +633,7 @@ int render_chest_items(int chest_id)
 		else if (chest[chest_id].chest_cell[cell] == 6) {current_item_tile = tile_money_2; color_map_id = 2;} 
 		else if (chest[chest_id].chest_cell[cell] == 7) {current_item_tile = tile_money_3; color_map_id = 2;} 
 		else if (chest[chest_id].chest_cell[cell] == 8) {current_item_tile = tile_money_4; color_map_id = 2;} 
+		else if (chest[chest_id].chest_cell[cell] == 9) {current_item_tile = tile_mug; color_map_id = 1;} 
 		else if ((1256 > chest[chest_id].chest_cell[cell]) && (chest[chest_id].chest_cell[cell] > 999)) {current_item_tile = tile_backpack; color_map_id = 1000;}
 		
 		render_item(cell, current_item_tile, color_map_id, 4, -69);

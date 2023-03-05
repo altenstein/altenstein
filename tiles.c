@@ -170,10 +170,10 @@ interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
 	 "|WWW                                                                           |",
 	 "| WWWWW                                                                        |",
 	 "|  WWWWWW                                                                      |",
-	 "|    WWWWW                                                                     |",
-	 "|      WWWWW                                                                   |",
-	 "|       WWWWW                                                                  |",
-	 "|      WWWWW                                                                   |",
+	 "| T  WWWWW                                                                     |",
+	 "|   T  WWWWW                                                                   |",
+	 "|T      WWWWW                                                                  |",
+	 "|   T  WWWWW                                                                   |",
 	 "+-----------------------+------------------------------------------------------+",
 	 "ID: 0003-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
 	 "TAG: CHARGEN"

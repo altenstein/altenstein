@@ -44,6 +44,7 @@ int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_widt
 
 extern bool dev_mode;
 extern bool stop_render_flag;
+extern bool quit_cbc_flag;
 
 extern int player_y;
 extern int player_x;

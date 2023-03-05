@@ -13,11 +13,12 @@ item_info item_with_info[8192];
 structure_chest chest[1024];
 int inventory_cell[25];
 
-int item_backpack_create(int id, char name[32], int add_cells) // The ID must be from 1000 to 1255
+int item_backpack_create(int id, char name[32], char description[32], int add_cells) // The ID must be from 1000 to 1255
 {
 	id -= 1000;
 	if(id > 255) return 0;
 	strcpy(backpack[id].backpack_name, name);
+	strcpy(backpack[id].backpack_description, description);
 	backpack[id].backpack_add_cells = add_cells;
 	
 	return 0;
@@ -35,12 +36,12 @@ int init_default_items(void)
 	// ID: 1001; TEST BACKPACK
 	strcpy(backpack[1].backpack_name, "TEST BACKPACK");
 	backpack[1].backpack_add_cells = 20;
-	backpack[1].backpack_cell[19] = 5;
 	strcpy(backpack[1].backpack_description, "Add slots: 20");
 	
 	for (int i = 1; i <= 25; i++){
 		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
+			if (player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells >= 25) player_additional_limit = 25;
 	}   }
 	
 	chest[0].chest_cell[7] = 3;
@@ -73,6 +74,7 @@ ID: 5 - Money (1 GC)
 ID: 6 - Money (10 GC)
 ID: 7 - Money (100 GC)
 ID: 8 - Money (1000 GC)
+ID: 9 - Empty mug
 ID: 1000-1255 - Backpacks
 */
 
@@ -81,18 +83,22 @@ int init_items_with_info(void)
 	strcpy(item_with_info[1].item_name, "Treatment Potion");
 	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec;");
 	item_with_info[1].item_usable = 1;
+	item_with_info[1].item_cost = 50;
 	
 	strcpy(item_with_info[2].item_name, "Toxic Poison");
 	strcpy(item_with_info[2].item_description, "[Description 2]");
 	item_with_info[2].item_usable = 1;
+	item_with_info[2].item_cost = 25;
 	
 	strcpy(item_with_info[3].item_name, "Empty bottle");
 	strcpy(item_with_info[3].item_description, "");
 	item_with_info[3].item_usable = 0;
+	item_with_info[3].item_cost = 1;
 	
 	strcpy(item_with_info[4].item_name, "Mug of Ale");
-	strcpy(item_with_info[4].item_description, "[Description 4]");
+	strcpy(item_with_info[4].item_description, "1 HP/Sec; 30 Sec;");
 	item_with_info[4].item_usable = 1;
+	item_with_info[4].item_cost = 2;
 	
 	strcpy(item_with_info[5].item_name, "1 GC");
 	strcpy(item_with_info[5].item_description, "Gold Coin");
@@ -109,6 +115,11 @@ int init_items_with_info(void)
 	strcpy(item_with_info[8].item_name, "1000 GC");
 	strcpy(item_with_info[8].item_description, "A lot of Gold");
 	item_with_info[8].item_usable = 0;
+	
+	strcpy(item_with_info[9].item_name, "Empty mug");
+	strcpy(item_with_info[9].item_description, "");
+	item_with_info[9].item_usable = 0;
+	item_with_info[9].item_cost = 1;
 }
 
 item_tile tile_empty = {.item = {
@@ -141,19 +152,30 @@ int usage_item_potion_heal(int potion_id)
 		int potion_hps;
 		int potion_timer;
 		
-		player_potion_cooldown = -1; 
-		inventory_cell[buffer_inventory_selected_cell] = 3; // Replace potion to empty bottle
-		
-		if (action_6_flag == 1) render_inventory();
-		render_selected_cell(player_selected_cell, action_6_flag);
-		
-		refresh();
+		//---------------------------------------------------------------------------------------
 		
 		if (arg_potion_id == 1) // Treatment Potion
 		{
 			potion_hps = 2;
 			potion_timer = 60;
+		} 
+		else if (arg_potion_id == 4) // Mug of Ale
+		{
+			potion_hps = 1;
+			potion_timer = 30;
 		}
+		else { pthread_exit(NULL); }
+		
+		//---------------------------------------------------------------------------------------
+		
+		player_potion_cooldown = -1; 
+		if (arg_potion_id == 4) inventory_cell[buffer_inventory_selected_cell] = 9;// Replace potion to empty mug
+		else inventory_cell[buffer_inventory_selected_cell] = 3; // Replace potion to empty bottle
+		
+		if (action_6_flag == 1) render_inventory();
+		render_selected_cell(player_selected_cell, action_6_flag);
+		
+		refresh();
 		
 		for (int p_i = 0; p_i < potion_timer; p_i++)
 		{
@@ -215,6 +237,12 @@ item_tile tile_ale = {.item = {
 "   .  ",
 " |:.|+",
 " |##|+"
+} };
+
+item_tile tile_mug = {.item = {
+"      ",
+" |  |+",
+" |__|+"
 } };
 
 item_tile tile_money_1 = {.item = {

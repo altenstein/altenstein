@@ -7,6 +7,8 @@
 #include"render.h"
 #include"items.h"
 
+bool dev_mode = 0;
+
 int player_x;
 int player_y;
 int player_hp_max;
@@ -34,9 +36,7 @@ int current_inventory_item = 0;
 
 int map_player_movement(interface_tile map)
 {
-	bool dev_mode = 0;
-	
-	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; }
+	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; player_inventory_limit = 24; } // Not 25 so that you can use a backpack.
 	
 	player_additional_limit = player_inventory_limit;
 	
@@ -128,8 +128,37 @@ int map_player_movement(interface_tile map)
 		render_selected_cell(player_selected_cell, action_6_flag);
 		render_map_entities(map);
 		render_player_info();
+		
+		//Sleep(50);
+		
+		player_action = getch();
 	}
-	while ((player_action = getch()) != 27);
+	while (player_action != 27);
+	
+	
+	stop_render_flag = 1;
+	
+	bool quit_res = render_message(20000, 3);
+	
+	if (quit_res == 1) return 1;
+	else if (quit_res == 0)
+	{
+		clear();
+		
+		stop_render_flag = 0;
+		
+		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+		render_map_entities(current_map_tile);
+		render_selected_cell(player_selected_cell, action_6_flag);
+		render_player_info();
+		
+		if (action_6_flag == 1) render_inventory();
+		
+		action_6_switch_inv(1, current_map_tile);
+		action_6_switch_inv(1, current_map_tile);
+		
+		map_player_movement(map);
+	}
 	
 	return 0;
 }
