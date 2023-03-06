@@ -123,7 +123,7 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 3;
 	}
 	
-	else if (msg_id == 4) // Create a character																<---------[TODO]---------<<<
+	else if (msg_id == 4) // Create a character																					<---------[TODO]---------<<<
 	{
 		msg_y = 11;
 		msg_x = 49;

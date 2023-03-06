@@ -92,6 +92,8 @@ extern interface_tile tile_world_info;
 
 // Map tiles
 
+extern interface_tile tile_chargen;
+
 extern interface_tile tile_map_0001_default;
 extern interface_tile tile_map_0002_dev;
 extern interface_tile tile_map_0003_chargen;

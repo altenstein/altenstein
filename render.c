@@ -318,6 +318,13 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
+int render_chargen_interface(void)
+{
+	// CHARGEN REALIZATION 																										<---------[TODO]---------<<<
+	
+	return 0;
+}
+
 int render_item(int selected_cell, item_tile selected_item, int color_map_id, int mod_y, int mod_x)
 {
 	int base_y;

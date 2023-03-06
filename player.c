@@ -70,10 +70,10 @@ int map_player_movement(interface_tile map)
 		
 		if(action_6_flag == 1){ // Player cell selection
 			
-			if((key_buffer) == 2 && player_selected_cell + 5 <= player_additional_limit) player_selected_cell += 5;
+			if((key_buffer) == 2) player_selected_cell += 5;
 			else if((key_buffer) == 3) player_selected_cell -= 5;
 			else if((key_buffer) == 4) player_selected_cell -= 1;
-			else if((key_buffer) == 5 && player_selected_cell + 1 <= player_additional_limit) player_selected_cell += 1;
+			else if((key_buffer) == 5) player_selected_cell += 1;
 			
 			if(player_selected_cell > player_additional_limit) player_selected_cell = 1;
 			else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
