@@ -134,19 +134,33 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 12;
 	}
 	
+	
+	else if (msg_id == 5) // 0003 Plate
+	{
+		stop_render_flag = 1;
+		
+		msg_y = 8;
+		msg_x = 24;
+		
+		render_text_frame(msg_y, msg_x, 5, 30);
+		render_text_cbc(msg_y + 1, msg_x + 2, "Eastern exit from Borovia.");
+		
+		button_y = msg_y + 3;
+		button_x_1 = msg_x + 21;
+	}
+	
+	
 	// B U T T O N S
 	
 	if (button_mod == 1)
 	{
-		attron(COLOR_PAIR(002));
-		
 		do
 		{
+			attron(COLOR_PAIR(002));
 			mvprintw(button_y, button_x_1, "[Enter]");
+			attroff(COLOR_PAIR(002));
 		}
 		while((player_selected_answer = getch()) != '\n');
-		
-		attroff(COLOR_PAIR(002));
 		
 		stop_render_flag = 0;
 		

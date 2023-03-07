@@ -39,6 +39,8 @@ int render_loaded_location(void);
 int render_message(int mod, int msg_id);
 int render_text_cbc(int cbc_y, int cbc_x, char cbc_text[]);
 int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_width);
+int render_map_fire_3x2(int fire_y, int fire_x, int fire_map_id_1, int fire_map_id_2, int fire_map_id_3, int fire_map_id_4);
+int render_static_entities(void);
 
 // Variables
 

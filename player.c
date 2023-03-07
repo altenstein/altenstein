@@ -105,6 +105,22 @@ int map_player_movement(interface_tile map)
 			if (action_1_mod == 1) action_1_special(11, map);
 			else if (action_1_mod == 2) { action_1_special(22, map); return 1; }
 			else if (action_1_mod == 3) { action_1_special(22, map); return 1; }
+			else if (action_1_mod == 4)
+			{
+				action_1_special(44, map);
+				
+				//stop_render_flag = 0;
+		
+				render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+				render_map_entities(current_map_tile);
+				render_selected_cell(player_selected_cell, action_6_flag);
+				render_player_info();
+				
+				action_6_switch_inv(1, current_map_tile);
+				action_6_switch_inv(1, current_map_tile);
+				
+				if (action_6_flag == 1) render_inventory();
+			}
 		}
 		
 		else if (player_action == '\n') 

@@ -3,6 +3,7 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
+#include<windows.h>
 #include"render.h"
 #include"items.h"
 
@@ -21,6 +22,16 @@ int map_color_num(char char_for_find_color, int map_type)
 		return 202;
 	else if(char_for_find_color == '#')
 		return 203;
+	else if(char_for_find_color == '*')
+		return 200;  // or 206
+	else if(char_for_find_color == '<')
+		return 200;
+	else if(char_for_find_color == '>')
+		return 200;
+	else if(char_for_find_color == '_')
+		return 012;
+	else if(char_for_find_color == '^')
+		return 012;
 	}
 	
 	return 200;
@@ -33,6 +44,9 @@ int init_color_location_map(void)
 	init_pair(201, 9, 0); // Water color
 	init_pair(202, 2, 0); // Tree color
 	init_pair(203, 6, 0); // Wall/Wood color
+	init_pair(204, 4, 0); // Full fire
+	init_pair(205, 6, 0); // Little fire
+	init_pair(206, 12, 0); // Hot coal / Rock
 	
 	return 0;
 }
@@ -420,6 +434,118 @@ int render_inventory(void)
 	return 0;
 }
 
+int render_map_fire_3x2(int in_fire_y, int in_fire_x, int fire_map_id_1, int fire_map_id_2, int fire_map_id_3, int fire_map_id_4)
+{
+	// THREAD DYNAMIC FIRE RENDER  			<---------[TODO]---------<<<
+	
+	int res;
+	//int work_fire = 1;
+	
+	
+	typedef struct fireArgs_tag {
+		int fire_y;
+		int fire_x;
+		int fire_map_id_1;
+		int fire_map_id_2;
+		int fire_map_id_3;
+		int fire_map_id_4;
+	} fireArgs_t;
+	
+	fireArgs_t fire_arg_struct;
+	
+	fire_arg_struct.fire_y = in_fire_y;
+	fire_arg_struct.fire_x = in_fire_x;
+	
+	//---------------------------------------------------------------------------------------
+	
+	pthread_t thread_fire_engine;
+	
+	void *thread_func_fire_engine(void *arg) 
+	{
+		int fire_y = 9;
+		int fire_x = 52;
+		int work_fire = 1;
+		
+		do
+		{
+			attron(COLOR_PAIR(204));
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			attroff(COLOR_PAIR(204));
+	
+			attron(COLOR_PAIR(205));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, '.');
+			attroff(COLOR_PAIR(205));
+	
+			attron(COLOR_PAIR(206));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, 'f');
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, 'f');
+			attroff(COLOR_PAIR(206));
+			
+			if (stop_render_flag == 0) refresh();
+			Sleep(300);
+			
+			attron(COLOR_PAIR(204));
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			attroff(COLOR_PAIR(204));
+	
+			attron(COLOR_PAIR(205));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, '"');
+			attroff(COLOR_PAIR(205));
+	
+			attron(COLOR_PAIR(206));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, 'f');
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, 'f');
+			attroff(COLOR_PAIR(206));
+			
+			if (stop_render_flag == 0) refresh();
+			Sleep(300);
+			
+			attron(COLOR_PAIR(204));
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
+			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			attroff(COLOR_PAIR(204));
+	
+			attron(COLOR_PAIR(205));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, '.');
+			attroff(COLOR_PAIR(205));
+	
+			attron(COLOR_PAIR(206));
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, 'f');
+			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, 'f');
+			attroff(COLOR_PAIR(206));
+			
+			if (stop_render_flag == 0) refresh();
+			Sleep(300);
+		}
+		while(work_fire == 1);
+		
+		mvprintw(29,0,"NOT OK %d %d %d", fire_y, fire_x, work_fire);
+		
+		pthread_exit(NULL);
+	}
+	
+	res = pthread_create (&thread_fire_engine, NULL, thread_func_fire_engine, &fire_arg_struct);
+	
+	if (res != 0) {
+		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
+		exit(-10);
+	}
+
+	res = pthread_detach(thread_fire_engine);
+	
+	if (res != 0) {
+		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
+		exit(-11);
+	}
+	
+	return 0;
+}
+
 int render_map_entities(interface_tile map)
 {
 	int map_id_1 = map.tile[21][4] - 48;
@@ -555,6 +681,29 @@ int render_map_entities(interface_tile map)
 		mvprintw(21, 90, "                            ");
 	}
 	
+	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 3))
+	{
+		// Render entities
+		
+		attron(COLOR_PAIR(101));
+		mvaddch(13, 18, 'P'); // Plate (Eastern exit from Borovia)
+		attroff(COLOR_PAIR(101));
+		
+		// Player check
+		
+		if((player_y == 13) && (player_x == 18))
+		{ 
+			action_1_mod = 4;
+			action_1_special(action_1_mod, map);
+			
+			return 1;
+		}
+		
+		// No player check
+		
+		mvprintw(21, 90, "                            ");
+	}
+	
 	action_1_mod = -1;
 	action_1_special(action_1_mod, map);
 	
@@ -649,6 +798,16 @@ int render_chest_items(int chest_id)
 	return 0;	
 }
 
+int render_static_entities(void)
+{
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
+	{ // 0003
+		render_map_fire_3x2(9, 52, 0, 0, 0, 3);
+	}
+	
+	return 0;
+}
+
 int render_loaded_location(void)
 {	
 	int moving_msg_flag = -1;
@@ -691,6 +850,8 @@ int render_loaded_location(void)
 	
 	action_6_switch_inv(1, current_map_tile);
 	action_6_switch_inv(1, current_map_tile);
+	
+	render_static_entities();
 	
 	map_player_movement(current_map_tile);
 	

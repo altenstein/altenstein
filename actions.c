@@ -279,7 +279,7 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
-	else if(mod == 10) // Chest action init
+	else if(mod == 10) // Chest passive init
 	{
 		attron(COLOR_PAIR(006));
 		mvprintw(22, 28, "1");
@@ -312,7 +312,20 @@ int action_1_special(int mod, interface_tile map)
 		attroff(COLOR_PAIR(005));
 		attron(COLOR_PAIR(007));
 		mvprintw(22, 31, "Use teleport");
-		mvprintw(22, 44, "              ");
+		mvprintw(22, 43, "               ");
+		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
+	else if(mod == 4) // Read the plate
+	{
+		attron(COLOR_PAIR(005));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(005));
+		attron(COLOR_PAIR(007));
+		mvprintw(22, 31, "Read the plate");
+		mvprintw(22, 45, "             ");
 		attroff(COLOR_PAIR(007));
 		
 		return 1;
@@ -363,6 +376,13 @@ int action_1_special(int mod, interface_tile map)
 	else if(mod == 22) // Teleport action (Moving between locations)
 	{
 		render_loaded_location();
+		
+		return 1;
+	}
+	
+	else if(mod == 44) // Read the plate action
+	{
+		render_message(10000, 5);
 		
 		return 1;
 	}
