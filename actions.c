@@ -305,6 +305,19 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
+	else if(mod == 20) // Boat action passive init
+	{
+		attron(COLOR_PAIR(005));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(005));
+		attron(COLOR_PAIR(007));
+		mvprintw(22, 31, "Take the boat");
+		mvprintw(22, 44, "              ");
+		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
 	else if(mod == 3) // Teleport action init
 	{
 		attron(COLOR_PAIR(005));
@@ -318,7 +331,20 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
-	else if(mod == 4) // Read the plate
+	else if(mod == 30) // Teleport action passive init
+	{
+		attron(COLOR_PAIR(006));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(006));
+		attron(COLOR_PAIR(010));
+		mvprintw(22, 31, "Use teleport");
+		mvprintw(22, 43, "               ");
+		attroff(COLOR_PAIR(010));
+		
+		return 1;
+	}
+	
+	else if(mod == 4) // Read the plate init
 	{
 		attron(COLOR_PAIR(005));
 		mvprintw(22, 28, "1");
@@ -327,6 +353,45 @@ int action_1_special(int mod, interface_tile map)
 		mvprintw(22, 31, "Read the plate");
 		mvprintw(22, 45, "             ");
 		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
+	else if(mod == 40) // Read the plate passive init
+	{
+		attron(COLOR_PAIR(006));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(006));
+		attron(COLOR_PAIR(010));
+		mvprintw(22, 31, "Read the plate");
+		mvprintw(22, 45, "             ");
+		attroff(COLOR_PAIR(010));
+		
+		return 1;
+	}
+	
+	else if(mod == 5) // Talk with NPC init
+	{
+		attron(COLOR_PAIR(005));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(005));
+		attron(COLOR_PAIR(007));
+		mvprintw(22, 31, "Talk with %s", npc_name);
+		//mvprintw(22, 45, "             ");
+		attroff(COLOR_PAIR(007));
+		
+		return 1;
+	}
+	
+	else if(mod == 50) // Talk with NPC passive init
+	{
+		attron(COLOR_PAIR(006));
+		mvprintw(22, 28, "1");
+		attroff(COLOR_PAIR(006));
+		attron(COLOR_PAIR(010));
+		mvprintw(22, 31, "Talk with %s", npc_name);
+		//mvprintw(22, 45, "             ");
+		attroff(COLOR_PAIR(010));
 		
 		return 1;
 	}
@@ -383,6 +448,13 @@ int action_1_special(int mod, interface_tile map)
 	else if(mod == 44) // Read the plate action
 	{
 		render_message(10000, 5);
+		
+		return 1;
+	}
+	
+	else if(mod == 55) // Read the plate action
+	{
+		render_message(30000, 6);
 		
 		return 1;
 	}

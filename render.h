@@ -27,6 +27,8 @@ int action_2_inventory_usage(int mod, int item_id);
 int map_color_num(char char_for_find_color, int map_type);
 int map_player_movement(interface_tile map);
 
+int chargen_interface_usage(void);
+
 int render_map_entities(interface_tile map);
 int render_selected_cell(int selected_cell, int action_6_flag);
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info);
@@ -47,6 +49,8 @@ int render_static_entities(void);
 extern bool dev_mode;
 extern bool stop_render_flag;
 extern bool quit_cbc_flag;
+
+extern char npc_name[256];
 
 extern int player_y;
 extern int player_x;

@@ -121,6 +121,7 @@ int map_player_movement(interface_tile map)
 				
 				if (action_6_flag == 1) render_inventory();
 			}
+			else if (action_1_mod == 5) { action_1_special(55, current_map_tile); chargen_interface_usage(); return 1; }
 		}
 		
 		else if (player_action == '\n') 
@@ -162,19 +163,18 @@ int map_player_movement(interface_tile map)
 		clear();
 		
 		stop_render_flag = 0;
-		
-		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-		render_map_entities(current_map_tile);
-		render_selected_cell(player_selected_cell, action_6_flag);
-		render_player_info();
-		
-		if (action_6_flag == 1) render_inventory();
-		
-		action_6_switch_inv(1, current_map_tile);
-		action_6_switch_inv(1, current_map_tile);
-		
-		map_player_movement(map);
 	}
+	
+	return 0;
+}
+
+int chargen_interface_usage(void)
+{	
+	clear();
+	
+	refresh();
+	
+	// ^^^ Replace with chargen
 	
 	return 0;
 }

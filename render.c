@@ -11,6 +11,8 @@ interface_tile current_map_tile;
 interface_tile preload_map_tile;
 interface_tile current_inventory_tile;
 
+char npc_name[];
+
 bool stop_render_flag = 0;
 
 int map_color_num(char char_for_find_color, int map_type)
@@ -336,6 +338,8 @@ int render_chargen_interface(void)
 {
 	// CHARGEN REALIZATION 																										<---------[TODO]---------<<<
 	
+	
+	
 	return 0;
 }
 
@@ -564,7 +568,7 @@ int render_map_entities(interface_tile map)
 	
 	// ID: 0000 | DEFAULT
 	
-	if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 1))
+	if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 1)) //      --------------------------- [ 0001 ] ----------------------------
 	{
 		// Render entities
 		
@@ -642,7 +646,7 @@ int render_map_entities(interface_tile map)
 		mvprintw(21, 90, "                            ");
 	}
 	
-	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 2))
+	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 2)) // --------------------------- [ 0002 ] ----------------------------
 	{
 		// Render entities
 		
@@ -690,15 +694,41 @@ int render_map_entities(interface_tile map)
 		mvprintw(21, 90, "                            ");
 	}
 	
-	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 3))
+	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 3)) // --------------------------- [ 0003 ] ----------------------------
 	{
 		// Render entities
 		
+		// y(65) - Enter try trigger
+		
 		attron(COLOR_PAIR(101));
 		mvaddch(13, 18, 'P'); // Plate (Eastern exit from Borovia)
+		mvaddch(13, 54, 'G'); // Guardian 1 (Eastern exit from Borovia)
+		mvaddch(7, 61, 'G'); // Guardian 2 (Eastern exit from Borovia)
+		mvaddch(9, 48, 'G'); // Guardian 3 (Eastern exit from Borovia)
 		attroff(COLOR_PAIR(101));
 		
 		// Player check
+		
+		if(((player_y == 13) && (player_x == 54)) || ((player_y == 7) && (player_x == 61)) || ((player_y == 9) && (player_x == 48)))
+		{ 
+			strcpy(npc_name, "Guardian");
+	
+			action_1_mod = 5;
+			action_1_special(action_1_mod, map);
+			
+			return 1;
+		}
+		
+		if(player_x > 64)
+		{ 
+			render_message(30000, 4);
+			
+			player_x--;
+			
+			chargen_interface_usage();
+			
+			return 1;
+		}
 		
 		if((player_y == 13) && (player_x == 18))
 		{ 

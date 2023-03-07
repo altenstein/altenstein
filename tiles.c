@@ -179,11 +179,11 @@ interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
 	 "TAG: CHARGEN"
 } };
 
-interface_tile tile_chargen = {.tile = { 
-// RACES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE)
-// CLASSES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE)
-// DISTRIBUTION OF SKILL POINTS
-// PERSONALITY TRAITS COMING SOON
+interface_tile tile_chargen = {.tile = { // 39 39 38
+// RACES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE) 	// PAGE (1) 2  3
+// CLASSES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE) 	// PAGE (1) 2  3
+// DISTRIBUTION OF SKILL POINTS 						// PAGE  1 (2) 3
+// PERSONALITY TRAITS COMING SOON 						// PAGE  1  2 (3)
 	"+-------------------------------------------------------[TITLE]--------------------------------------------------------+",
 	"|                                                                                                                      |",
 	"|                                                                                                                      |",

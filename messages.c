@@ -2,6 +2,7 @@
 #include<curses.h>
 #include<windows.h>
 #include"render.h"
+#include"items.h"
 
 bool quit_cbc_flag;
 
@@ -64,17 +65,27 @@ int render_message(int mod, int msg_id)
 	
 	int item_id;
 	
-	char player_selected_answer;
+	char player_answer_selection;
 	
 	button_mod = mod/10000;
 	item_id = mod - 10000;
 	
 	// M E S S A G E S
 	
+	if (action_1_mod == 1) action_1_special(10, current_map_tile);
+	else if (action_1_mod == 2) action_1_special(20, current_map_tile);
+	else if (action_1_mod == 3) action_1_special(30, current_map_tile);
+	else if (action_1_mod == 4) action_1_special(40, current_map_tile);
+	else if (action_1_mod == 5) action_1_special(50, current_map_tile);
+	
+	if (action_2_mod == 1) action_2_inventory_usage(2, inventory_cell[buffer_inventory_selected_cell]);
+	
+	action_6_switch_inv(0, current_map_tile);
+	
+	stop_render_flag = 1;
+	
 	if (msg_id == 1) // Boat deafult location story
 	{
-		stop_render_flag = 1;
-		
 		clear();
 		
 		msg_y = 11;
@@ -91,8 +102,6 @@ int render_message(int mod, int msg_id)
 	
 	else if (msg_id == 2) // Boat deafult location crash
 	{
-		stop_render_flag = 1;
-		
 		clear();
 		
 		msg_y = 11;
@@ -123,22 +132,21 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 3;
 	}
 	
-	else if (msg_id == 4) // Create a character																					<---------[TODO]---------<<<
+	else if (msg_id == 4) // Create a character	(Enter town try)															<---------[TODO]---------<<<
 	{
-		msg_y = 11;
-		msg_x = 49;
+		msg_y = 7;
+		msg_x = 26;
 		
-		render_text_cbc(msg_y + 1, msg_x + 2, "Stand. Who are you?");
+		render_text_frame(msg_y, msg_x, 6, 24);
+		render_text_cbc(msg_y + 1, msg_x + 7, "Guardians:");
+		render_text_cbc(msg_y + 2, msg_x + 2, "Stand! Who are you?!");
 		
 		button_y = msg_y + 4;
-		button_x_1 = msg_x + 12;
+		button_x_1 = msg_x + 2;
 	}
-	
 	
 	else if (msg_id == 5) // 0003 Plate
 	{
-		stop_render_flag = 1;
-		
 		msg_y = 8;
 		msg_x = 24;
 		
@@ -148,6 +156,19 @@ int render_message(int mod, int msg_id)
 		button_y = msg_y + 3;
 		button_x_1 = msg_x + 21;
 	}
+	
+	else if (msg_id == 6) // Create a character	(Talk with Guardian)														<---------[TODO]---------<<<
+	{
+		msg_y = 8;
+		msg_x = 26;
+		
+		render_text_frame(msg_y, msg_x, 5, 25);
+		render_text_cbc(msg_y + 1, msg_x + 2, "- Hello. Who are you?");
+		
+		button_y = msg_y + 3;
+		button_x_1 = msg_x + 3;
+	}
+	
 	
 	
 	// B U T T O N S
@@ -160,7 +181,7 @@ int render_message(int mod, int msg_id)
 			mvprintw(button_y, button_x_1, "[Enter]");
 			attroff(COLOR_PAIR(002));
 		}
-		while((player_selected_answer = getch()) != '\n');
+		while((player_answer_selection = getch()) != '\n');
 		
 		stop_render_flag = 0;
 		
@@ -179,11 +200,11 @@ int render_message(int mod, int msg_id)
 		mvprintw(button_y, button_x_1, "[No]");
 		attroff(COLOR_PAIR(002));
 		
-		while((player_selected_answer = getch()) != '\n')
+		while((player_answer_selection = getch()) != '\n')
 		{
-			if (player_selected_answer == 27) { quit_choise_flag = 0; break; }
+			if (player_answer_selection == 27) { quit_choise_flag = 0; break; }
 			
-			if ((player_selected_answer == 5 || player_selected_answer == 4) && quit_choise_flag == 0)
+			if ((player_answer_selection == 5 || player_answer_selection == 4) && quit_choise_flag == 0)
 			{
 				quit_choise_flag = 1;
 				
@@ -196,7 +217,7 @@ int render_message(int mod, int msg_id)
 				attroff(COLOR_PAIR(001));
 			}
 			
-			else if ((player_selected_answer == 5 || player_selected_answer == 4) && quit_choise_flag == 1)
+			else if ((player_answer_selection == 5 || player_answer_selection == 4) && quit_choise_flag == 1)
 			{
 				quit_choise_flag = 0;
 				
@@ -217,6 +238,23 @@ int render_message(int mod, int msg_id)
 		if (quit_choise_flag == 1) return 1;
 		if (quit_choise_flag == 0) return 0;
 	}
+	
+	
+	if (button_mod == 3)
+	{
+		do
+		{
+			attron(COLOR_PAIR(002));
+			mvprintw(button_y, button_x_1, "[Create a character]");
+			attroff(COLOR_PAIR(002));
+		}
+		while((player_answer_selection = getch()) != '\n');
+		
+		stop_render_flag = 0;
+		
+		return 1;
+	}
+	
 	
 	return 0;
 }
