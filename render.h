@@ -1,4 +1,4 @@
-#define Potion Зелье
+#define _srf_ if(stop_render_flag == 0)
 
 #ifndef RENDER_INCLUDE_GUARDIAN
 #define RENDER_INCLUDE_GUARDIAN

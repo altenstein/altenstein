@@ -182,7 +182,7 @@ int usage_item_potion_heal(int potion_id)
 			if ((player_hp + potion_hps) >= player_hp_max) { player_hp = player_hp_max; break; }
 			
 			player_hp += potion_hps;
-			if (stop_render_flag == 0) { render_player_info(); refresh(); }
+			_srf_ { render_player_info(); refresh(); }
 			
 			refresh();
 			
@@ -192,7 +192,7 @@ int usage_item_potion_heal(int potion_id)
 		for (int cooldown = 180; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
-			if (stop_render_flag == 0) { render_player_info(); refresh(); }
+			_srf_ { render_player_info(); refresh(); }
 			
 			Sleep(1000); // usleep(x1000) for linux build
 		}

@@ -434,7 +434,7 @@ int render_inventory(void)
 	return 0;
 }
 
-int render_map_fire_3x2(int in_fire_y, int in_fire_x, int fire_map_id_1, int fire_map_id_2, int fire_map_id_3, int fire_map_id_4)
+int render_map_fire_3x2(int in_fire_y, int in_fire_x, int in_fire_map_id_1, int in_fire_map_id_2, int in_fire_map_id_3, int in_fire_map_id_4)
 {
 	// THREAD DYNAMIC FIRE RENDER  			<---------[TODO]---------<<<
 	
@@ -455,6 +455,10 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int fire_map_id_1, int fir
 	
 	fire_arg_struct.fire_y = in_fire_y;
 	fire_arg_struct.fire_x = in_fire_x;
+	fire_arg_struct.fire_map_id_1 = in_fire_map_id_1;
+	fire_arg_struct.fire_map_id_2 = in_fire_map_id_2;
+	fire_arg_struct.fire_map_id_3 = in_fire_map_id_3;
+	fire_arg_struct.fire_map_id_4 = in_fire_map_id_4;
 	
 	//---------------------------------------------------------------------------------------
 	
@@ -462,69 +466,76 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int fire_map_id_1, int fir
 	
 	void *thread_func_fire_engine(void *arg) 
 	{
-		int fire_y = 9;
-		int fire_x = 52;
-		int work_fire = 1;
+		fireArgs_t *fire_arg = (fireArgs_t*) arg;
+		
+		int fire_y = fire_arg->fire_y;
+		int fire_x = fire_arg->fire_x;
+		
+		int fire_map_id_1 = fire_arg->fire_map_id_1;
+		int fire_map_id_2 = fire_arg->fire_map_id_2;
+		int fire_map_id_3 = fire_arg->fire_map_id_3;
+		int fire_map_id_4 = fire_arg->fire_map_id_4;
 		
 		do
 		{
 			attron(COLOR_PAIR(204));
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			_srf_ mvaddch(fire_y, fire_x, 'f');
+			_srf_ mvaddch(fire_y, fire_x + 1, 'F');
+			_srf_ mvaddch(fire_y, fire_x + 2, 'F');
 			attroff(COLOR_PAIR(204));
 	
 			attron(COLOR_PAIR(205));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, '.');
+			_srf_ mvaddch(fire_y - 1, fire_x, '.');
 			attroff(COLOR_PAIR(205));
 	
 			attron(COLOR_PAIR(206));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, 'f');
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
 			attroff(COLOR_PAIR(206));
 			
-			if (stop_render_flag == 0) refresh();
+			_srf_ refresh();
 			Sleep(300);
 			
 			attron(COLOR_PAIR(204));
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			_srf_ mvaddch(fire_y, fire_x, 'F');
+			_srf_ mvaddch(fire_y, fire_x + 1, 'F');
+			_srf_ mvaddch(fire_y, fire_x + 2, 'f');
 			attroff(COLOR_PAIR(204));
 	
 			attron(COLOR_PAIR(205));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, '"');
+			_srf_ mvaddch(fire_y - 1, fire_x + 1, '"');
 			attroff(COLOR_PAIR(205));
 	
 			attron(COLOR_PAIR(206));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, 'f');
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
 			attroff(COLOR_PAIR(206));
 			
-			if (stop_render_flag == 0) refresh();
+			_srf_ refresh();
 			Sleep(300);
 			
 			attron(COLOR_PAIR(204));
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 1, 'F');
-			if (stop_render_flag == 0) mvaddch(fire_y, fire_x + 2, 'F');
+			_srf_ mvaddch(fire_y, fire_x, 'F');
+			_srf_ mvaddch(fire_y, fire_x + 1, 'f');
+			_srf_ mvaddch(fire_y, fire_x + 2, 'F');
 			attroff(COLOR_PAIR(204));
 	
 			attron(COLOR_PAIR(205));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 2, '.');
+			_srf_ mvaddch(fire_y - 1, fire_x + 2, '.');
 			attroff(COLOR_PAIR(205));
 	
 			attron(COLOR_PAIR(206));
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x + 1, 'f');
-			if (stop_render_flag == 0) mvaddch(fire_y - 1, fire_x, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
+			_srf_ mvaddch(fire_y - 1, fire_x, 'f');
 			attroff(COLOR_PAIR(206));
 			
-			if (stop_render_flag == 0) refresh();
+			_srf_ refresh();
 			Sleep(300);
 		}
-		while(work_fire == 1);
+		while(current_map_tile.tile[21][4] - 48 == fire_map_id_1 && current_map_tile.tile[21][5] - 48 == fire_map_id_2
+		   && current_map_tile.tile[21][6] - 48 == fire_map_id_3 && current_map_tile.tile[21][7] - 48 == fire_map_id_4);
 		
-		mvprintw(29,0,"NOT OK %d %d %d", fire_y, fire_x, work_fire);
+		//mvprintw(29,0,"NOT OK %d %d %d %d", fire_y, fire_x, current_map_tile.tile[21][7], fire_map_id_4);
 		
 		pthread_exit(NULL);
 	}
