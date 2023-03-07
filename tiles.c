@@ -166,20 +166,24 @@ interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
 	 "|T  #   #    T                                     o-F-o             <__    <  |",
 	 "|   ## ##            T                              ooo                 <____  |",
 	 "|W                                                                           <_|",
-	 "|WW        T                                                                   |",
-	 "|WWW                                                     <^^^>                 |",
-	 "| WWWWW                                             ____<     ^^^^^>           |",
-	 "|  WWWWWW                                         _<       ^        ^^^>___    |",
-	 "| T  WWWWW                                    ___<    <         >          >   |",
-	 "|   T  WWWWW                                _<           ^            >     >__|",
-	 "|T      WWWWW                              <         <       >    ^            |",
-	 "|   T  WWWWW                              <     <        ^          >      >   |",
+	 "|WW        T                             T                                     |",
+	 "|WWW                             T              T        <^^^>                 |",
+	 "| WWWWW                 T               T           ____<     ^^^^^>           |",
+	 "|  WWWWWW                         T               _<       ^        ^^^>___    |",
+	 "| T  WWWWW       T         T                  ___<    <         >          >   |",
+	 "|   T  WWWWW                             T  _<           ^            >     >__|",
+	 "|T      WWWWW         T            T       <         <       >    ^            |",
+	 "|   T  WWWWW                 T            <     <        ^          >      >   |",
 	 "+-----------------------+------------------------------------------------------+",
 	 "ID: 0003-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
 	 "TAG: CHARGEN"
 } };
 
-interface_tile tile_chargen = {.tile = {
+interface_tile tile_chargen = {.tile = { 
+// RACES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE)
+// CLASSES: ONLY PLAYER'S HANDBOOK NOW (ALL IN FUTURE)
+// DISTRIBUTION OF SKILL POINTS
+// PERSONALITY TRAITS COMING SOON
 	"+-------------------------------------------------------[TITLE]--------------------------------------------------------+",
 	"|                                                                                                                      |",
 	"|                                                                                                                      |",

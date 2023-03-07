@@ -434,13 +434,9 @@ int render_inventory(void)
 	return 0;
 }
 
-int render_map_fire_3x2(int in_fire_y, int in_fire_x, int in_fire_map_id_1, int in_fire_map_id_2, int in_fire_map_id_3, int in_fire_map_id_4)
+int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4])
 {
-	// THREAD DYNAMIC FIRE RENDER  			<---------[TODO]---------<<<
-	
 	int res;
-	//int work_fire = 1;
-	
 	
 	typedef struct fireArgs_tag {
 		int fire_y;
@@ -451,18 +447,18 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int in_fire_map_id_1, int 
 		int fire_map_id_4;
 	} fireArgs_t;
 	
-	fireArgs_t fire_arg_struct;
+	fireArgs_t fire_arg_struct[128];
 	
-	fire_arg_struct.fire_y = in_fire_y;
-	fire_arg_struct.fire_x = in_fire_x;
-	fire_arg_struct.fire_map_id_1 = in_fire_map_id_1;
-	fire_arg_struct.fire_map_id_2 = in_fire_map_id_2;
-	fire_arg_struct.fire_map_id_3 = in_fire_map_id_3;
-	fire_arg_struct.fire_map_id_4 = in_fire_map_id_4;
+	fire_arg_struct[id].fire_y = in_fire_y;
+	fire_arg_struct[id].fire_x = in_fire_x;
+	fire_arg_struct[id].fire_map_id_1 = in_fire_map_id[0];
+	fire_arg_struct[id].fire_map_id_2 = in_fire_map_id[1];
+	fire_arg_struct[id].fire_map_id_3 = in_fire_map_id[2];
+	fire_arg_struct[id].fire_map_id_4 = in_fire_map_id[3];
 	
 	//---------------------------------------------------------------------------------------
 	
-	pthread_t thread_fire_engine;
+	pthread_t thread_fire_engine[128];
 	
 	void *thread_func_fire_engine(void *arg) 
 	{
@@ -532,22 +528,24 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int in_fire_map_id_1, int 
 			_srf_ refresh();
 			Sleep(300);
 		}
-		while(current_map_tile.tile[21][4] - 48 == fire_map_id_1 && current_map_tile.tile[21][5] - 48 == fire_map_id_2
-		   && current_map_tile.tile[21][6] - 48 == fire_map_id_3 && current_map_tile.tile[21][7] - 48 == fire_map_id_4);
+		while(current_map_tile.tile[21][4] == fire_map_id_1 && current_map_tile.tile[21][5] == fire_map_id_2
+		   && current_map_tile.tile[21][6] == fire_map_id_3 && current_map_tile.tile[21][7] == fire_map_id_4);
 		
 		//mvprintw(29,0,"NOT OK %d %d %d %d", fire_y, fire_x, current_map_tile.tile[21][7], fire_map_id_4);
 		
 		pthread_exit(NULL);
 	}
 	
-	res = pthread_create (&thread_fire_engine, NULL, thread_func_fire_engine, &fire_arg_struct);
+	//---------------------------------------------------------------------------------------
+	
+	res = pthread_create (&thread_fire_engine[id], NULL, thread_func_fire_engine, &fire_arg_struct[id]);
 	
 	if (res != 0) {
 		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
 		exit(-10);
 	}
 
-	res = pthread_detach(thread_fire_engine);
+	res = pthread_detach(thread_fire_engine[id]);
 	
 	if (res != 0) {
 		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
@@ -813,7 +811,7 @@ int render_static_entities(void)
 {
 	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
 	{ // 0003
-		render_map_fire_3x2(9, 52, 0, 0, 0, 3);
+		render_map_fire_3x2(9, 52, 1, "0003");
 	}
 	
 	return 0;
