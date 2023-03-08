@@ -25,7 +25,7 @@ int action_1_special(int mod, interface_tile map);
 int action_2_inventory_usage(int mod, int item_id);
 
 int map_color_num(char char_for_find_color, int map_type);
-int map_player_movement(interface_tile map);
+int defult_interface_usage(interface_tile map);
 
 int chargen_interface_usage(void);
 
@@ -43,12 +43,14 @@ int render_text_cbc(int cbc_y, int cbc_x, char cbc_text[]);
 int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_width);
 int render_map_fire_3x2(int fire_y, int fire_x, int id, char fire_map_id[4]);
 int render_static_entities(void);
+int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line);
 
 // Variables
 
 extern bool dev_mode;
 extern bool stop_render_flag;
 extern bool quit_cbc_flag;
+extern bool quit_diu_flag;
 
 extern char npc_name[256];
 

@@ -230,28 +230,28 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 int render_player_info(void)
 {
 	attron(COLOR_PAIR(001));
-	mvprintw(28, 93, "[Lvl: %d]", player_level);
-	mvprintw(28, 104, "[Exp: %d]", player_exp);
+	_srf_ mvprintw(28, 93, "[Lvl: %d]", player_level);
+	_srf_ mvprintw(28, 104, "[Exp: %d]", player_exp);
 	attroff(COLOR_PAIR(001));
 	
 	attron(COLOR_PAIR(002));
-	mvprintw(21, 1, "Live:");
+	_srf_ mvprintw(21, 1, "Live:");
 	attroff(COLOR_PAIR(002));
 	
 	attron(COLOR_PAIR(003));
-	mvprintw(21, 17, "$:%d", player_balance);
+	_srf_ mvprintw(21, 17, "$:%d", player_balance);
 	attroff(COLOR_PAIR(003));
 	
 	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
 	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
 	else if(player_hp <= player_hp_max) attron(COLOR_PAIR(002));
 	
-	if(player_hp/100 < 1) mvprintw(21, 9, "%d/%d", player_hp, player_hp_max);
-	else if(10 > player_hp/100 >= 1) mvprintw(21, 8, "%d/%d", player_hp, player_hp_max);
-	else if(player_hp/100 >= 10) mvprintw(21, 7, "%d/%d", player_hp, player_hp_max);
+	if(player_hp/100 < 1) { _srf_ mvprintw(21, 9, "%d/%d", player_hp, player_hp_max); }
+	else if(10 > player_hp/100 >= 1) { _srf_ mvprintw(21, 8, "%d/%d", player_hp, player_hp_max); }
+	else if(player_hp/100 >= 10) { _srf_ mvprintw(21, 7, "%d/%d", player_hp, player_hp_max); }
 	
 	attron(COLOR_PAIR(001));
-	if(player_potion_cooldown > 0){ mvprintw(28, 27, "[PCD: %d]--", player_potion_cooldown); } else { mvprintw(28, 27, "----------"); }
+	if(player_potion_cooldown > 0){ _srf_ mvprintw(28, 27, "[PCD: %d]--", player_potion_cooldown); } else { _srf_ mvprintw(28, 27, "----------"); }
 	attroff(COLOR_PAIR(001));
 	
 	attroff(COLOR_PAIR(002));
@@ -334,11 +334,57 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
-int render_chargen_interface(void)
+int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line)
 {
+	int chargen_page_last = 3; // 4 in future
+	
 	// CHARGEN REALIZATION 																										<---------[TODO]---------<<<
 	
+	attron(COLOR_PAIR(001));
 	
+	for (int i = 0; i < 30; i++)
+	{
+		for (int j = 0; j < 120; j++)
+		{
+			mvprintw(i, j, "%c", tile_chargen.tile[i][j]);
+		}
+	}
+	
+	mvprintw(0, 50, "[CREATE A CHARACTER]", chargen_page, chargen_page_last);
+	mvprintw(28, 55, "[PAGE %d/%d]", chargen_page, chargen_page_last);
+	
+	attroff(COLOR_PAIR(001));
+	
+	if (chargen_page == 1) // RACE
+	{
+		if (chargen_column == 1)
+		{
+			if (chargen_line == 1)
+			{
+				
+			}
+		}
+	}
+	else if (chargen_page == 2) // CLASS
+	{
+		if (chargen_column == 1)
+		{
+			if (chargen_line == 1)
+			{
+				
+			}
+		}
+	}
+	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION
+	{
+		if (chargen_column == 1)
+		{
+			if (chargen_line == 1)
+			{
+				
+			}
+		}
+	}
 	
 	return 0;
 }
@@ -535,7 +581,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		while(current_map_tile.tile[21][4] == fire_map_id_1 && current_map_tile.tile[21][5] == fire_map_id_2
 		   && current_map_tile.tile[21][6] == fire_map_id_3 && current_map_tile.tile[21][7] == fire_map_id_4);
 		
-		//mvprintw(29,0,"NOT OK %d %d %d %d", fire_y, fire_x, current_map_tile.tile[21][7], fire_map_id_4);
+		//mvprintw(29,0,"OK %d %d %d %d", fire_y, fire_x, current_map_tile.tile[21][7], fire_map_id_4);
 		
 		pthread_exit(NULL);
 	}
@@ -705,12 +751,12 @@ int render_map_entities(interface_tile map)
 		mvaddch(13, 54, 'G'); // Guardian 1 (Eastern exit from Borovia)
 		mvaddch(7, 61, 'G'); // Guardian 2 (Eastern exit from Borovia)
 		mvaddch(9, 48, 'G'); // Guardian 3 (Eastern exit from Borovia)
-		attroff(COLOR_PAIR(101));
 		
 		// Player check
 		
 		if(((player_y == 13) && (player_x == 54)) || ((player_y == 7) && (player_x == 61)) || ((player_y == 9) && (player_x == 48)))
 		{ 
+			mvprintw(21, 91, "Borovia Guardian");
 			strcpy(npc_name, "Guardian");
 	
 			action_1_mod = 5;
@@ -721,9 +767,11 @@ int render_map_entities(interface_tile map)
 		
 		if(player_x > 64)
 		{ 
+			quit_diu_flag = 1;
 			render_message(30000, 4);
 			
-			player_x--;
+			player_x = 1;
+			player_y = 1;
 			
 			chargen_interface_usage();
 			
@@ -732,6 +780,8 @@ int render_map_entities(interface_tile map)
 		
 		if((player_y == 13) && (player_x == 18))
 		{ 
+			mvprintw(21, 91, "Plate with the text");
+	
 			action_1_mod = 4;
 			action_1_special(action_1_mod, map);
 			
@@ -740,6 +790,7 @@ int render_map_entities(interface_tile map)
 		
 		// No player check
 		
+		attroff(COLOR_PAIR(101));
 		mvprintw(21, 90, "                            ");
 	}
 	
@@ -892,7 +943,7 @@ int render_loaded_location(void)
 	
 	render_static_entities();
 	
-	map_player_movement(current_map_tile);
+	defult_interface_usage(current_map_tile);
 	
 	return 0;
 }

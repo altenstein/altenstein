@@ -8,6 +8,7 @@
 #include"items.h"
 
 bool dev_mode = 0;
+bool quit_diu_flag;
 
 int player_x;
 int player_y;
@@ -34,7 +35,7 @@ int buffer_player_x;
 
 int current_inventory_item = 0;
 
-int map_player_movement(interface_tile map)
+int defult_interface_usage(interface_tile map)
 {
 	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; player_inventory_limit = 24; } // Not 25 so that you can use a backpack.
 	
@@ -53,6 +54,8 @@ int map_player_movement(interface_tile map)
 	
 	do
 	{
+		if (quit_diu_flag == 1) { return 1; }
+		
 		buffer_player_y = player_y;
 		buffer_player_x = player_x;
 		
@@ -160,9 +163,21 @@ int map_player_movement(interface_tile map)
 	if (quit_res == 1) return 1;
 	else if (quit_res == 0)
 	{
+		stop_render_flag = 0;
+		
 		clear();
 		
-		stop_render_flag = 0;
+		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+		render_map_entities(current_map_tile);
+		render_selected_cell(player_selected_cell, action_6_flag);
+		render_player_info();
+		
+		action_6_switch_inv(1, current_map_tile);
+		action_6_switch_inv(1, current_map_tile);
+		
+		if (action_6_flag == 1) render_inventory();
+		
+		defult_interface_usage(current_map_tile);
 	}
 	
 	return 0;
@@ -170,11 +185,21 @@ int map_player_movement(interface_tile map)
 
 int chargen_interface_usage(void)
 {	
+	stop_render_flag = 1;
 	clear();
 	
+	int chargen_page = 1;
+	int chargen_column = 1;
+	int chargen_line = 1;
+	
+	clear();
+	render_chargen_interface(chargen_page, chargen_column, chargen_line);
 	refresh();
 	
 	// ^^^ Replace with chargen
+	//current_map_tile = tile_map_0002_dev;
+	//quit_diu_flag = 0;
+	//stop_render_flag = 0;
 	
 	return 0;
 }
@@ -219,7 +244,7 @@ int launch(interface_tile current_map)
 	
 	//---------------------------------------------------------------------------------------
 	
-	map_player_movement(current_map);
+	defult_interface_usage(current_map);
 	
 	//---------------------------------------------------------------------------------------
 	
