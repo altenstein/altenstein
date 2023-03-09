@@ -221,11 +221,9 @@ int launch(interface_tile current_map)
 		{
 			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
 		
-			Sleep(1000);
+			pthread_exit(NULL);
 		}
 		while(work);
-		
-		pthread_exit(NULL);
 	}
 	
 	res = pthread_create (&thread_render_engine, NULL, thread_func_render_engine, NULL);

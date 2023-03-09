@@ -357,14 +357,54 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 	
 	if (chargen_page == 1) // RACE
 	{
+		//--------------------------------------------------------------------------------------- R A C E
+		
+		attron(COLOR_PAIR(003));
+		
+		mvprintw(2, 15, "[ R A C E ]");
+		
+		mvprintw(2, 51, "[ S U B R A C E ]");
+		
+		mvprintw(2, 94, "[ I N F O ]");
+		
+		attroff(COLOR_PAIR(003));
+		
+		//---------------------------------------------------------------------------------------
+		
+		attron(COLOR_PAIR(012));
+		
+		mvprintw(4, 16, "G N O M E");
+		
+		attroff(COLOR_PAIR(012));
+		
+		//---------------------------------------------------------------------------------------
+		
 		if (chargen_column == 1)
-		{
+		{	
 			if (chargen_line == 1)
 			{
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 13, "-> G N O M E <-");
+				attroff(COLOR_PAIR(002));
 				
+				attron(COLOR_PAIR(012));
+		
+				mvprintw(4, 49, "F O R E S T  G N O M E");
+				mvprintw(6, 51, "R O C K  G N O M E");
+				mvprintw(8, 51, "D E E P  G N O M E");
+				
+				
+				mvprintw(4, 51+31, "Intelligence: +2");
+				mvprintw(6, 51+31, "Default inventory limit: +5");
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
+				
+				attroff(COLOR_PAIR(012));
 			}
 		}
 	}
+	
+	//--------------------------------------------------------------------------------------- C L A S S
+	
 	else if (chargen_page == 2) // CLASS
 	{
 		if (chargen_column == 1)
@@ -375,6 +415,9 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			}
 		}
 	}
+	
+	//--------------------------------------------------------------------------------------- S K I L L P O I N T S
+	
 	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION
 	{
 		if (chargen_column == 1)
@@ -385,6 +428,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			}
 		}
 	}
+	
+	//---------------------------------------------------------------------------------------
 	
 	return 0;
 }
