@@ -55,6 +55,8 @@ int main(void)
 	
 	launch(current_map_tile);
 	
+	getch();
+	
 	endwin();
 	
 	return 0;

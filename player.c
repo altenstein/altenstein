@@ -103,7 +103,7 @@ int defult_interface_usage(interface_tile map)
 			if(action_6_flag == 1) render_inventory();
 		}
 		
-		else if (player_action == '1' || player_action == 32)
+		else if (player_action == '1')
 		{
 			if (action_1_mod == 1) action_1_special(11, map);
 			else if (action_1_mod == 2) { action_1_special(22, map); return 1; }
