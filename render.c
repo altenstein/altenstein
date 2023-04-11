@@ -381,7 +381,11 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		//---------------------------------------------------------------------------------------
 		
 		if (chargen_column == 1)
-		{	
+		{
+			attron(COLOR_PAIR(012));
+			mvprintw(26, 83, "RACE BONUS");
+			attroff(COLOR_PAIR(012));
+	
 			if (chargen_line == 1) // G N O M E 
 			{
 				attron(COLOR_PAIR(002));
@@ -402,7 +406,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(012));
 			}
 			
-			if (chargen_line == 2) // E L F
+			else if (chargen_line == 2) // E L F
 			{
 				attron(COLOR_PAIR(002));
 				mvprintw(6, 15, "-> E L F <-");
@@ -424,8 +428,16 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			}
 		}
 		
-		if (chargen_column == 2)
+		else if (chargen_column == 2)
 		{
+			attron(COLOR_PAIR(012));
+			mvprintw(26, 83, "RACE BONUS");
+			attroff(COLOR_PAIR(012));
+			
+			attron(COLOR_PAIR(002));
+			mvprintw(26, 104, "SUBRACE BONUS");
+			attroff(COLOR_PAIR(002));
+			
 			if (chargen_line == 1)
 			{
 				attron(COLOR_PAIR(002));
@@ -436,9 +448,15 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 51, "R O C K  G N O M E");
 				mvprintw(8, 51, "D E E P  G N O M E");
 				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(4, 51+31, "Intelligence: +4");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				mvprintw(6, 51+31, "Default inventory limit: +5");
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
 			}
 			
-			if (chargen_line == 2)
+			else if (chargen_line == 2)
 			{
 				attron(COLOR_PAIR(012));
 				mvprintw(4, 49, "F O R E S T  G N O M E");
@@ -451,9 +469,15 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(012));
 				mvprintw(8, 51, "D E E P  G N O M E");
 				attroff(COLOR_PAIR(012));
+				
+				mvprintw(4, 51+31, "Intelligence: +2");
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(6, 51+31, "Default inventory limit: +10");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
 			}
 			
-			if (chargen_line == 3)
+			else if (chargen_line == 3)
 			{
 				attron(COLOR_PAIR(012));
 				mvprintw(4, 49, "F O R E S T  G N O M E");
@@ -463,9 +487,15 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));
 				mvprintw(8, 48, "-> D E E P  G N O M E <-");
 				attroff(COLOR_PAIR(002));
+				
+				mvprintw(4, 51+31, "Intelligence: +2");
+				mvprintw(6, 51+31, "Default inventory limit: +5");
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(8, 51+31, "Magic resistance: +20%%");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 			}
 			
-			if (chargen_line == 4)
+			else if (chargen_line == 4)
 			{
 				attron(COLOR_PAIR(002));
 				mvprintw(4, 50, "-> H I G H  E L F <-");
@@ -475,9 +505,15 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 53, "W O O D  E L F");
 				mvprintw(8, 53, "D A R K  E L F");
 				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(4, 51+31, "Dexterity: +4");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				mvprintw(6, 51+31, "Magic damage: +10%%");
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
 			}
 		
-			if (chargen_line == 5)
+			else if (chargen_line == 5)
 			{
 				attron(COLOR_PAIR(012));
 				mvprintw(4, 53, "H I G H  E L F");
@@ -490,9 +526,15 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(012));
 				mvprintw(8, 53, "D A R K  E L F");
 				attroff(COLOR_PAIR(012));
+				
+				mvprintw(4, 51+31, "Dexterity: +2");
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(6, 51+31, "Magic damage: +20%%");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
 			}
 		
-			if (chargen_line == 6)
+			else if (chargen_line == 6)
 			{
 				attron(COLOR_PAIR(012));
 				mvprintw(4, 53, "H I G H  E L F");
@@ -502,6 +544,12 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));
 				mvprintw(8, 50, "-> D A R K  E L F <-");
 				attroff(COLOR_PAIR(002));
+				
+				mvprintw(4, 51+31, "Dexterity: +2");
+				mvprintw(6, 51+31, "Magic damage: +10%%");
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(8, 51+31, "Magic resistance: +20%%");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 			}
 		}
 	}
