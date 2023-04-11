@@ -192,9 +192,57 @@ int chargen_interface_usage(void)
 	int chargen_column = 1;
 	int chargen_line = 1;
 	
-	clear();
-	render_chargen_interface(chargen_page, chargen_column, chargen_line);
-	refresh();
+	bool char_done_flag = 0;
+	char key_buffer = 0;
+	
+	do
+	{
+		if((key_buffer) == 2) // DOWN (+1)
+		{
+			if (chargen_page == 1 && chargen_line != 6) chargen_line += 1;
+		}
+		
+		else if((key_buffer) == 3) // UP (-1)
+		{
+			if (chargen_page == 1 && chargen_line != 1) chargen_line -= 1;
+		}
+		
+		else if((key_buffer) == 4) // LEFT (-1)
+		{
+			if (chargen_page == 1 && chargen_column != 1)
+			{
+				chargen_column--;
+				
+					 if (chargen_line == 1) chargen_line = 1; // GNOME
+				else if (chargen_line == 2) chargen_line = 1;
+				else if (chargen_line == 3) chargen_line = 1;
+				
+				else if (chargen_line == 4) chargen_line = 2; // ELF
+				else if (chargen_line == 5) chargen_line = 2;
+				else if (chargen_line == 6) chargen_line = 2;
+			}
+		}
+		
+		else if((key_buffer) == 5) // RIGHT (+1)
+		{
+			if (chargen_page == 1 && chargen_column != 2)
+			{
+				chargen_column++;
+				
+					 if (chargen_line == 1) chargen_line = 1; // GNOME (SUB)
+				else if (chargen_line == 2) chargen_line = 4; // ELF (SUB)
+			}
+		}
+		
+		clear();
+		render_chargen_interface(chargen_page, chargen_column, chargen_line);
+		refresh();
+		
+		mvprintw(29, 0, "line: %d, column: %d, page: %d", chargen_line, chargen_column, chargen_page);
+		
+		key_buffer = getch();
+		
+	} while (!char_done_flag);
 	
 	// ^^^ Replace with chargen
 	//current_map_tile = tile_map_0002_dev;

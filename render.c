@@ -374,6 +374,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		attron(COLOR_PAIR(012));
 		
 		mvprintw(4, 16, "G N O M E");
+		mvprintw(6, 18, "E L F");
 		
 		attroff(COLOR_PAIR(012));
 		
@@ -381,7 +382,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		
 		if (chargen_column == 1)
 		{	
-			if (chargen_line == 1)
+			if (chargen_line == 1) // G N O M E 
 			{
 				attron(COLOR_PAIR(002));
 				mvprintw(4, 13, "-> G N O M E <-");
@@ -399,6 +400,108 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
 				
 				attroff(COLOR_PAIR(012));
+			}
+			
+			if (chargen_line == 2) // E L F
+			{
+				attron(COLOR_PAIR(002));
+				mvprintw(6, 15, "-> E L F <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+		
+				mvprintw(4, 53, "H I G H  E L F");
+				mvprintw(6, 53, "W O O D  E L F");
+				mvprintw(8, 53, "D A R K  E L F");
+				
+				
+				mvprintw(4, 51+31, "Dexterity: +2");
+				mvprintw(6, 51+31, "Magic damage: +10%%");
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
+			
+				attroff(COLOR_PAIR(012));
+				
+			}
+		}
+		
+		if (chargen_column == 2)
+		{
+			if (chargen_line == 1)
+			{
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 46, "-> F O R E S T  G N O M E <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(6, 51, "R O C K  G N O M E");
+				mvprintw(8, 51, "D E E P  G N O M E");
+				attroff(COLOR_PAIR(012));
+			}
+			
+			if (chargen_line == 2)
+			{
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 49, "F O R E S T  G N O M E");
+				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));
+				mvprintw(6, 48, "-> R O C K  G N O M E <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(8, 51, "D E E P  G N O M E");
+				attroff(COLOR_PAIR(012));
+			}
+			
+			if (chargen_line == 3)
+			{
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 49, "F O R E S T  G N O M E");
+				mvprintw(6, 51, "R O C K  G N O M E");
+				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));
+				mvprintw(8, 48, "-> D E E P  G N O M E <-");
+				attroff(COLOR_PAIR(002));
+			}
+			
+			if (chargen_line == 4)
+			{
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 50, "-> H I G H  E L F <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(6, 53, "W O O D  E L F");
+				mvprintw(8, 53, "D A R K  E L F");
+				attroff(COLOR_PAIR(012));
+			}
+		
+			if (chargen_line == 5)
+			{
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 53, "H I G H  E L F");
+				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));
+				mvprintw(6, 50, "-> W O O D  E L F <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(8, 53, "D A R K  E L F");
+				attroff(COLOR_PAIR(012));
+			}
+		
+			if (chargen_line == 6)
+			{
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 53, "H I G H  E L F");
+				mvprintw(6, 53, "W O O D  E L F");
+				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));
+				mvprintw(8, 50, "-> D A R K  E L F <-");
+				attroff(COLOR_PAIR(002));
 			}
 		}
 	}
