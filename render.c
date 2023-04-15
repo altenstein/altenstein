@@ -350,7 +350,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		}
 	}
 	
-	mvprintw(0, 50, "[CREATE A CHARACTER]", chargen_page, chargen_page_last);
+	mvprintw(0, 50, "[CREATE A  CHARACTER]", chargen_page, chargen_page_last);
 	mvprintw(28, 55, "[PAGE %d/%d]", chargen_page, chargen_page_last);
 	
 	attroff(COLOR_PAIR(001));
@@ -363,7 +363,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		
 		mvprintw(2, 15, "[ R A C E ]");
 		
-		mvprintw(2, 51, "[ S U B R A C E ]");
+		mvprintw(2, 52, "[ S U B R A C E ]");
 		
 		mvprintw(2, 94, "[ I N F O ]");
 		
@@ -436,6 +436,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			
 			attron(COLOR_PAIR(002));
 			mvprintw(26, 104, "SUBRACE BONUS");
+			mvprintw(28, 54, "[ E N T E R ]");
 			attroff(COLOR_PAIR(002));
 			
 			if (chargen_line == 1)
@@ -558,16 +559,53 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 	
 	else if (chargen_page == 2) // CLASS
 	{
+		attron(COLOR_PAIR(003));
+		
+		mvprintw(2, 14, "[ C L A S S ]");
+		
+		mvprintw(2, 51, "[ S U B C L A S S ]");
+		
+		mvprintw(2, 94, "[ I N F O ]");
+		
+		attroff(COLOR_PAIR(003));
+		
+		// --------------------------------------------------
+		
+		attron(COLOR_PAIR(012));
+		
+		mvprintw(4, 14, "F I G H T E R");
+		mvprintw(6, 15, "W I Z A R D");
+		
+		attroff(COLOR_PAIR(012));
+		
+		// --------------------------------------------------
+		
 		if (chargen_column == 1)
 		{
 			if (chargen_line == 1)
 			{
+				attron(COLOR_PAIR(012));
+				mvprintw(6, 15, "W I Z A R D");
+				attroff(COLOR_PAIR(012));
 				
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 12, "->F I G H T E R<-");
+				attroff(COLOR_PAIR(002));
+			}
+			else if (chargen_line == 2)
+			{
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 14, "F I G H T E R");
+				attroff(COLOR_PAIR(012));
+				
+				attron(COLOR_PAIR(002));
+				mvprintw(6, 13, "->W I Z A R D<-");
+				attroff(COLOR_PAIR(002));
 			}
 		}
 	}
 	
-	//--------------------------------------------------------------------------------------- S K I L L P O I N T S
+	//--------------------------------------------------------------------------------------- S K I L L P O I N T S  &&  C O L O R
 	
 	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION
 	{

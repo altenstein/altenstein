@@ -192,6 +192,8 @@ int chargen_interface_usage(void)
 	int chargen_column = 1;
 	int chargen_line = 1;
 	
+	int chargen_p1_choose = 0;
+	
 	bool char_done_flag = 0;
 	char key_buffer = 0;
 	
@@ -201,11 +203,15 @@ int chargen_interface_usage(void)
 		{
 			if (chargen_page == 1 && chargen_column == 1 && chargen_line != 2) chargen_line += 1;
 			if (chargen_page == 1 && chargen_column == 2 && chargen_line != 6) chargen_line += 1;
+			
+			if (chargen_page == 2 && chargen_column == 1 && chargen_line != 2) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)
 		{
 			if (chargen_page == 1 && chargen_line != 1) chargen_line -= 1;
+			
+			if (chargen_page == 2 && chargen_line != 1) chargen_line -= 1;
 		}
 		
 		else if((key_buffer) == 4) // LEFT (-1)
@@ -225,13 +231,25 @@ int chargen_interface_usage(void)
 		}
 		
 		else if((key_buffer) == 5) // RIGHT (+1)
-		{
+		{ 
 			if (chargen_page == 1 && chargen_column != 2)
 			{
 				chargen_column++;
 				
 					 if (chargen_line == 1) chargen_line = 1; // GNOME (SUB)
 				else if (chargen_line == 2) chargen_line = 4; // ELF (SUB)
+			}
+		}
+		
+		else if((key_buffer) == '\n') // ENTER
+		{
+			if (chargen_page == 1 && chargen_column == 2)
+			{
+				chargen_p1_choose = chargen_line;
+				chargen_column = 1;
+				chargen_line = 1;
+				
+				chargen_page++;
 			}
 		}
 		
