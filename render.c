@@ -334,7 +334,7 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
     return 0;
 }
 
-int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line)
+int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose)
 {
 	int chargen_page_last = 3; // 4 in future
 	
@@ -357,7 +357,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 	
 	if (chargen_page == 1) // RACE
 	{
-		//--------------------------------------------------------------------------------------- R A C E
+		//---------------------------------------------------------------------------------------------------------------------------------------- R A C E
 		
 		attron(COLOR_PAIR(003));
 		
@@ -555,7 +555,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		}
 	}
 	
-	//--------------------------------------------------------------------------------------- C L A S S
+	//------------------------------------------------------------------------------------------------------------------------------------------ C L A S S
 	
 	else if (chargen_page == 2) // CLASS
 	{
@@ -568,6 +568,14 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		mvprintw(2, 94, "[ I N F O ]");
 		
 		attroff(COLOR_PAIR(003));
+		
+		attron(COLOR_PAIR(001));
+		mvprintw(26, 50, "Can be changed later");
+		attroff(COLOR_PAIR(001));
+		
+		attron(COLOR_PAIR(002));
+		mvprintw(28, 54, "[ E N T E R ]");
+		attroff(COLOR_PAIR(002));
 		
 		// --------------------------------------------------
 		
@@ -584,13 +592,18 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		{
 			if (chargen_line == 1)
 			{
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 12, "->F I G H T E R<-");
+				attroff(COLOR_PAIR(002));
+				
 				attron(COLOR_PAIR(012));
 				mvprintw(6, 15, "W I Z A R D");
 				attroff(COLOR_PAIR(012));
 				
-				attron(COLOR_PAIR(002));
-				mvprintw(4, 12, "->F I G H T E R<-");
-				attroff(COLOR_PAIR(002));
+				attron(COLOR_PAIR(012));
+				mvprintw(6, 53, "C H A M P I O N ");
+				mvprintw(4, 49, "MASTER OF MARTIAL ARTS");
+				attroff(COLOR_PAIR(012));
 			}
 			else if (chargen_line == 2)
 			{
@@ -603,9 +616,33 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(002));
 			}
 		}
+		
+		else if (chargen_column == 2)
+		{
+			attron(COLOR_PAIR(002));
+			mvprintw(28, 54, "[ E N T E R ]");
+			attroff(COLOR_PAIR(002));
+			
+			if (class_choose == 1)
+			{
+				attron(COLOR_PAIR(002));
+				mvprintw(4, 46, "-> MASTER OF MARTIAL ARTS <-");
+				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(6, 53, "C H A M P I O N ");
+				attroff(COLOR_PAIR(012));
+				
+				mvprintw(4, 51+31, "Intelligence: +2");
+				attron(COLOR_PAIR(002));  // -------------------------------------------------|
+				mvprintw(6, 51+31, "Default inventory limit: +10");
+				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				mvprintw(8, 51+31, "Magic resistance: +15%%");
+			}
+		}
 	}
 	
-	//--------------------------------------------------------------------------------------- S K I L L P O I N T S  &&  C O L O R
+	//--------------------------------------------------------------------------------------------------------------- S K I L L P O I N T S  &&  C O L O R
 	
 	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION
 	{

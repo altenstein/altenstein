@@ -192,7 +192,9 @@ int chargen_interface_usage(void)
 	int chargen_column = 1;
 	int chargen_line = 1;
 	
-	int chargen_p1_choose = 0;
+	int chargen_subrace_choose = 0;
+	int chargen_class_choose = 0;
+	int chargen_subclass_choose = 0;
 	
 	bool char_done_flag = 0;
 	char key_buffer = 0;
@@ -243,18 +245,57 @@ int chargen_interface_usage(void)
 		
 		else if((key_buffer) == '\n') // ENTER
 		{
-			if (chargen_page == 1 && chargen_column == 2)
+			if (chargen_page == 2 && chargen_column == 1)
 			{
-				chargen_p1_choose = chargen_line;
+				chargen_class_choose = chargen_line;
+				chargen_column = 2;
+				if (chargen_line == 1) chargen_line = 1; // FIGHTER -> MASTER OF MARTIAL ARTS
+			}
+			
+			else if (chargen_page == 1 && chargen_column == 2)
+			{
+				chargen_subrace_choose = chargen_line;
 				chargen_column = 1;
 				chargen_line = 1;
 				
 				chargen_page++;
 			}
+			
+			else if (chargen_page == 1 && chargen_column == 1)
+			{
+				chargen_class_choose = chargen_line;
+				chargen_column = 2;
+				if (chargen_line == 2) chargen_line = 4;
+			}
+			
+		}
+		
+		else if((key_buffer) == 27) // ESC
+		{
+			if (chargen_page == 1 && chargen_column == 2)
+			{
+				if (1 <= chargen_line && chargen_line <= 3) chargen_line = 1;
+				if (4 <= chargen_line && chargen_line <= 6) chargen_line = 2;
+				
+				chargen_column--;
+			}
+			
+			else if (chargen_page == 2 && chargen_column == 1)
+			{
+				chargen_line = chargen_subrace_choose;
+				chargen_column++;
+				chargen_page--;
+			}
+			
+			else if (chargen_page == 2 && chargen_column == 2)
+			{
+				chargen_line = chargen_class_choose;
+				chargen_column--;
+			}
 		}
 		
 		clear();
-		render_chargen_interface(chargen_page, chargen_column, chargen_line);
+		render_chargen_interface(chargen_page, chargen_column, chargen_line, chargen_class_choose);
 		refresh();
 		
 		//mvprintw(29, 0, "line: %d, column: %d, page: %d", chargen_line, chargen_column, chargen_page);

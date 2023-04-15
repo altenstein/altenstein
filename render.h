@@ -43,7 +43,7 @@ int render_text_cbc(int cbc_y, int cbc_x, char cbc_text[]);
 int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_width);
 int render_map_fire_3x2(int fire_y, int fire_x, int id, char fire_map_id[4]);
 int render_static_entities(void);
-int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line);
+int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose);
 
 // Variables
 
@@ -77,6 +77,10 @@ extern int buffer_cell_to_move;
 extern int buffer_player_y;
 extern int buffer_player_x;	
 
+extern int chargen_subrace_choose;
+extern int chargen_class_choose;
+extern int chargen_subclass_choose;
+
 extern int current_inventory_item;
 extern int transfer_inside_inventory_flag;
 
@@ -98,9 +102,9 @@ extern interface_tile tile_character_info;
 extern interface_tile tile_actions;
 extern interface_tile tile_world_info;
 
-// Map tiles
-
 extern interface_tile tile_chargen;
+
+// Map tiles
 
 extern interface_tile tile_map_0001_default;
 extern interface_tile tile_map_0002_dev;
