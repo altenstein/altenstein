@@ -207,6 +207,8 @@ int chargen_interface_usage(void)
 			if (chargen_page == 1 && chargen_column == 2 && chargen_line != 6) chargen_line += 1;
 			
 			if (chargen_page == 2 && chargen_column == 1 && chargen_line != 2) chargen_line += 1;
+			
+			if (chargen_page == 2 && chargen_column == 2 && chargen_class_choose == 1 && chargen_line != 2) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)
@@ -272,6 +274,7 @@ int chargen_interface_usage(void)
 		
 		else if((key_buffer) == 27) // ESC
 		{
+			
 			if (chargen_page == 1 && chargen_column == 2)
 			{
 				if (1 <= chargen_line && chargen_line <= 3) chargen_line = 1;
@@ -298,7 +301,7 @@ int chargen_interface_usage(void)
 		render_chargen_interface(chargen_page, chargen_column, chargen_line, chargen_class_choose);
 		refresh();
 		
-		//mvprintw(29, 0, "line: %d, column: %d, page: %d", chargen_line, chargen_column, chargen_page);
+		//mvprintw(29, 0, "line: %d, column: %d, page: %d cl: %d", chargen_line, chargen_column, chargen_page, chargen_class_choose);
 		
 		key_buffer = getch();
 		

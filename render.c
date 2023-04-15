@@ -625,19 +625,39 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			
 			if (class_choose == 1)
 			{
-				attron(COLOR_PAIR(002));
-				mvprintw(4, 46, "-> MASTER OF MARTIAL ARTS <-");
-				attroff(COLOR_PAIR(002));
+				if (chargen_line == 1)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(4, 46, "-> MASTER OF MARTIAL ARTS <-");
+					attroff(COLOR_PAIR(002));
 				
-				attron(COLOR_PAIR(012));
-				mvprintw(6, 53, "C H A M P I O N ");
-				attroff(COLOR_PAIR(012));
+					attron(COLOR_PAIR(012));
+					mvprintw(6, 53, "C H A M P I O N ");
+					attroff(COLOR_PAIR(012));
 				
-				mvprintw(4, 51+31, "Intelligence: +2");
-				attron(COLOR_PAIR(002));  // -------------------------------------------------|
-				mvprintw(6, 51+31, "Default inventory limit: +10");
-				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
-				mvprintw(8, 51+31, "Magic resistance: +15%%");
+					mvprintw(4, 51+31, "Intelligence: +2");
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(6, 51+31, "Default inventory limit: +10");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					mvprintw(8, 51+31, "Magic resistance: +15%%");
+				}
+				
+				if (chargen_line == 2)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(6, 50, "-> C H A M P I O N <-");
+					attroff(COLOR_PAIR(002));
+				
+					attron(COLOR_PAIR(012));
+					mvprintw(4, 49, "MASTER OF MARTIAL ARTS");
+					attroff(COLOR_PAIR(012));
+				
+					mvprintw(4, 51+31, "Dexterity: +2");
+					mvprintw(6, 51+31, "Magic damage: +10%%");
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(8, 51+31, "Magic resistance: +20%%");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				}
 			}
 		}
 	}
