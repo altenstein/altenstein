@@ -24,8 +24,11 @@ cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.
 -lpdcurses -> -lncurses (for linux build)
 
 ### Dependencies 
-pdcurses
-pthread
+[Current Libs](https://github.com/altenstein/altenstein/issues/2)
+
+libgcc_s_dw2-1.dll  
+libpdcurses.dll  
+pthreadGC-3.dll 
 
 ## Graphics
 
