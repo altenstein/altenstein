@@ -601,7 +601,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(012));
 				
 				attron(COLOR_PAIR(012));
-				mvprintw(6, 53, "C H A M P I O N ");
+				mvprintw(6, 53, "C H A M P I O N");
 				mvprintw(4, 49, "MASTER OF MARTIAL ARTS");
 				attroff(COLOR_PAIR(012));
 			}
@@ -614,6 +614,13 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));
 				mvprintw(6, 13, "->W I Z A R D<-");
 				attroff(COLOR_PAIR(002));
+				
+				attron(COLOR_PAIR(012));
+				mvprintw(4, 50, "SCHOOL OF INCARNATION");
+				mvprintw(6, 52, "SUMMONING SCHOOL");
+				mvprintw(8, 51, "SCHOOL OF ILLUSION");
+				mvprintw(10, 50, "SCHOOL OF NECROMANCY");
+				attroff(COLOR_PAIR(012));
 			}
 		}
 		
@@ -622,6 +629,11 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			attron(COLOR_PAIR(002));
 			mvprintw(28, 54, "[ E N T E R ]");
 			attroff(COLOR_PAIR(002));
+			
+			attron(COLOR_PAIR(001));  // -------------------------------------------------|
+			mvprintw(5, 51+31, "Buffs will be added depending on");
+			mvprintw(7, 51+31, "the leveling of the character.");
+			attroff(COLOR_PAIR(001)); // -------------------------------------------------|
 			
 			if (class_choose == 1)
 			{
@@ -632,14 +644,20 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 					attroff(COLOR_PAIR(002));
 				
 					attron(COLOR_PAIR(012));
-					mvprintw(6, 53, "C H A M P I O N ");
+					mvprintw(6, 53, "C H A M P I O N");
 					attroff(COLOR_PAIR(012));
-				
-					mvprintw(4, 51+31, "Intelligence: +2");
+					
 					attron(COLOR_PAIR(002));  // -------------------------------------------------|
-					mvprintw(6, 51+31, "Default inventory limit: +10");
+					mvprintw(10, 51+31, "COMBAT SUPERIORITY"); // Subclass info TODO
+					mvprintw(12, 51+31, "STUDENT OF WAR"); // Subclass info TODO
+					mvprintw(14, 51+31, "KNOW YOUR ENEMY"); // Subclass info TODO
+					mvprintw(16, 51+31, "IMPROVED COMBAT SUPERIORITY");
+					mvprintw(18, 51+31, "RELENTLESS");
 					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
-					mvprintw(8, 51+31, "Magic resistance: +15%%");
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[3-3-7-10-15]");
+					attroff(COLOR_PAIR(001));
 				}
 				
 				if (chargen_line == 2)
@@ -652,11 +670,123 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 					mvprintw(4, 49, "MASTER OF MARTIAL ARTS");
 					attroff(COLOR_PAIR(012));
 				
-					mvprintw(4, 51+31, "Dexterity: +2");
-					mvprintw(6, 51+31, "Magic damage: +10%%");
 					attron(COLOR_PAIR(002));  // -------------------------------------------------|
-					mvprintw(8, 51+31, "Magic resistance: +20%%");
+					mvprintw(10, 51+31, "IMPROVED CRITICAL HITS"); // Subclass info TODO
+					mvprintw(12, 51+31, "OUTSTANDING ATHLETE"); // Subclass info TODO
+					mvprintw(16, 51+31, "EXCELLENT CRITICAL HITS");
+					mvprintw(18, 51+31, "THE SURVIVOR");
 					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(004));  // -------------------------------------------------|
+					mvprintw(14, 51+31, "ADDITIONAL FIGHTING STYLE"); // Subclass info TODO
+					attroff(COLOR_PAIR(004)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[3-3-7-10-15]");
+					attroff(COLOR_PAIR(001));
+				}
+			}
+			
+			if (class_choose == 2)
+			{
+				if (chargen_line == 1)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(4, 47, "-> SCHOOL OF INCARNATION <-");
+					attroff(COLOR_PAIR(002));
+				
+					attron(COLOR_PAIR(012));
+					mvprintw(6, 52, "SUMMONING SCHOOL");
+					mvprintw(8, 51, "SCHOOL OF ILLUSION");
+					mvprintw(10, 50, "SCHOOL OF NECROMANCY");
+					attroff(COLOR_PAIR(012));
+					
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(10, 51+31, "THE MASTER OF INCARNATION"); // Subclass info TODO
+					mvprintw(12, 51+31, "BUILDING SPELLS"); // Subclass info TODO
+					mvprintw(14, 51+31, "A POWERFUL CONSPIRACY"); // Subclass info TODO
+					mvprintw(16, 51+31, "ENHANCED INCARNATION");
+					mvprintw(18, 51+31, "OVERLOAD");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[2-2-6-10-14]");
+					attroff(COLOR_PAIR(001));
+				}
+				
+				if (chargen_line == 2)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(6, 49, "-> SUMMONING SCHOOL <-");
+					attroff(COLOR_PAIR(002));
+				
+					attron(COLOR_PAIR(012));
+					mvprintw(4, 50, "SCHOOL OF INCARNATION");
+					mvprintw(8, 51, "SCHOOL OF ILLUSION");
+					mvprintw(10, 50, "SCHOOL OF NECROMANCY");
+					attroff(COLOR_PAIR(012));
+				
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(10, 51+31, "THE MASTER OF CREATION"); // Subclass info TODO
+					mvprintw(12, 51+31, "SMALL SUMMONING"); // Subclass info TODO
+					mvprintw(14, 51+31, "SAFE MOVEMENT"); // Subclass info TODO
+					mvprintw(16, 51+31, "FOCUSED SUMMONING");
+					mvprintw(18, 51+31, "RELIABLE SUMMONING");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[2-2-6-10-14]");
+					attroff(COLOR_PAIR(001));
+				}
+				
+				if (chargen_line == 3)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(8, 48, "-> SCHOOL OF ILLUSION <-");
+					attroff(COLOR_PAIR(002));
+				
+					attron(COLOR_PAIR(012));
+					mvprintw(4, 50, "SCHOOL OF INCARNATION");
+					mvprintw(6, 52, "SUMMONING SCHOOL");
+					mvprintw(10, 50, "SCHOOL OF NECROMANCY");
+					attroff(COLOR_PAIR(012));
+				
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(10, 51+31, "THE MASTER OF ILLUSIONS"); // Subclass info TODO
+					mvprintw(12, 51+31, "IMPROVED SMALL ILLUSION"); // Subclass info TODO
+					mvprintw(14, 51+31, "PLASTIC ILLUSIONS"); // Subclass info TODO
+					mvprintw(16, 51+31, "OWN ILLUSORY");
+					mvprintw(18, 51+31, "ILLUSORY REALITY");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[2-2-6-10-14]");
+					attroff(COLOR_PAIR(001));
+				}
+				
+				if (chargen_line == 4)
+				{
+					attron(COLOR_PAIR(002));
+					mvprintw(10, 47, "-> SCHOOL OF NECROMANCY <-");
+					attroff(COLOR_PAIR(002));
+				
+					attron(COLOR_PAIR(012));
+					mvprintw(4, 50, "SCHOOL OF INCARNATION");
+					mvprintw(6, 52, "SUMMONING SCHOOL");
+					mvprintw(8, 51, "SCHOOL OF ILLUSION");
+					attroff(COLOR_PAIR(012));
+				
+					attron(COLOR_PAIR(002));  // -------------------------------------------------|
+					mvprintw(10, 51+31, "THE MASTER OF NECROMANCY"); // Subclass info TODO
+					mvprintw(12, 51+31, "GRIM HARVEST"); // Subclass info TODO
+					mvprintw(14, 51+31, "INANIMATE SLAVES"); // Subclass info TODO
+					mvprintw(16, 51+31, "UNITY WITH NON-LIFE");
+					mvprintw(18, 51+31, "UNDEAD CONTROL");
+					attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+					
+					attron(COLOR_PAIR(001));
+					mvprintw(26, 51+42, "[2-2-6-10-14]");
+					attroff(COLOR_PAIR(001));
 				}
 			}
 		}

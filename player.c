@@ -209,6 +209,7 @@ int chargen_interface_usage(void)
 			if (chargen_page == 2 && chargen_column == 1 && chargen_line != 2) chargen_line += 1;
 			
 			if (chargen_page == 2 && chargen_column == 2 && chargen_class_choose == 1 && chargen_line != 2) chargen_line += 1;
+			if (chargen_page == 2 && chargen_column == 2 && chargen_class_choose == 2 && chargen_line != 4) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)
@@ -251,7 +252,7 @@ int chargen_interface_usage(void)
 			{
 				chargen_class_choose = chargen_line;
 				chargen_column = 2;
-				if (chargen_line == 1) chargen_line = 1; // FIGHTER -> MASTER OF MARTIAL ARTS
+				chargen_line = 1;
 			}
 			
 			else if (chargen_page == 1 && chargen_column == 2)
