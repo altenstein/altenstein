@@ -455,6 +455,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(6, 51+31, "Default inventory limit: +5");
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
+				
+				player_add_int = 4;
 			}
 			
 			else if (chargen_line == 2)
@@ -476,6 +478,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 51+31, "Default inventory limit: +10");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
+				
+				player_add_int = 2;
 			}
 			
 			else if (chargen_line == 3)
@@ -494,6 +498,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));  // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				
+				player_add_int = 2;
 			}
 			
 			else if (chargen_line == 4)
@@ -512,6 +518,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(6, 51+31, "Magic damage: +10%%");
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
+				
+				player_add_dex = 4;
 			}
 		
 			else if (chargen_line == 5)
@@ -533,6 +541,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 51+31, "Magic damage: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
+				
+				player_add_dex = 2;
 			}
 		
 			else if (chargen_line == 6)
@@ -551,6 +561,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));  // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
+				
+				player_add_dex = 2;
 			}
 		}
 	}
@@ -798,8 +810,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 	{
 		attron(COLOR_PAIR(003));
 		
-		mvprintw(2, 11, "[ P O I N T S : %d ]", player_askp);
-		//mvprintw(16, 13, "POINTS: %d", player_askp);
+		mvprintw(2, 11, "[ P O I N T S :    ]");
+		mvprintw(2, 27, "%d", player_askp);
 		
 		mvprintw(2, 54, "[ C O L O R ]");
 		
@@ -810,6 +822,10 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		attron(COLOR_PAIR(001));
 		mvprintw(26, 50, "Can be changed later");
 		attroff(COLOR_PAIR(001));
+		
+		attron(COLOR_PAIR(004));
+		mvprintw(26, 10, "Can't be changed later");
+		attroff(COLOR_PAIR(004));
 		
 		attron(COLOR_PAIR(012));
 		 mvprintw(4, 15, "Strength");
@@ -836,6 +852,39 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		mvprintw(10, 28, "[+]");
 		mvprintw(12, 28, "[+]");
 		mvprintw(14, 28, "[+]");
+		attroff(COLOR_PAIR(002));
+		
+		attron(COLOR_PAIR(012));
+		mvprintw(19, 11, "Strength");
+		mvprintw(20, 11, "Dexterity");
+		mvprintw(21, 11, "Constitution");
+		mvprintw(22, 11, "Intelligence");
+		mvprintw(23, 11, "Wisdom");
+		mvprintw(24, 11, "Charisma");
+		attroff(COLOR_PAIR(012));
+		
+		attron(COLOR_PAIR(001));
+		mvprintw(17, 11, "BASE          +C  +R");
+		attroff(COLOR_PAIR(001));
+		
+		attron(COLOR_PAIR(002));
+		mvprintw(19, 25, "%d", player_str);
+		mvprintw(19, 29, "%d", (player_str + player_add_str)); // after chargen: player_str = player_str + player_add_str;  player_add_str = 0
+
+		mvprintw(20, 25, "%d", player_dex);
+		mvprintw(20, 29, "%d", (player_dex + player_add_dex));
+		
+		mvprintw(21, 25, "%d", player_con);
+		mvprintw(21, 29, "%d", (player_con + player_add_con));
+		
+		mvprintw(22, 25, "%d", player_int);
+		mvprintw(22, 29, "%d", (player_int + player_add_int));
+		
+		mvprintw(23, 25, "%d", player_wis);
+		mvprintw(23, 29, "%d", (player_wis + player_add_wis));
+		
+		mvprintw(24, 25, "%d", player_char);
+		mvprintw(24, 29, "%d", (player_char + player_add_char));
 		attroff(COLOR_PAIR(002));
 		
 		if (chargen_column == 1)
