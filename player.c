@@ -10,6 +10,26 @@
 bool dev_mode = 0;
 bool quit_diu_flag;
 
+int player_askp = 27;
+
+int player_subrace = 0;
+int player_class = 0;
+int player_subclass = 0;
+
+int player_str = 8;
+int player_dex = 8;
+int player_con = 8;
+int player_int = 8;
+int player_wis = 8;
+int player_char = 8;
+
+int player_add_str = 0;
+int player_add_dex = 0;
+int player_add_con = 0;
+int player_add_int = 0;
+int player_add_wis = 0;
+int player_add_char = 0;
+
 int player_x;
 int player_y;
 int player_hp_max;
@@ -248,6 +268,18 @@ int chargen_interface_usage(void)
 		
 		else if((key_buffer) == '\n') // ENTER
 		{
+			if (chargen_page == 2 && chargen_column == 2)
+			{
+				chargen_subclass_choose = chargen_line;
+				chargen_page = 3;
+				chargen_column = 1;
+				chargen_line = 1;
+				
+				player_subrace = chargen_subrace_choose;
+				player_class = chargen_class_choose;
+				player_subclass = chargen_subclass_choose;
+			}
+			
 			if (chargen_page == 2 && chargen_column == 1)
 			{
 				chargen_class_choose = chargen_line;
@@ -266,7 +298,6 @@ int chargen_interface_usage(void)
 			
 			else if (chargen_page == 1 && chargen_column == 1)
 			{
-				chargen_class_choose = chargen_line;
 				chargen_column = 2;
 				if (chargen_line == 2) chargen_line = 4;
 			}

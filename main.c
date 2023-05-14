@@ -39,7 +39,7 @@ int main(void)
 	init_default_items();
 	init_items_with_info();
 	
-	current_map_tile = tile_map_0001_default;
+	current_map_tile = tile_map_0003_chargen;
 	
 	player_hp = 23;
 	player_hp_max = 100;

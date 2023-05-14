@@ -794,10 +794,64 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 	
 	//--------------------------------------------------------------------------------------------------------------- S K I L L P O I N T S  &&  C O L O R
 	
-	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION
+	else if (chargen_page == 3) // SKILL POINTS DISTRIBUTION && COLOR
 	{
+		attron(COLOR_PAIR(003));
+		
+		mvprintw(2, 11, "[ P O I N T S : %d ]", player_askp);
+		//mvprintw(16, 13, "POINTS: %d", player_askp);
+		
+		mvprintw(2, 54, "[ C O L O R ]");
+		
+		mvprintw(2, 94, "[ I N F O ]");
+		
+		attroff(COLOR_PAIR(003));
+		
+		attron(COLOR_PAIR(001));
+		mvprintw(26, 50, "Can be changed later");
+		attroff(COLOR_PAIR(001));
+		
+		attron(COLOR_PAIR(012));
+		 mvprintw(4, 15, "Strength");
+		 mvprintw(6, 15, "Dexterity");
+		 mvprintw(8, 15, "Constitution");
+		mvprintw(10, 15, "Intelligence");
+		mvprintw(12, 15, "Wisdom");
+		mvprintw(14, 15, "Charisma");
+		attroff(COLOR_PAIR(012));
+		
+		attron(COLOR_PAIR(004));
+		 mvprintw(4, 11, "[-]");
+		 mvprintw(6, 11, "[-]");
+		 mvprintw(8, 11, "[-]");
+		mvprintw(10, 11, "[-]");
+		mvprintw(12, 11, "[-]");
+		mvprintw(14, 11, "[-]");
+		attroff(COLOR_PAIR(004));
+		
+		attron(COLOR_PAIR(002));
+		 mvprintw(4, 28, "[+]");
+		 mvprintw(6, 28, "[+]");
+		 mvprintw(8, 28, "[+]");
+		mvprintw(10, 28, "[+]");
+		mvprintw(12, 28, "[+]");
+		mvprintw(14, 28, "[+]");
+		attroff(COLOR_PAIR(002));
+		
 		if (chargen_column == 1)
 		{
+			if (chargen_line == 1)
+			{
+				
+			}
+		}
+		
+		if (chargen_column == 2)
+		{
+			attron(COLOR_PAIR(002));
+			mvprintw(28, 54, "[ E N T E R ]");
+			attroff(COLOR_PAIR(002));
+			
 			if (chargen_line == 1)
 			{
 				

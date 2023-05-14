@@ -54,6 +54,26 @@ extern bool quit_diu_flag;
 
 extern char npc_name[256];
 
+extern int player_subrace;
+extern int player_class;
+extern int player_subclass;
+
+extern int player_askp; // available skill points
+
+extern int player_str;
+extern int player_dex;
+extern int player_con;
+extern int player_int;
+extern int player_wis;
+extern int player_char;
+
+extern int player_add_str;
+extern int player_add_dex;
+extern int player_add_con;
+extern int player_add_int;
+extern int player_add_wis;
+extern int player_add_char;
+
 extern int player_y;
 extern int player_x;
 extern int player_hp;
