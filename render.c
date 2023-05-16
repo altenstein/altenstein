@@ -455,8 +455,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(6, 51+31, "Default inventory limit: +5");
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
-				
-				player_add_int = 4;
 			}
 			
 			else if (chargen_line == 2)
@@ -478,8 +476,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 51+31, "Default inventory limit: +10");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
-				
-				player_add_int = 2;
 			}
 			
 			else if (chargen_line == 3)
@@ -498,8 +494,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));  // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
-				
-				player_add_int = 2;
 			}
 			
 			else if (chargen_line == 4)
@@ -518,8 +512,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(6, 51+31, "Magic damage: +10%%");
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
-				
-				player_add_dex = 4;
 			}
 		
 			else if (chargen_line == 5)
@@ -541,8 +533,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(6, 51+31, "Magic damage: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +15%%");
-				
-				player_add_dex = 2;
 			}
 		
 			else if (chargen_line == 6)
@@ -561,8 +551,6 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				attron(COLOR_PAIR(002));  // -------------------------------------------------|
 				mvprintw(8, 51+31, "Magic resistance: +20%%");
 				attroff(COLOR_PAIR(002)); // -------------------------------------------------|
-				
-				player_add_dex = 2;
 			}
 		}
 	}

@@ -32,8 +32,8 @@ int player_add_char = 0;
 
 int player_x;
 int player_y;
-int player_hp_max;
-int player_hp;
+int player_hp_max = 100;
+int player_hp = 23;
 int player_balance;
 int player_level = 0;
 int player_exp = 0;
@@ -292,6 +292,20 @@ int chargen_interface_usage(void)
 				chargen_subrace_choose = chargen_line;
 				chargen_column = 1;
 				chargen_line = 1;
+				
+				player_add_str = 0;
+				player_add_dex = 0;
+				player_add_con = 0;
+				player_add_int = 0;
+				player_add_wis = 0;
+				player_add_char = 0;
+				
+				     if (chargen_subrace_choose == 1) player_add_int = 4;
+				else if (chargen_subrace_choose == 2) player_add_int = 2;
+				else if (chargen_subrace_choose == 3) player_add_int = 2;
+				else if (chargen_subrace_choose == 4) player_add_dex = 4;
+				else if (chargen_subrace_choose == 5) player_add_dex = 2;
+				else if (chargen_subrace_choose == 6) player_add_dex = 2;
 				
 				chargen_page++;
 			}
