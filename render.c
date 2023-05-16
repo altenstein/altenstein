@@ -74,6 +74,9 @@ int init_color_service(void)
 	init_pair(015, 10, 0); // Green for potion
 	init_pair(016, 6, 0); // Yellow for potion
 	
+	init_pair(017, 0, 10); // Green invert
+	init_pair(020, 0, 4); // Red invert
+	
 	// FOR WHITE USE DEFAULT B/W (012)
 	
 	return 0;
@@ -816,27 +819,27 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		attroff(COLOR_PAIR(004));
 		
 		attron(COLOR_PAIR(012));
-		 mvprintw(4, 15, "Strength");
-		 mvprintw(6, 15, "Dexterity");
-		 mvprintw(8, 15, "Constitution");
+		mvprintw(4, 15, "Strength");
+		mvprintw(6, 15, "Dexterity");
+		mvprintw(8, 15, "Constitution");
 		mvprintw(10, 15, "Intelligence");
 		mvprintw(12, 15, "Wisdom");
 		mvprintw(14, 15, "Charisma");
 		attroff(COLOR_PAIR(012));
 		
 		attron(COLOR_PAIR(004));
-		 mvprintw(4, 11, "[-]");
-		 mvprintw(6, 11, "[-]");
-		 mvprintw(8, 11, "[-]");
+		mvprintw(4, 11, "[-]");
+		mvprintw(6, 11, "[-]");
+		mvprintw(8, 11, "[-]");
 		mvprintw(10, 11, "[-]");
 		mvprintw(12, 11, "[-]");
 		mvprintw(14, 11, "[-]");
 		attroff(COLOR_PAIR(004));
 		
 		attron(COLOR_PAIR(002));
-		 mvprintw(4, 28, "[+]");
-		 mvprintw(6, 28, "[+]");
-		 mvprintw(8, 28, "[+]");
+		mvprintw(4, 28, "[+]");
+		mvprintw(6, 28, "[+]");
+		mvprintw(8, 28, "[+]");
 		mvprintw(10, 28, "[+]");
 		mvprintw(12, 28, "[+]");
 		mvprintw(14, 28, "[+]");
@@ -855,39 +858,67 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		mvprintw(17, 11, "BASE          +C  +R");
 		attroff(COLOR_PAIR(001));
 		
-		attron(COLOR_PAIR(002));
+		attron(COLOR_PAIR(003));
 		mvprintw(19, 25, "%d", player_str);
-		mvprintw(19, 29, "%d", (player_str + player_add_str)); // after chargen: player_str = player_str + player_add_str;  player_add_str = 0
-
 		mvprintw(20, 25, "%d", player_dex);
-		mvprintw(20, 29, "%d", (player_dex + player_add_dex));
-		
 		mvprintw(21, 25, "%d", player_con);
-		mvprintw(21, 29, "%d", (player_con + player_add_con));
-		
 		mvprintw(22, 25, "%d", player_int);
-		mvprintw(22, 29, "%d", (player_int + player_add_int));
-		
 		mvprintw(23, 25, "%d", player_wis);
-		mvprintw(23, 29, "%d", (player_wis + player_add_wis));
-		
 		mvprintw(24, 25, "%d", player_char);
+		attroff(COLOR_PAIR(003));
+		
+		attron(COLOR_PAIR(002));
+		mvprintw(19, 29, "%d", (player_str + player_add_str)); // after chargen: player_str = player_str + player_add_str;  player_add_str = 0
+		mvprintw(20, 29, "%d", (player_dex + player_add_dex));
+		mvprintw(21, 29, "%d", (player_con + player_add_con));
+		mvprintw(22, 29, "%d", (player_int + player_add_int));
+		mvprintw(23, 29, "%d", (player_wis + player_add_wis));
 		mvprintw(24, 29, "%d", (player_char + player_add_char));
 		attroff(COLOR_PAIR(002));
 		
+		int button_base_x = 0;
+		int button_base_y = 0;
+		
+		     if (chargen_line == 1) button_base_y = 4;
+		else if (chargen_line == 2) button_base_y = 6;
+		else if (chargen_line == 3) button_base_y = 8;
+		else if (chargen_line == 4) button_base_y = 10;
+		else if (chargen_line == 5) button_base_y = 12;
+		else if (chargen_line == 6) button_base_y = 14;
+		
 		if (chargen_column == 1)
 		{
-			if (chargen_line == 1)
-			{
-				
-			}
+			button_base_x = 11;
+			
+			attron(COLOR_PAIR(020));
+			mvprintw(button_base_y, button_base_x, "[-]");
+			attroff(COLOR_PAIR(020));
 		}
 		
 		if (chargen_column == 2)
 		{
-			attron(COLOR_PAIR(002));
-			mvprintw(28, 54, "[ E N T E R ]");
-			attroff(COLOR_PAIR(002));
+			button_base_x = 28;
+			
+			attron(COLOR_PAIR(017));
+			mvprintw(button_base_y, button_base_x, "[+]");
+			attroff(COLOR_PAIR(017));
+		}
+		
+		if (chargen_column == 3)
+		{
+			if (player_askp == 0)
+			{
+				attron(COLOR_PAIR(004));
+				mvprintw(28, 51, "[ USE ALL POINTS ]");
+				attroff(COLOR_PAIR(004));
+			}
+			
+			else
+			{
+				attron(COLOR_PAIR(002));
+				mvprintw(28, 54, "[ E N T E R ]");
+				attroff(COLOR_PAIR(002));
+			}
 			
 			if (chargen_line == 1)
 			{

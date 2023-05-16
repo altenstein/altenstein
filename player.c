@@ -230,6 +230,9 @@ int chargen_interface_usage(void)
 			
 			if (chargen_page == 2 && chargen_column == 2 && chargen_class_choose == 1 && chargen_line != 2) chargen_line += 1;
 			if (chargen_page == 2 && chargen_column == 2 && chargen_class_choose == 2 && chargen_line != 4) chargen_line += 1;
+			
+			if (chargen_page == 3 && chargen_column == 1 && chargen_line != 6) chargen_line += 1;
+			if (chargen_page == 3 && chargen_column == 2 && chargen_line != 6) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)
@@ -237,6 +240,8 @@ int chargen_interface_usage(void)
 			if (chargen_page == 1 && chargen_line != 1) chargen_line -= 1;
 			
 			if (chargen_page == 2 && chargen_line != 1) chargen_line -= 1;
+			
+			if (chargen_page == 3 && chargen_line != 1) chargen_line -= 1;
 		}
 		
 		else if((key_buffer) == 4) // LEFT (-1)
@@ -253,6 +258,13 @@ int chargen_interface_usage(void)
 				else if (chargen_line == 5) chargen_line = 2;
 				else if (chargen_line == 6) chargen_line = 2;
 			}
+			
+			if (chargen_page == 3 && chargen_column != 1)
+			{
+				chargen_column--;
+				
+				if (chargen_line > 6) chargen_line = 6;
+			}
 		}
 		
 		else if((key_buffer) == 5) // RIGHT (+1)
@@ -264,10 +276,32 @@ int chargen_interface_usage(void)
 					 if (chargen_line == 1) chargen_line = 1; // GNOME (SUB)
 				else if (chargen_line == 2) chargen_line = 4; // ELF (SUB)
 			}
+		
+			if (chargen_page == 3 && chargen_column != 2) chargen_column++;
 		}
 		
 		else if((key_buffer) == '\n') // ENTER
 		{
+			if (chargen_page == 3 && chargen_column == 1)
+			{
+				     if (chargen_line == 1 && player_str - 1 != 7) { player_str--; player_askp++; }
+				else if (chargen_line == 2 && player_dex - 1 != 7) { player_dex--; player_askp++; }
+				else if (chargen_line == 3 && player_con - 1 != 7) { player_con--; player_askp++; }
+				else if (chargen_line == 4 && player_int - 1 != 7) { player_int--; player_askp++; }
+				else if (chargen_line == 5 && player_wis - 1 != 7) { player_wis--; player_askp++; }
+				else if (chargen_line == 6 && player_char - 1 != 7) { player_char--; player_askp++; }
+			}
+			
+			if (chargen_page == 3 && chargen_column == 2)
+			{
+				     if (chargen_line == 1 && player_str + 1 != 16 && player_askp != 0) { player_str++; player_askp--; }
+				else if (chargen_line == 2 && player_dex + 1 != 16 && player_askp != 0) { player_dex++; player_askp--; }
+				else if (chargen_line == 3 && player_con + 1 != 16 && player_askp != 0) { player_con++; player_askp--; }
+				else if (chargen_line == 4 && player_int + 1 != 16 && player_askp != 0) { player_int++; player_askp--; }
+				else if (chargen_line == 5 && player_wis + 1 != 16 && player_askp != 0) { player_wis++; player_askp--; }
+				else if (chargen_line == 6 && player_char + 1 != 16 && player_askp != 0) { player_char++; player_askp--; }
+			}
+			
 			if (chargen_page == 2 && chargen_column == 2)
 			{
 				chargen_subclass_choose = chargen_line;
