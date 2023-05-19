@@ -74,8 +74,8 @@ int init_color_service(void)
 	init_pair(015, 10, 0); // Green for potion
 	init_pair(016, 6, 0); // Yellow for potion
 	
-	init_pair(017, 0, 10); // Green invert
-	init_pair(020, 0, 4); // Red invert
+	init_pair(020, 0, 10); // Green invert
+	init_pair(021, 0, 4); // Red invert
 	
 	// FOR WHITE USE DEFAULT B/W (012)
 	
@@ -890,18 +890,18 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		{
 			button_base_x = 11;
 			
-			attron(COLOR_PAIR(020));
+			attron(COLOR_PAIR(021));
 			mvprintw(button_base_y, button_base_x, "[-]");
-			attroff(COLOR_PAIR(020));
+			attroff(COLOR_PAIR(021));
 		}
 		
 		if (chargen_column == 2)
 		{
 			button_base_x = 28;
 			
-			attron(COLOR_PAIR(017));
+			attron(COLOR_PAIR(020));
 			mvprintw(button_base_y, button_base_x, "[+]");
-			attroff(COLOR_PAIR(017));
+			attroff(COLOR_PAIR(020));
 		}
 		
 		if (chargen_column == 3)
