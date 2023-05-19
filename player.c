@@ -233,6 +233,8 @@ int chargen_interface_usage(void)
 			
 			if (chargen_page == 3 && chargen_column == 1 && chargen_line != 6) chargen_line += 1;
 			if (chargen_page == 3 && chargen_column == 2 && chargen_line != 6) chargen_line += 1;
+			
+			if (chargen_page == 3 && chargen_column == 3 && chargen_line != 8) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)
@@ -259,7 +261,9 @@ int chargen_interface_usage(void)
 				else if (chargen_line == 6) chargen_line = 2;
 			}
 			
-			if (chargen_page == 3 && chargen_column != 1)
+			if (chargen_page == 3 && chargen_column == 3 && chargen_line > 8) chargen_line -= 8;
+			
+			else if (chargen_page == 3 && chargen_column != 1)
 			{
 				chargen_column--;
 				
@@ -277,7 +281,10 @@ int chargen_interface_usage(void)
 				else if (chargen_line == 2) chargen_line = 4; // ELF (SUB)
 			}
 		
-			if (chargen_page == 3 && chargen_column != 2) chargen_column++;
+			if (chargen_page == 3 && chargen_column < 2) chargen_column++;
+			else if (chargen_page == 3 && chargen_column < 3) chargen_column++;
+			
+			else if (chargen_page == 3 && chargen_column == 3 && chargen_line < 8) chargen_line += 8;
 		}
 		
 		else if((key_buffer) == '\n') // ENTER
@@ -300,6 +307,13 @@ int chargen_interface_usage(void)
 				else if (chargen_line == 4 && player_int + 1 != 16 && player_askp != 0) { player_int++; player_askp--; }
 				else if (chargen_line == 5 && player_wis + 1 != 16 && player_askp != 0) { player_wis++; player_askp--; }
 				else if (chargen_line == 6 && player_char + 1 != 16 && player_askp != 0) { player_char++; player_askp--; }
+			}
+			
+			if (chargen_page == 3 && chargen_column == 3)
+			{
+				clear();
+				render_chargen_interface(chargen_page, chargen_column, chargen_line + 100, chargen_class_choose);
+				refresh();
 			}
 			
 			if (chargen_page == 2 && chargen_column == 2)

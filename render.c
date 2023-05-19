@@ -15,6 +15,9 @@ char npc_name[];
 
 bool stop_render_flag = 0;
 
+int choosen_color = 14;
+int choosen_color_new = 1;
+
 int map_color_num(char char_for_find_color, int map_type)
 {
 	if(map_type == 50) // 50 is 1 in ASCII; Colors for location map
@@ -904,9 +907,82 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			attroff(COLOR_PAIR(020));
 		}
 		
+		// COLOR CHANGE TODO
+		
 		if (chargen_column == 3)
 		{
-			if (player_askp == 0)
+			if (chargen_line < 100) choosen_color_new = chargen_line;
+			else choosen_color = chargen_line - 100;
+		}
+		
+		if (chargen_column == 3 && choosen_color_new != choosen_color)
+		{
+			attron(COLOR_PAIR(002));
+			mvprintw(28, 46, "[ C O N F R I M   C O L O R ]");
+			attroff(COLOR_PAIR(002));
+		}
+		
+		if (chargen_column != 3) choosen_color_new = -1;
+		
+		int colorgen_x = 49;
+		int colorgen_y = 4;
+		
+		init_pair(200, 1, 0);
+		init_pair(201, 2, 0);
+		init_pair(202, 3, 0);
+		init_pair(203, 4, 0);
+		init_pair(204, 5, 0);
+		init_pair(205, 6, 0);
+		init_pair(206, 7, 0);
+		init_pair(207, 8, 0);
+		init_pair(208, 9, 0);
+		init_pair(209, 10, 0);
+		init_pair(210, 11, 0);
+		init_pair(211, 12, 0);
+		init_pair(212, 13, 0);
+		init_pair(213, 14, 0);
+		init_pair(214, 15, 0);
+		
+		for (int cgi = 0; cgi < 15; cgi++)
+		{
+			if (cgi == 8)
+			{
+				colorgen_x = colorgen_x + 15;
+				colorgen_y = colorgen_y - 16;
+			}
+			
+			attron(COLOR_PAIR(012));
+			
+			//----------------------
+			
+			if (cgi == choosen_color_new - 1
+			&& choosen_color_new != -1) attron(COLOR_PAIR(020));
+			
+			else if (cgi == choosen_color - 1 
+			&& choosen_color != -1) attron(COLOR_PAIR(021));
+			
+			else attron(COLOR_PAIR(012));
+			
+			mvprintw(colorgen_y + 2 * cgi, colorgen_x - 2, "[", cgi + 1);
+			mvprintw(colorgen_y + 2 * cgi, colorgen_x + 9, "]", cgi + 1);
+			
+			attroff(COLOR_PAIR(020));
+			attroff(COLOR_PAIR(021));
+			attroff(COLOR_PAIR(012));
+			
+			//-----------------------
+			
+			attron(COLOR_PAIR(200+cgi));
+			
+			mvprintw(colorgen_y + 2 * cgi, colorgen_x, "COLOR %d", cgi + 1);
+			
+			attroff(COLOR_PAIR(200+cgi));
+		}
+		
+		
+		if (chargen_column == 3 && choosen_color_new == choosen_color)
+		{	
+			if (player_askp != 0)
 			{
 				attron(COLOR_PAIR(004));
 				mvprintw(28, 51, "[ USE ALL POINTS ]");
@@ -919,12 +995,17 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 				mvprintw(28, 54, "[ E N T E R ]");
 				attroff(COLOR_PAIR(002));
 			}
-			
-			if (chargen_line == 1)
-			{
-				
-			}
 		}
+		
+		init_pair(100, choosen_color, 0);
+		
+		mvprintw(18, 64, "Ex.:");
+		
+		attron(COLOR_PAIR(100));
+		
+		mvprintw(18, 70, "@");
+		
+		attroff(COLOR_PAIR(100));
 	}
 	
 	//---------------------------------------------------------------------------------------
