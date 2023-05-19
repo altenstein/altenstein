@@ -69,12 +69,12 @@ interface_tile tile_chest = {.tile = {
 
 interface_tile tile_character_info = {.tile = {
 	 "|Live:    n/n    $:n    |",
-	 "|1.Strength      +n   nn|",
-	 "|2.Dexterity     +n   nn|",
-	 "|3.Constitution  +n   nn|",
-	 "|4.Intelligence  +n   nn|",
-	 "|5.Wisdom        +n   nn|",
-	 "|6.Charisma      +n   nn|",
+	 "|1.Strength      n    n |",
+	 "|2.Dexterity     n    n |",
+	 "|3.Constitution  n    n |",
+	 "|4.Intelligence  n    n |",
+	 "|5.Wisdom        n    n |",
+	 "|6.Charisma      n    n |",
 	 "+-----------------------+"
 } };	
 	

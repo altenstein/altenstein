@@ -234,7 +234,7 @@ int chargen_interface_usage(void)
 			if (chargen_page == 3 && chargen_column == 1 && chargen_line != 6) chargen_line += 1;
 			if (chargen_page == 3 && chargen_column == 2 && chargen_line != 6) chargen_line += 1;
 			
-			if (chargen_page == 3 && chargen_column == 3 && chargen_line != 8) chargen_line += 1;
+			if (chargen_page == 3 && chargen_column == 3 && chargen_line < 15) chargen_line += 1;
 		}
 		
 		else if((key_buffer) == 3) // UP (-1)

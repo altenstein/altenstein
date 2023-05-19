@@ -77,6 +77,9 @@ int init_color_service(void)
 	init_pair(015, 10, 0); // Green for potion
 	init_pair(016, 6, 0); // Yellow for potion
 	
+	init_pair(022, 5, 0); // Purple
+	init_pair(023, 1, 0); // Blue
+	
 	init_pair(020, 0, 10); // Green invert
 	init_pair(021, 0, 4); // Red invert
 	
@@ -131,10 +134,12 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 	
 		mvprintw(23, 90, "                            ");
 		mvprintw(25, 90, "                            ");
+		mvprintw(26, 90, "                            ");
 	
 		if (inventory_cell[selected_cell] != 0){ // Item information by ID
 			mvprintw(23, 91, "%s", item_with_info[inventory_cell[selected_cell]].item_name);
 			mvprintw(25, 91, "%s", item_with_info[inventory_cell[selected_cell]].item_description);
+			mvprintw(26, 91, "%s", item_with_info[inventory_cell[selected_cell]].item_description2);
 			if (item_with_info[inventory_cell[selected_cell]].item_usable == 1) {
 				action_2_inventory_usage(1, inventory_cell[selected_cell]);
 			}
@@ -143,6 +148,7 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 		if (inventory_cell[selected_cell] > 999 && inventory_cell[selected_cell] < 1256){ // Backpack information by ID
 			mvprintw(23, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_name);
 			mvprintw(25, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_description);
+			mvprintw(26, 91, "%s", backpack[inventory_cell[selected_cell] - 1000].backpack_description2);
 		}
 		
 		attroff(COLOR_PAIR(100));
@@ -244,9 +250,9 @@ int render_player_info(void)
 	_srf_ mvprintw(21, 1, "Live:");
 	attroff(COLOR_PAIR(002));
 	
-	attron(COLOR_PAIR(003));
+	attron(COLOR_PAIR(002)); // or 003
 	_srf_ mvprintw(21, 17, "$:%d", player_balance);
-	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(002)); // or 003
 	
 	if(player_hp <= (player_hp_max*0,33)) attron(COLOR_PAIR(004));
 	else if(player_hp <= (player_hp_max*0,67)) attron(COLOR_PAIR(003));
@@ -265,6 +271,33 @@ int render_player_info(void)
 	attroff(COLOR_PAIR(004));
 	
 	/* PLAYER STATS WILL BE HERE*/
+	
+	attron(COLOR_PAIR(010));
+	mvprintw(19+3, 3, "Strength");
+	mvprintw(20+3, 3, "Dexterity");
+	mvprintw(21+3, 3, "Constitution");
+	mvprintw(22+3, 3, "Intelligence");
+	mvprintw(23+3, 3, "Wisdom");
+	mvprintw(24+3, 3, "Charisma");
+	attroff(COLOR_PAIR(010));
+	
+	attron(COLOR_PAIR(023));
+	mvprintw(19+3, 17, "%d", player_str);
+	mvprintw(20+3, 17, "%d", player_dex);
+	mvprintw(21+3, 17, "%d", player_con);
+	mvprintw(22+3, 17, "%d", player_int);
+	mvprintw(23+3, 17, "%d", player_wis);
+	mvprintw(24+3, 17, "%d", player_char);
+	attroff(COLOR_PAIR(023));
+	
+	attron(COLOR_PAIR(022));
+	mvprintw(19+3, 22, "%d", (player_str + player_add_str)); // after chargen: player_str = player_str + player_add_str;  player_add_str = 0
+	mvprintw(20+3, 22, "%d", (player_dex + player_add_dex));
+	mvprintw(21+3, 22, "%d", (player_con + player_add_con));
+	mvprintw(22+3, 22, "%d", (player_int + player_add_int));
+	mvprintw(23+3, 22, "%d", (player_wis + player_add_wis));
+	mvprintw(24+3, 22, "%d", (player_char + player_add_char));
+	attroff(COLOR_PAIR(022));
 }
 
 int render_default_interface(interface_tile map, interface_tile inventory, interface_tile stats, interface_tile actions, interface_tile world_info) 
@@ -1474,11 +1507,13 @@ int render_chest_selected_cell(int chest_selected_cell, int chest_id)
 	if (chest[chest_id].chest_cell[chest_selected_cell] != 0){ // Item information by ID
 			mvprintw(6, 51, "%s", item_with_info[chest[chest_id].chest_cell[chest_selected_cell]].item_name);
 			mvprintw(8, 51, "%s", item_with_info[chest[chest_id].chest_cell[chest_selected_cell]].item_description);
+			mvprintw(9, 51, "%s", item_with_info[chest[chest_id].chest_cell[chest_selected_cell]].item_description2);
 		}
 		
 	if (chest[chest_id].chest_cell[chest_selected_cell] > 999 && chest[chest_id].chest_cell[chest_selected_cell] < 1256){ // Backpack information by ID
 		mvprintw(6, 51, "%s", backpack[chest[chest_id].chest_cell[chest_selected_cell] - 1000].backpack_name);
 		mvprintw(8, 51, "%s", backpack[chest[chest_id].chest_cell[chest_selected_cell] - 1000].backpack_description);
+		mvprintw(9, 51, "%s", backpack[chest[chest_id].chest_cell[chest_selected_cell] - 1000].backpack_description2);
 	}
 	
 	attroff(COLOR_PAIR(100));

@@ -81,7 +81,7 @@ ID: 1000-1255 - Backpacks
 int init_items_with_info(void)
 {
 	strcpy(item_with_info[1].item_name, "Treatment Potion");
-	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec;");
+	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec;"); // YOU CAN USE DESCR-2 FOR SECOND DESCRIPTION LINE
 	item_with_info[1].item_usable = 1;
 	item_with_info[1].item_cost = 50;
 	

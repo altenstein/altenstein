@@ -10,6 +10,7 @@ typedef struct {
 typedef struct {
 	char item_name[32];
 	char item_description[32];
+	char item_description2[32];
 	bool item_usable;
 	
 	int item_drop_map_id_1; // X...
@@ -25,11 +26,15 @@ typedef struct {
 typedef struct {
 	char backpack_name[32];
 	char backpack_description[32];
+	char backpack_description2[32];
 	int backpack_add_cells;
 	int backpack_used;
 	int backpack_cell[20]; // 20 is the maximum size of a backpack
 	
-	int backpack_drop_map_id;
+	int backpack_drop_map_id_1; // X...
+	int backpack_drop_map_id_2; // .X..
+	int backpack_drop_map_id_3; // ..X.
+	int backpack_drop_map_id_4; // ...X
 	int backpack_drop_y;
 	int backpack_drop_x;
 } item_backpack;

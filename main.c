@@ -39,10 +39,10 @@ int main(void)
 	init_default_items();
 	init_items_with_info();
 	
-	current_map_tile = tile_map_0003_chargen;
+	current_map_tile = tile_map_0001_default;
 	
-	player_y = 10; // 10 // 1
-	player_x = 57; // 57 // 2
+	player_y = 1; // 10 // 1
+	player_x = 2; // 57 // 2
 	
 	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
 	render_map_entities(current_map_tile);
