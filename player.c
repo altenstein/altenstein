@@ -7,6 +7,8 @@
 #include"render.h"
 #include"items.h"
 
+unsigned int global_timer = 100;
+
 bool dev_mode = 0;
 bool quit_diu_flag;
 
@@ -129,7 +131,7 @@ int defult_interface_usage(interface_tile map)
 		//int *bsd = &player_x;
 	
 		//attron(COLOR_PAIR(001));
-		//mvprintw(29, 0, "%p %p", asd, bsd); // Underline information
+		mvprintw(29, 0, "%d", global_timer); // Underline information
 		//attroff(COLOR_PAIR(001));
 		
 		if (player_action == '6')
@@ -469,27 +471,26 @@ int launch(interface_tile current_map)
 	
 	//---------------------------------------------------------------------------------------
 	
-	pthread_t thread_render_engine;
+	pthread_t thread_global_timer;
 	
-	void *thread_func_render_engine(void * arg) 
+	void *thread_func_global_timer(void * arg) 
 	{
 		do
 		{
-			// TODO: RENDER ENGINE REALIZATION (Work in progress)													<---------[TODO]---------<<<
-		
-			pthread_exit(NULL);
+			global_timer += 1;
+			Sleep(10);
 		}
 		while(work);
 	}
 	
-	res = pthread_create (&thread_render_engine, NULL, thread_func_render_engine, NULL);
+	res = pthread_create (&thread_global_timer, NULL, thread_func_global_timer, NULL);
 	
 	if (res != 0) {
 		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
 		exit(-10);
 	}
 
-	res = pthread_detach(thread_render_engine);
+	res = pthread_detach(thread_global_timer);
 	
 	if (res != 0) {
 		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);

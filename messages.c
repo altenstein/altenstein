@@ -132,7 +132,7 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 3;
 	}
 	
-	else if (msg_id == 4) // Create a character	(Enter town try)															<---------[TODO]---------<<<
+	else if (msg_id == 4) // Create a character	(Enter town try)
 	{
 		msg_y = 7;
 		msg_x = 26;
@@ -157,7 +157,7 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 21;
 	}
 	
-	else if (msg_id == 6) // Create a character	(Talk with Guardian)														<---------[TODO]---------<<<
+	else if (msg_id == 6) // Create a character	(Talk with Guardian)
 	{
 		msg_y = 8;
 		msg_x = 26;

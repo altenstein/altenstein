@@ -47,6 +47,8 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 
 // Variables
 
+extern unsigned int global_timer;
+
 extern bool dev_mode;
 extern bool stop_render_flag;
 extern bool quit_cbc_flag;
