@@ -41,8 +41,8 @@ int main(void)
 	
 	current_map_tile = tile_map_0001_default;
 	
-	player_y = 1; // 10 // 1
-	player_x = 2; // 57 // 2
+	player_y = 1; // 10 for chargen // 1 // 10 for central
+	player_x = 2; // 57 for chargen // 2 // 69 for central
 	
 	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
 	render_map_entities(current_map_tile);

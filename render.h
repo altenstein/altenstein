@@ -109,6 +109,11 @@ extern int action_2_mod;
 extern int action_6_mod;
 extern int action_6_flag;
 
+// Story trigger flags
+
+extern bool char_done_flag;
+extern bool stf_0001_guard;
+
 // Tiles
 
 extern interface_tile preload_map_tile;
@@ -129,5 +134,6 @@ extern interface_tile tile_chargen;
 extern interface_tile tile_map_0001_default;
 extern interface_tile tile_map_0002_dev;
 extern interface_tile tile_map_0003_chargen;
+extern interface_tile tile_map_0004_central;
 
 #endif

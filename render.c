@@ -944,8 +944,9 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		
 		if (chargen_column == 3)
 		{
-			if (chargen_line < 100) choosen_color_new = chargen_line;
-			else choosen_color = chargen_line - 100;
+			if (chargen_line < 100) choosen_color_new = chargen_line; // View color
+			else if (chargen_line < 1000) choosen_color = chargen_line - 100; // Set color
+			else if (player_askp == 0 && choosen_color == choosen_color_new) return 1; // Start the game
 		}
 		
 		if (chargen_column == 3 && choosen_color_new != choosen_color)
@@ -960,21 +961,21 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		int colorgen_x = 49;
 		int colorgen_y = 4;
 		
-		init_pair(200, 1, 0);
-		init_pair(201, 2, 0);
-		init_pair(202, 3, 0);
-		init_pair(203, 4, 0);
-		init_pair(204, 5, 0);
-		init_pair(205, 6, 0);
-		init_pair(206, 7, 0);
-		init_pair(207, 8, 0);
-		init_pair(208, 9, 0);
-		init_pair(209, 10, 0);
-		init_pair(210, 11, 0);
-		init_pair(211, 12, 0);
-		init_pair(212, 13, 0);
-		init_pair(213, 14, 0);
-		init_pair(214, 15, 0);
+		init_pair(030, 1, 0); // 200
+		init_pair(031, 2, 0);
+		init_pair(032, 3, 0);
+		init_pair(033, 4, 0);
+		init_pair(034, 5, 0);
+		init_pair(035, 6, 0);
+		init_pair(036, 7, 0);
+		init_pair(037, 8, 0);
+		init_pair(040, 9, 0);
+		init_pair(041, 10, 0);
+		init_pair(042, 11, 0);
+		init_pair(043, 12, 0);
+		init_pair(044, 13, 0);
+		init_pair(045, 14, 0);
+		init_pair(046, 15, 0);
 		
 		for (int cgi = 0; cgi < 15; cgi++)
 		{
@@ -1005,11 +1006,11 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 			
 			//-----------------------
 			
-			attron(COLOR_PAIR(200+cgi));
+			attron(COLOR_PAIR(030+cgi));
 			
 			mvprintw(colorgen_y + 2 * cgi, colorgen_x, "COLOR %d", cgi + 1);
 			
-			attroff(COLOR_PAIR(200+cgi));
+			attroff(COLOR_PAIR(030+cgi));
 		}
 		
 		
@@ -1039,6 +1040,49 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 		mvprintw(18, 70, "@");
 		
 		attroff(COLOR_PAIR(100));
+		
+		//--------------------------------------------------------------------------------------- I N F O
+		
+		attron(COLOR_PAIR(012));
+		
+		mvprintw(4, 97, "Race:");
+		
+		mvprintw(9, 97, "Class:");
+		
+		mvprintw(14, 97, "Color:");
+		
+		attroff(COLOR_PAIR(012));
+		
+		char info_race[32] = "";
+		char info_class[32] = "";
+		
+		if (player_subrace < 4) strcpy(info_race, "G N O M E");
+		else if (player_subrace < 7) strcpy(info_race, "E L F");
+		
+		if (player_class == 1) strcpy(info_class, "F I G T E R");
+		else if (player_class == 2) strcpy(info_class, "W I Z A R D");
+		
+		attron(COLOR_PAIR(002)); // RACE + CLASS
+		
+		mvprintw(6, 99 - (strlen(info_race) / 2), info_race);
+		mvprintw(11, 99 - (strlen(info_class) / 2), info_class);
+		
+		attroff(COLOR_PAIR(002));
+		
+		attron(COLOR_PAIR(100)); // COLOR
+		
+		mvprintw(16, 92, "Example text: 60");
+		
+		attroff(COLOR_PAIR(100));
+		
+		
+		if (player_askp == 0 && choosen_color == choosen_color_new) attron(COLOR_PAIR(002));
+		else attron(COLOR_PAIR(004));
+		
+		mvprintw(26, 91, "[ START THE GAME ]");
+		
+		attroff(COLOR_PAIR(002));
+		attroff(COLOR_PAIR(004));
 	}
 	
 	//---------------------------------------------------------------------------------------
@@ -1261,6 +1305,10 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 	
 	return 0;
 }
+
+// ENTITY STORY TRIGGER FLAGS
+
+bool stf_0001_guard = 0;
 
 int render_map_entities(interface_tile map)
 {

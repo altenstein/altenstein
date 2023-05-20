@@ -12,9 +12,9 @@ bool quit_diu_flag;
 
 int player_askp = 27;
 
-int player_subrace = 0;
-int player_class = 0;
-int player_subclass = 0;
+int player_subrace = 1;
+int player_class = 1;
+int player_subclass = 1;
 
 int player_str = 8;
 int player_dex = 8;
@@ -57,7 +57,22 @@ int current_inventory_item = 0;
 
 int defult_interface_usage(interface_tile map)
 {
-	if(dev_mode == 1) { player_hp = 4200; player_hp_max = 5000; player_balance = 5000; player_inventory_limit = 24; } // Not 25 so that you can use a backpack.
+	if(dev_mode == 1)
+	{
+		player_hp = 4200;
+		player_hp_max = 5000;
+		player_balance = 5000;
+		player_inventory_limit = 24;
+		
+		player_askp = 0;
+		
+		player_add_str = 15;
+		player_add_dex = 15;
+		player_add_con = 15;
+		player_add_int = 15;
+		player_add_wis = 15;
+		player_add_char = 15;
+	} // Not 25 so that you can use a backpack.
 	
 	player_additional_limit = player_inventory_limit;
 	
@@ -311,6 +326,8 @@ int chargen_interface_usage(void)
 			
 			if (chargen_page == 3 && chargen_column == 3)
 			{
+				if (render_chargen_interface(chargen_page, chargen_column, chargen_line + 1000, chargen_class_choose) == 1) char_done_flag = 1;
+
 				clear();
 				render_chargen_interface(chargen_page, chargen_column, chargen_line + 100, chargen_class_choose);
 				refresh();
@@ -389,6 +406,18 @@ int chargen_interface_usage(void)
 				chargen_line = chargen_class_choose;
 				chargen_column--;
 			}
+			
+			else if (chargen_page == 3 && chargen_column == 3)
+			{
+				chargen_column--;
+			}
+			
+			else if (chargen_page == 3)
+			{
+				chargen_page--;
+				chargen_column = 2;
+				chargen_line = player_subclass;
+			}
 		}
 		
 		clear();
@@ -401,10 +430,32 @@ int chargen_interface_usage(void)
 		
 	} while (!char_done_flag);
 	
-	// ^^^ Replace with chargen
-	//current_map_tile = tile_map_0002_dev;
-	//quit_diu_flag = 0;
-	//stop_render_flag = 0;
+	// ^^^ Replace with chargen // Done
+	
+	current_map_tile = tile_map_0004_central;
+	preload_map_tile = tile_map_0004_central;
+	
+	player_x = 69;
+	player_y = 10;
+	
+	quit_diu_flag = 0;
+	stop_render_flag = 0;
+	
+	player_str += player_add_str;
+	player_dex += player_add_dex;
+	player_con += player_add_con;
+	player_int += player_add_int;
+	player_wis += player_add_wis;
+	player_char += player_add_char;
+	
+	player_add_str = 0;
+	player_add_dex = 0;
+	player_add_con = 0;
+	player_add_int = 0;
+	player_add_wis = 0;
+	player_add_char = 0;
+	
+	render_loaded_location();
 	
 	return 0;
 }
