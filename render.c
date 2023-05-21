@@ -1308,7 +1308,9 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 
 // ENTITY STORY TRIGGER FLAGS
 
-bool stf_0001_guard = 0;
+int stf_0001_guard = 0;
+
+// CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ TODO ]---<<<-----------------------------V-V-V-----------------------------------<<<----------[ TODO ]<<<
 
 int render_map_entities(interface_tile map)
 {
@@ -1473,6 +1475,8 @@ int render_map_entities(interface_tile map)
 		if(player_x > 64)
 		{ 
 			quit_diu_flag = 1;
+			stf_0001_guard = 2;
+			
 			render_message(30000, 4);
 			
 			player_x = 1;

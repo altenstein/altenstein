@@ -114,7 +114,7 @@ extern int action_6_flag;
 // Story trigger flags
 
 extern bool char_done_flag;
-extern bool stf_0001_guard;
+extern int stf_0001_guard; // 1 - GOOD; 2 - BAD
 
 // Tiles
 
@@ -137,5 +137,6 @@ extern interface_tile tile_map_0001_default;
 extern interface_tile tile_map_0002_dev;
 extern interface_tile tile_map_0003_chargen;
 extern interface_tile tile_map_0004_central;
+extern interface_tile tile_map_0005_central_admin;
 
 #endif

@@ -131,7 +131,7 @@ int defult_interface_usage(interface_tile map)
 		//int *bsd = &player_x;
 	
 		//attron(COLOR_PAIR(001));
-		mvprintw(29, 0, "%d", global_timer); // Underline information
+		//mvprintw(29, 0, "%d", global_timer); // Underline information
 		//attroff(COLOR_PAIR(001));
 		
 		if (player_action == '6')
@@ -161,7 +161,7 @@ int defult_interface_usage(interface_tile map)
 				
 				if (action_6_flag == 1) render_inventory();
 			}
-			else if (action_1_mod == 5) { action_1_special(55, current_map_tile); chargen_interface_usage(); return 1; }
+			else if (action_1_mod == 5) { stf_0001_guard = 1; action_1_special(55, current_map_tile); chargen_interface_usage(); return 1; }
 		}
 		
 		else if (player_action == '\n') 
@@ -440,9 +440,6 @@ int chargen_interface_usage(void)
 	player_x = 69;
 	player_y = 10;
 	
-	quit_diu_flag = 0;
-	stop_render_flag = 0;
-	
 	player_str += player_add_str;
 	player_dex += player_add_dex;
 	player_con += player_add_con;
@@ -456,6 +453,9 @@ int chargen_interface_usage(void)
 	player_add_int = 0;
 	player_add_wis = 0;
 	player_add_char = 0;
+	
+	quit_diu_flag = 0;
+	stop_render_flag = 0;
 	
 	render_loaded_location();
 	
