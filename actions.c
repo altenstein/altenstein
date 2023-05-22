@@ -452,7 +452,7 @@ int action_1_special(int mod, interface_tile map)
 		return 1;
 	}
 	
-	else if(mod == 55) // Read the plate action
+	else if(mod == 55) // GUARDIAN
 	{
 		render_message(30000, 6);
 		

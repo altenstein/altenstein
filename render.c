@@ -19,6 +19,7 @@ int choosen_color = 14;
 int choosen_color_new = 1;
 
 int global_plate_id = 1;
+int global_talk_npc_id = 1;
 
 int map_color_num(char char_for_find_color, int map_type)
 {
@@ -1183,7 +1184,7 @@ int render_inventory(void)
 	return 0;
 }
 
-int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4])
+int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4]) // NEED TO FULL REWRITE <<<----------------------------[ TODO ]----------------------------<<<
 {
 	int res;
 	
@@ -1312,8 +1313,6 @@ int stf_0001_guard = 0;
 
 int init_entity_plate_with_text(int in_y, int in_x, int in_plate_id)
 {
-	//attron(COLOR_PAIR(101));
-	
 	if((player_y == in_y) && (player_x == in_x))
 	{ 
 		mvprintw(21, 91, "Plate with the text");
@@ -1326,7 +1325,73 @@ int init_entity_plate_with_text(int in_y, int in_x, int in_plate_id)
 		return 1;
 	}
 	
-	//attroff(COLOR_PAIR(101));
+	return 0;
+}
+
+int init_entity_guardian_talk(int in_y, int in_x, int in_talk_id)
+{
+	if((player_y == in_y) && (player_x == in_x))
+	{ 
+		global_talk_npc_id = in_talk_id;
+
+		mvprintw(21, 91, "Borovia Guardian");
+		strcpy(npc_name, "Guardian");
+
+		action_1_mod = 5;
+		action_1_special(action_1_mod, current_map_tile);
+		
+		return 1;
+	}
+	
+	return 0;
+}
+
+int init_entity_chest_default(int in_y, int in_x, int in_chest_id, char in_chest_name[], char in_chest_type[], char in_chest_print[])
+{
+	if((player_y == in_y) && (player_x == in_x))
+	{
+		strcpy(chest[in_chest_id].chest_name, in_chest_name);
+		strcpy(chest[in_chest_id].chest_type, in_chest_type);
+		chest[in_chest_id].chest_map_id_1 = current_map_tile.tile[21][4] - 48;
+		chest[in_chest_id].chest_map_id_2 = current_map_tile.tile[21][5] - 48;
+		chest[in_chest_id].chest_map_id_3 = current_map_tile.tile[21][6] - 48;
+		chest[in_chest_id].chest_map_id_4 = current_map_tile.tile[21][7] - 48;
+		chest[in_chest_id].chest_x = player_x;
+		chest[in_chest_id].chest_y = player_y;
+		
+		mvprintw(21, 91, in_chest_print);
+		
+		action_1_mod = 1;
+		action_1_special(action_1_mod, current_map_tile);
+		
+		if (transfer_inside_inventory_flag == 1)
+		{
+			action_1_mod = 10;
+			action_1_special(action_1_mod, current_map_tile);
+		} else {
+			action_1_mod = 1;
+			action_1_special(action_1_mod, current_map_tile);
+		}
+		
+		return 1;
+	}
+	
+	return 0;
+}
+
+int init_entity_teleport_default(int in_y, int in_x, int in_action_mod, char in_teleport_descr[], interface_tile in_preload_map)
+{
+	if((player_y == in_y) && (player_x == in_x))
+	{
+		mvprintw(21, 91, "%s", in_teleport_descr);
+		preload_map_tile = in_preload_map;
+		
+		action_1_mod = in_action_mod;
+		action_1_special(action_1_mod, current_map_tile);
+		
+		return 1;
+	}
+	
 	return 0;
 }
 
@@ -1345,121 +1410,56 @@ int render_map_entities(interface_tile map)
 	{
 		// Render entities
 		
+		int def_cst_0001_y = 18;
+		int def_cst_0001_x = 10;
+		
+		int def_boat_0001_y = 7;
+		int def_boat_0001_x = 68;
+		
+		int def_tlprt_0001_y = 15;
+		int def_tlprt_0001_x = 38;
+		
 		attron(COLOR_PAIR(101));
-		mvaddch(7, 68, 'B'); // Boat
-		mvaddch(18, 10, 'T'); // Tree with chest
+		mvaddch(def_boat_0001_y, def_boat_0001_x, 'B'); // Boat
+		mvaddch(def_cst_0001_y, def_cst_0001_x, 'T'); // Tree with chest
 		attroff(COLOR_PAIR(101));
 		
 		attron(COLOR_PAIR(011));
-		mvaddch(15, 38, '*'); // Dev location teleport
+		mvaddch(def_tlprt_0001_y, def_tlprt_0001_x, '*'); // Dev location teleport
 		attroff(COLOR_PAIR(011));
 		
 		// Player check
 		
 		attron(COLOR_PAIR(101));
 		
-		if((player_y == 18) && (player_x == 10))
-		{ 
-			// CHEST ID: 0000
-			
-			strcpy(chest[0].chest_name, "Default location tree stash");
-			strcpy(chest[0].chest_type, "STASH IN A TREE");
-			chest[0].chest_map_id_1 = map_id_1;
-			chest[0].chest_map_id_2 = map_id_2;
-			chest[0].chest_map_id_3 = map_id_3;
-			chest[0].chest_map_id_4 = map_id_4;
-			chest[0].chest_x = player_x;
-			chest[0].chest_y = player_y;
-			
-			mvprintw(21, 91, "Tree with a stash");
-			
-			if (transfer_inside_inventory_flag == 1) {
-				action_1_mod = 10;
-				action_1_special(action_1_mod, map);
-			} else {
-				action_1_mod = 1;
-				action_1_special(action_1_mod, map);
-			}
-			
-			
-			
-			attroff(COLOR_PAIR(101));
-			
-			return 1;
-		}
-		
-		if((player_y == 7) && (player_x == 68))
-		{
-			mvprintw(21, 91, "Boat to another place");
-			preload_map_tile = tile_map_0003_chargen;
-			
-			action_1_mod = 2;
-			action_1_special(action_1_mod, map);
-			
-			attroff(COLOR_PAIR(101));
-			
-			return 2;
-		}
-		
-		if((player_y == 15) && (player_x == 38))
-		{
-			mvprintw(21, 91, "Teleport to Develop map");
-			preload_map_tile = tile_map_0002_dev;
-			
-			action_1_mod = 3;
-			action_1_special(action_1_mod, map);
-			
-			attroff(COLOR_PAIR(101));
-			
-			return 2;
-		}
-		
+		if ( init_entity_chest_default(def_cst_0001_y, def_cst_0001_x, 0, "Default location tree stash", "STASH IN A TREE", "Tree with a stash") == 1 ) return 1;
+		else if ( init_entity_teleport_default(def_boat_0001_y, def_boat_0001_x, 2, "Boat to another place", tile_map_0003_chargen) == 1 ) return 1;
+		else if ( init_entity_teleport_default(def_tlprt_0001_y, def_tlprt_0001_x, 3, "Teleport to Develop map", tile_map_0002_dev) == 1 ) return 1;
+
 		// No player check
 		
 		mvprintw(21, 90, "                            ");
+		attroff(COLOR_PAIR(101));
 	}
 	
 	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 2)) // --------------------------- [ 0002 ] ----------------------------
 	{
 		// Render entities
 		
+		int dev_cst_0002_1_y = 9;
+		int dev_cst_0002_1_x = 3;
+		
+		int dev_tlprt_0002_1_y = 11;
+		int dev_tlprt_0002_1_x = 3;
+		
 		attron(COLOR_PAIR(101));
-		mvaddch(11, 3, 'B'); // Test boat (need to add a teleportation function to any location)
-		mvaddch(9, 3, 'C'); // Test chest 1 (CURRENT ITEMS)
+		mvaddch(dev_tlprt_0002_1_y, dev_tlprt_0002_1_x, 'B'); // Test boat (need to add a teleportation function to any location)
+		mvaddch(dev_cst_0002_1_y, dev_cst_0002_1_x, 'C'); // Test chest 1 (CURRENT ITEMS)
 		
 		// Player check
 		
-		if((player_y == 9) && (player_x == 3))
-		{ 
-			// CHEST ID: 0001
-			
-			strcpy(chest[1].chest_name, "TEST CHEST");
-			strcpy(chest[1].chest_type, "TEST CHEST");
-			chest[1].chest_map_id_1 = map_id_1;
-			chest[1].chest_map_id_2 = map_id_2;
-			chest[1].chest_map_id_3 = map_id_3;
-			chest[1].chest_map_id_4 = map_id_4;
-			chest[1].chest_x = player_x;
-			chest[1].chest_y = player_y;
-			
-			mvprintw(21, 91, "TEST CHEST");
-			
-			action_1_mod = 1;
-			action_1_special(action_1_mod, map);
-			
-			return 1;
-		}
-		
-		if((player_y == 11) && (player_x == 3))
-		{
-			mvprintw(21, 91, "TELEPORT TO DEFAULT MAP");
-			preload_map_tile = tile_map_0001_default;
-			
-			action_1_mod = 3;
-			action_1_special(action_1_mod, map);
-			
-			return 2;
-		}
+		if ( init_entity_chest_default(dev_cst_0002_1_y, dev_cst_0002_1_x, 1, "TEST CHEST", "TEST CHEST", "TEST CHEST") == 1 ) return 1;
+		else if ( init_entity_teleport_default(dev_tlprt_0002_1_y, dev_tlprt_0002_1_x, 3, "TELEPORT OT DEFAULT MAP", tile_map_0001_default) == 1 ) return 1;
 		
 		// No player check
 		
@@ -1476,26 +1476,29 @@ int render_map_entities(interface_tile map)
 		int bor_plt_0003_y = 13;
 		int bor_plt_0003_x = 18;
 		
+		int bor_npc_0003_1_y = 13;
+		int bor_npc_0003_1_x = 54;
+		
+		int bor_npc_0003_2_y = 7;
+		int bor_npc_0003_2_x = 61;
+		
+		int bor_npc_0003_3_y = 9;
+		int bor_npc_0003_3_x = 48;
+		
 		attron(COLOR_PAIR(101));
 		mvaddch(bor_plt_0003_y, bor_plt_0003_x, 'P'); // Plate (Eastern exit from Borovia)
-		mvaddch(13, 54, 'G'); // Guardian 1 (Eastern exit from Borovia)
-		mvaddch(7, 61, 'G'); // Guardian 2 (Eastern exit from Borovia)
-		mvaddch(9, 48, 'G'); // Guardian 3 (Eastern exit from Borovia)
+		mvaddch(bor_npc_0003_1_y, bor_npc_0003_1_x, 'G'); // Guardian 1 (Eastern exit from Borovia)
+		mvaddch(bor_npc_0003_2_y, bor_npc_0003_2_x, 'G'); // Guardian 2 (Eastern exit from Borovia)
+		mvaddch(bor_npc_0003_3_y, bor_npc_0003_3_x, 'G'); // Guardian 3 (Eastern exit from Borovia)
 		
 		// Player check
 		
-		if(((player_y == 13) && (player_x == 54)) || ((player_y == 7) && (player_x == 61)) || ((player_y == 9) && (player_x == 48)))
-		{ 
-			mvprintw(21, 91, "Borovia Guardian");
-			strcpy(npc_name, "Guardian");
-	
-			action_1_mod = 5;
-			action_1_special(action_1_mod, map);
-			
-			return 1;
-		}
+		     if ( init_entity_guardian_talk(bor_npc_0003_1_y, bor_npc_0003_1_x, 1) == 1 ) return 1; // Guardian  Creator
+		else if ( init_entity_guardian_talk(bor_npc_0003_2_y, bor_npc_0003_2_x, 1) == 1 ) return 1; // Guardian  Creator
+		else if ( init_entity_guardian_talk(bor_npc_0003_3_y, bor_npc_0003_3_x, 1) == 1 ) return 1; // Guardian  Creator
+		else if ( init_entity_plate_with_text(bor_plt_0003_y, bor_plt_0003_x, 1) == 1 ) return 1;   // Plate     Creator
 		
-		if(player_x > 64)
+		if(player_x > 64) // Chargen trigger
 		{ 
 			quit_diu_flag = 1;
 			stf_0001_guard = 2;
@@ -1509,8 +1512,6 @@ int render_map_entities(interface_tile map)
 			
 			return 1;
 		}
-		
-		if ( init_entity_plate_with_text(bor_plt_0003_y, bor_plt_0003_x, 1) == 1 ) return 1; // PLATE CREATOR
 		
 		// No player check
 		
@@ -1669,7 +1670,7 @@ int render_loaded_location(void)
 	
 	render_static_entities();
 	
-	defult_interface_usage(current_map_tile);
+	default_interface_usage(current_map_tile);
 	
 	return 0;
 }

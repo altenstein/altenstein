@@ -16,8 +16,6 @@ int init_color_service(void);
 int init_color_entities(void);
 int init_actions(void);
 
-int init_entity_plate_with_text(int in_y, int in_x, int in_plate_id);
-
 // Functions
 
 int launch(interface_tile current_map);
@@ -27,7 +25,7 @@ int action_1_special(int mod, interface_tile map);
 int action_2_inventory_usage(int mod, int item_id);
 
 int map_color_num(char char_for_find_color, int map_type);
-int defult_interface_usage(interface_tile map);
+int default_interface_usage(interface_tile map);
 
 int chargen_interface_usage(void);
 
@@ -51,6 +49,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 
 extern unsigned int global_timer;
 extern int global_plate_id;
+extern int global_talk_npc_id;
 
 extern bool dev_mode;
 extern bool stop_render_flag;

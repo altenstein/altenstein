@@ -162,14 +162,17 @@ int render_message(int mod, int msg_id)
 	
 	else if (msg_id == 6) // Create a character	(Talk with Guardian)
 	{
-		msg_y = 8;
-		msg_x = 26;
-		
-		render_text_frame(msg_y, msg_x, 5, 25);
-		render_text_cbc(msg_y + 1, msg_x + 2, "- Hello. Who are you?");
-		
-		button_y = msg_y + 3;
-		button_x_1 = msg_x + 3;
+		if (global_talk_npc_id == 1)
+		{
+			msg_y = 8;
+			msg_x = 26;
+			
+			render_text_frame(msg_y, msg_x, 5, 25);
+			render_text_cbc(msg_y + 1, msg_x + 2, "- Hello. Who are you?");
+			
+			button_y = msg_y + 3;
+			button_x_1 = msg_x + 3;
+		}
 	}
 	
 	

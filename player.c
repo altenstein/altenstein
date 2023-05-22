@@ -57,7 +57,7 @@ int buffer_player_x;
 
 int current_inventory_item = 0;
 
-int defult_interface_usage(interface_tile map)
+int default_interface_usage(interface_tile map)
 {
 	if(dev_mode == 1)
 	{
@@ -161,7 +161,17 @@ int defult_interface_usage(interface_tile map)
 				
 				if (action_6_flag == 1) render_inventory();
 			}
-			else if (action_1_mod == 5) { stf_0001_guard = 1; action_1_special(55, current_map_tile); chargen_interface_usage(); return 1; }
+			else if (action_1_mod == 5)
+			{
+				if (stf_0001_guard == 0)
+				{
+					stf_0001_guard = 1;
+					action_1_special(55, current_map_tile);
+					chargen_interface_usage();
+				}
+				
+				return 1;
+			}
 		}
 		
 		else if (player_action == '\n') 
@@ -214,7 +224,7 @@ int defult_interface_usage(interface_tile map)
 		
 		if (action_6_flag == 1) render_inventory();
 		
-		defult_interface_usage(current_map_tile);
+		default_interface_usage(current_map_tile);
 	}
 	
 	return 0;
@@ -499,7 +509,7 @@ int launch(interface_tile current_map)
 	
 	//---------------------------------------------------------------------------------------
 	
-	defult_interface_usage(current_map);
+	default_interface_usage(current_map);
 	
 	//---------------------------------------------------------------------------------------
 	

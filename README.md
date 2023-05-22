@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Build-0.0.4.3-success" alt="Build">
+   <img src="https://img.shields.io/badge/Build-0.0.4.4-success" alt="Build">
    <img src="https://img.shields.io/badge/Ready-alpha-orange" alt="Developer">
    <img src="https://img.shields.io/badge/License-BSD--3_Clause-red" alt="License">
 </p>
@@ -14,7 +14,7 @@ Based on the Dungeons and Dragons.
 
 Additions coming soon..
 
-## Build 0.0.4.3
+## Build 0.0.4.4
 <p align="center">
       <img src="https://i.ibb.co/ftgwRjC/image-2023-02-25-03-45-55.png" width="965">
 </p>
