@@ -18,6 +18,8 @@ bool stop_render_flag = 0;
 int choosen_color = 14;
 int choosen_color_new = 1;
 
+int global_plate_id = 1;
+
 int map_color_num(char char_for_find_color, int map_type)
 {
 	if(map_type == 50) // 50 is 1 in ASCII; Colors for location map
@@ -270,8 +272,6 @@ int render_player_info(void)
 	attroff(COLOR_PAIR(003));
 	attroff(COLOR_PAIR(004));
 	
-	/* PLAYER STATS WILL BE HERE*/
-	
 	attron(COLOR_PAIR(010));
 	mvprintw(19+3, 3, "Strength");
 	mvprintw(20+3, 3, "Dexterity");
@@ -376,8 +376,6 @@ int render_default_interface(interface_tile map, interface_tile inventory, inter
 int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose)
 {
 	int chargen_page_last = 3; // 4 in future
-	
-	// CHARGEN REALIZATION 																										<---------[TODO]---------<<<
 	
 	attron(COLOR_PAIR(001));
 	
@@ -1310,7 +1308,29 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 
 int stf_0001_guard = 0;
 
-// CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ TODO ]---<<<-----------------------------V-V-V-----------------------------------<<<----------[ TODO ]<<<
+// CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ START ]---<<<-----------------------------V-V-V-----------------------------------<<<----------[ TODO ]<<<
+
+int init_entity_plate_with_text(int in_y, int in_x, int in_plate_id)
+{
+	//attron(COLOR_PAIR(101));
+	
+	if((player_y == in_y) && (player_x == in_x))
+	{ 
+		mvprintw(21, 91, "Plate with the text");
+		
+		global_plate_id = in_plate_id;
+
+		action_1_mod = 4;
+		action_1_special(action_1_mod, current_map_tile); // <- CHECK
+		
+		return 1;
+	}
+	
+	//attroff(COLOR_PAIR(101));
+	return 0;
+}
+
+// CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ END ]-----<<<-----------------------------^-^-^-----------------------------------<<<----------[ TODO ]<<<
 
 int render_map_entities(interface_tile map)
 {
@@ -1453,8 +1473,11 @@ int render_map_entities(interface_tile map)
 		
 		// y(65) - Enter try trigger
 		
+		int bor_plt_0003_y = 13;
+		int bor_plt_0003_x = 18;
+		
 		attron(COLOR_PAIR(101));
-		mvaddch(13, 18, 'P'); // Plate (Eastern exit from Borovia)
+		mvaddch(bor_plt_0003_y, bor_plt_0003_x, 'P'); // Plate (Eastern exit from Borovia)
 		mvaddch(13, 54, 'G'); // Guardian 1 (Eastern exit from Borovia)
 		mvaddch(7, 61, 'G'); // Guardian 2 (Eastern exit from Borovia)
 		mvaddch(9, 48, 'G'); // Guardian 3 (Eastern exit from Borovia)
@@ -1487,15 +1510,7 @@ int render_map_entities(interface_tile map)
 			return 1;
 		}
 		
-		if((player_y == 13) && (player_x == 18))
-		{ 
-			mvprintw(21, 91, "Plate with the text");
-	
-			action_1_mod = 4;
-			action_1_special(action_1_mod, map);
-			
-			return 1;
-		}
+		if ( init_entity_plate_with_text(bor_plt_0003_y, bor_plt_0003_x, 1) == 1 ) return 1; // PLATE CREATOR
 		
 		// No player check
 		

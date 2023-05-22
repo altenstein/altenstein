@@ -16,6 +16,8 @@ int init_color_service(void);
 int init_color_entities(void);
 int init_actions(void);
 
+int init_entity_plate_with_text(int in_y, int in_x, int in_plate_id);
+
 // Functions
 
 int launch(interface_tile current_map);
@@ -48,6 +50,7 @@ int render_chargen_interface(int chargen_page, int chargen_column, int chargen_l
 // Variables
 
 extern unsigned int global_timer;
+extern int global_plate_id;
 
 extern bool dev_mode;
 extern bool stop_render_flag;

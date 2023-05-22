@@ -447,7 +447,7 @@ int action_1_special(int mod, interface_tile map)
 	
 	else if(mod == 44) // Read the plate action
 	{
-		render_message(10000, 5);
+		render_message(10000, 5); // 0003
 		
 		return 1;
 	}

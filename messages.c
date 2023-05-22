@@ -145,16 +145,19 @@ int render_message(int mod, int msg_id)
 		button_x_1 = msg_x + 2;
 	}
 	
-	else if (msg_id == 5) // 0003 Plate
+	else if (msg_id == 5) // Plate
 	{
-		msg_y = 8;
-		msg_x = 24;
-		
-		render_text_frame(msg_y, msg_x, 5, 30);
-		render_text_cbc(msg_y + 1, msg_x + 2, "Eastern exit from Borovia.");
-		
-		button_y = msg_y + 3;
-		button_x_1 = msg_x + 21;
+		if (global_plate_id == 1) // 0003
+		{
+			msg_y = 8;
+			msg_x = 24;
+			
+			render_text_frame(msg_y, msg_x, 5, 30);
+			render_text_cbc(msg_y + 1, msg_x + 2, "Eastern exit from Borovia.");
+			
+			button_y = msg_y + 3;
+			button_x_1 = msg_x + 21;
+		}
 	}
 	
 	else if (msg_id == 6) // Create a character	(Talk with Guardian)
