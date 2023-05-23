@@ -488,6 +488,7 @@ int launch(interface_tile current_map)
 		do
 		{
 			global_timer += 1;
+			refresh();
 			Sleep(10);
 		}
 		while(work);

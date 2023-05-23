@@ -1188,13 +1188,14 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 {
 	int res;
 	
-	typedef struct fireArgs_tag {
+	typedef struct {
 		int fire_y;
 		int fire_x;
 		int fire_map_id_1;
 		int fire_map_id_2;
 		int fire_map_id_3;
 		int fire_map_id_4;
+		int fire_id;
 	} fireArgs_t;
 	
 	fireArgs_t fire_arg_struct[128];
@@ -1205,6 +1206,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 	fire_arg_struct[id].fire_map_id_2 = in_fire_map_id[1];
 	fire_arg_struct[id].fire_map_id_3 = in_fire_map_id[2];
 	fire_arg_struct[id].fire_map_id_4 = in_fire_map_id[3];
+	fire_arg_struct[id].fire_id = id;
 	
 	//---------------------------------------------------------------------------------------
 	
@@ -1222,61 +1224,70 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		int fire_map_id_3 = fire_arg->fire_map_id_3;
 		int fire_map_id_4 = fire_arg->fire_map_id_4;
 		
+		int fire_id = fire_arg->fire_id;
+		
 		do
 		{
-			attron(COLOR_PAIR(204));
-			_srf_ mvaddch(fire_y, fire_x, 'f');
-			_srf_ mvaddch(fire_y, fire_x + 1, 'F');
-			_srf_ mvaddch(fire_y, fire_x + 2, 'F');
-			attroff(COLOR_PAIR(204));
-	
-			attron(COLOR_PAIR(205));
-			_srf_ mvaddch(fire_y - 1, fire_x, '.');
-			attroff(COLOR_PAIR(205));
-	
-			attron(COLOR_PAIR(206));
-			_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
-			_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
-			attroff(COLOR_PAIR(206));
-			
-			_srf_ refresh();
-			Sleep(300);
-			
-			attron(COLOR_PAIR(204));
-			_srf_ mvaddch(fire_y, fire_x, 'F');
-			_srf_ mvaddch(fire_y, fire_x + 1, 'F');
-			_srf_ mvaddch(fire_y, fire_x + 2, 'f');
-			attroff(COLOR_PAIR(204));
-	
-			attron(COLOR_PAIR(205));
-			_srf_ mvaddch(fire_y - 1, fire_x + 1, '"');
-			attroff(COLOR_PAIR(205));
-	
-			attron(COLOR_PAIR(206));
-			_srf_ mvaddch(fire_y - 1, fire_x, 'f');
-			_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
-			attroff(COLOR_PAIR(206));
-			
-			_srf_ refresh();
-			Sleep(300);
-			
-			attron(COLOR_PAIR(204));
-			_srf_ mvaddch(fire_y, fire_x, 'F');
-			_srf_ mvaddch(fire_y, fire_x + 1, 'f');
-			_srf_ mvaddch(fire_y, fire_x + 2, 'F');
-			attroff(COLOR_PAIR(204));
-	
-			attron(COLOR_PAIR(205));
-			_srf_ mvaddch(fire_y - 1, fire_x + 2, '.');
-			attroff(COLOR_PAIR(205));
-	
-			attron(COLOR_PAIR(206));
-			_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
-			_srf_ mvaddch(fire_y - 1, fire_x, 'f');
-			attroff(COLOR_PAIR(206));
-			
-			_srf_ refresh();
-			Sleep(300);
+			//mvprintw(29, 1, "                                               ");
+			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%33), (global_timer%(33+fire_id)));
+			if (global_timer%(33+fire_id) == 0)
+			{
+				attron(COLOR_PAIR(204));
+				_srf_ mvaddch(fire_y, fire_x, 'f');
+				_srf_ mvaddch(fire_y, fire_x + 1, 'F');
+				_srf_ mvaddch(fire_y, fire_x + 2, 'F');
+				attroff(COLOR_PAIR(204));
+		
+				attron(COLOR_PAIR(205));
+				_srf_ mvaddch(fire_y - 1, fire_x, '.');
+				attroff(COLOR_PAIR(205));
+		
+				attron(COLOR_PAIR(206));
+				_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
+				_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
+				//_srf_ mvprintw(fire_y + 1, fire_x + 2, "%d", fire_id);
+				attroff(COLOR_PAIR(206));
+				
+				//_srf_ refresh();
+				Sleep(300);
+				
+				attron(COLOR_PAIR(204));
+				_srf_ mvaddch(fire_y, fire_x, 'F');
+				_srf_ mvaddch(fire_y, fire_x + 1, 'F');
+				_srf_ mvaddch(fire_y, fire_x + 2, 'f');
+				attroff(COLOR_PAIR(204));
+		
+				attron(COLOR_PAIR(205));
+				_srf_ mvaddch(fire_y - 1, fire_x + 1, '"');
+				attroff(COLOR_PAIR(205));
+		
+				attron(COLOR_PAIR(206));
+				_srf_ mvaddch(fire_y - 1, fire_x, 'f');
+				_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
+				attroff(COLOR_PAIR(206));
+				
+				//_srf_ refresh();
+				Sleep(300);
+				
+				attron(COLOR_PAIR(204));
+				_srf_ mvaddch(fire_y, fire_x, 'F');
+				_srf_ mvaddch(fire_y, fire_x + 1, 'f');
+				_srf_ mvaddch(fire_y, fire_x + 2, 'F');
+				attroff(COLOR_PAIR(204));
+		
+				attron(COLOR_PAIR(205));
+				_srf_ mvaddch(fire_y - 1, fire_x + 2, '.');
+				attroff(COLOR_PAIR(205));
+		
+				attron(COLOR_PAIR(206));
+				_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
+				_srf_ mvaddch(fire_y - 1, fire_x, 'f');
+				attroff(COLOR_PAIR(206));
+				
+				//_srf_ refresh();
+				Sleep(300);
+			}
+			//Sleep(100);
 		}
 		while(current_map_tile.tile[21][4] == fire_map_id_1 && current_map_tile.tile[21][5] == fire_map_id_2
 		   && current_map_tile.tile[21][6] == fire_map_id_3 && current_map_tile.tile[21][7] == fire_map_id_4);
@@ -1424,22 +1435,15 @@ int render_map_entities(interface_tile map)
 		mvaddch(def_cst_0001_y, def_cst_0001_x, 'T'); // Tree with chest
 		attroff(COLOR_PAIR(101));
 		
-		attron(COLOR_PAIR(011));
-		mvaddch(def_tlprt_0001_y, def_tlprt_0001_x, '*'); // Dev location teleport
-		attroff(COLOR_PAIR(011));
-		
 		// Player check
 		
 		attron(COLOR_PAIR(101));
 		
-		if ( init_entity_chest_default(def_cst_0001_y, def_cst_0001_x, 0, "Default location tree stash", "STASH IN A TREE", "Tree with a stash") == 1 ) return 1;
-		else if ( init_entity_teleport_default(def_boat_0001_y, def_boat_0001_x, 2, "Boat to another place", tile_map_0003_chargen) == 1 ) return 1;
-		else if ( init_entity_teleport_default(def_tlprt_0001_y, def_tlprt_0001_x, 3, "Teleport to Develop map", tile_map_0002_dev) == 1 ) return 1;
+		if ( init_entity_chest_default(def_cst_0001_y, def_cst_0001_x, 0, "Default location tree stash", "STASH IN A TREE", "Tree with a stash")) return 1;
+		else if ( init_entity_teleport_default(def_boat_0001_y, def_boat_0001_x, 2, "Boat to another place", tile_map_0003_chargen)) return 1;
+		else if ( init_entity_teleport_default(def_tlprt_0001_y, def_tlprt_0001_x, 3, "Teleport to Develop map", tile_map_0002_dev)) return 1;
 
 		// No player check
-		
-		mvprintw(21, 90, "                            ");
-		attroff(COLOR_PAIR(101));
 	}
 	
 	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 2)) // --------------------------- [ 0002 ] ----------------------------
@@ -1458,13 +1462,10 @@ int render_map_entities(interface_tile map)
 		
 		// Player check
 		
-		if ( init_entity_chest_default(dev_cst_0002_1_y, dev_cst_0002_1_x, 1, "TEST CHEST", "TEST CHEST", "TEST CHEST") == 1 ) return 1;
-		else if ( init_entity_teleport_default(dev_tlprt_0002_1_y, dev_tlprt_0002_1_x, 3, "TELEPORT OT DEFAULT MAP", tile_map_0001_default) == 1 ) return 1;
+		if ( init_entity_chest_default(dev_cst_0002_1_y, dev_cst_0002_1_x, 1, "TEST CHEST", "TEST CHEST", "TEST CHEST")) return 1;
+		else if ( init_entity_teleport_default(dev_tlprt_0002_1_y, dev_tlprt_0002_1_x, 3, "TELEPORT OT DEFAULT MAP", tile_map_0001_default)) return 1;
 		
 		// No player check
-		
-		attroff(COLOR_PAIR(101));
-		mvprintw(21, 90, "                            ");
 	}
 	
 	else if((map_id_1 == 0) && (map_id_2 == 0) && (map_id_3 == 0) && (map_id_4 == 3)) // --------------------------- [ 0003 ] ----------------------------
@@ -1493,10 +1494,10 @@ int render_map_entities(interface_tile map)
 		
 		// Player check
 		
-		     if ( init_entity_guardian_talk(bor_npc_0003_1_y, bor_npc_0003_1_x, 1) == 1 ) return 1; // Guardian  Creator
-		else if ( init_entity_guardian_talk(bor_npc_0003_2_y, bor_npc_0003_2_x, 1) == 1 ) return 1; // Guardian  Creator
-		else if ( init_entity_guardian_talk(bor_npc_0003_3_y, bor_npc_0003_3_x, 1) == 1 ) return 1; // Guardian  Creator
-		else if ( init_entity_plate_with_text(bor_plt_0003_y, bor_plt_0003_x, 1) == 1 ) return 1;   // Plate     Creator
+		     if ( init_entity_guardian_talk(bor_npc_0003_1_y, bor_npc_0003_1_x, 1)) return 1; // Guardian  Creator
+		else if ( init_entity_guardian_talk(bor_npc_0003_2_y, bor_npc_0003_2_x, 1)) return 1; // Guardian  Creator
+		else if ( init_entity_guardian_talk(bor_npc_0003_3_y, bor_npc_0003_3_x, 1)) return 1; // Guardian  Creator
+		else if ( init_entity_plate_with_text(bor_plt_0003_y, bor_plt_0003_x, 1)) return 1;   // Plate     Creator
 		
 		if(player_x > 64) // Chargen trigger
 		{ 
@@ -1514,16 +1515,86 @@ int render_map_entities(interface_tile map)
 		}
 		
 		// No player check
-		
-		attroff(COLOR_PAIR(101));
-		mvprintw(21, 90, "                            ");
 	}
+	
+
+	attroff(COLOR_PAIR(101));
+	mvprintw(21, 90, "                            ");
 	
 	action_1_mod = -1;
 	action_1_special(action_1_mod, map);
 	
 	return 0;
 }
+
+
+int render_static_entities(void)
+{
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
+	{ // 0003
+		render_map_fire_3x2(9, 52, 1, "0003");
+	}
+	
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
+	{ // 0002
+		render_map_fire_3x2(3, 3, 1, "0002");
+		render_map_fire_3x2(3, 8, 2, "0002");
+		render_map_fire_3x2(3, 13, 3, "0002");
+	}
+	
+	return 0;
+}
+
+int render_loaded_location(void)
+{	
+	int moving_msg_flag = -1;
+
+	clear();
+	
+	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
+	 && preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 50)
+	{ // 0001 - > 0002
+		current_map_tile = preload_map_tile;
+		
+		player_y = 11;
+		player_x = 3;
+	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
+			&& preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 51)
+	{ // 0001 -> 0003
+		current_map_tile = preload_map_tile;
+		
+		render_message(10000, 1);
+		render_message(10000, 2);
+		
+		player_y = 9;
+		player_x = 6;
+	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
+	{ // 0002 -> 0001
+		current_map_tile = preload_map_tile;
+		
+		player_y = 15;
+		player_x = 38;
+	}
+	
+	//Sleep(2000);
+	
+	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(current_map_tile);
+	render_selected_cell(player_selected_cell, action_6_flag);
+	render_player_info();
+	
+	if (action_6_flag == 1) render_inventory();
+	
+	action_6_switch_inv(1, current_map_tile);
+	action_6_switch_inv(1, current_map_tile);
+	
+	render_static_entities();
+	
+	default_interface_usage(current_map_tile);
+	
+	return 0;
+}
+
 
 int render_structure_chest(int chest_selected_cell, int chest_id)
 {
@@ -1613,64 +1684,4 @@ int render_chest_items(int chest_id)
 	}
 	
 	return 0;	
-}
-
-int render_static_entities(void)
-{
-	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
-	{ // 0003
-		render_map_fire_3x2(9, 52, 1, "0003");
-	}
-	
-	return 0;
-}
-
-int render_loaded_location(void)
-{	
-	int moving_msg_flag = -1;
-
-	clear();
-	
-	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
-	 && preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 50)
-	{ // 0001 - > 0002
-		current_map_tile = preload_map_tile;
-		
-		player_y = 11;
-		player_x = 3;
-	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 49
-			&& preload_map_tile.tile[21][4] == 48 && preload_map_tile.tile[21][5] == 48 && preload_map_tile.tile[21][6] == 48 && preload_map_tile.tile[21][7] == 51)
-	{ // 0001 -> 0003
-		current_map_tile = preload_map_tile;
-		
-		render_message(10000, 1);
-		render_message(10000, 2);
-		
-		player_y = 9;
-		player_x = 6;
-	} else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
-	{ // 0002 -> 0001
-		current_map_tile = preload_map_tile;
-		
-		player_y = 15;
-		player_x = 38;
-	}
-	
-	//Sleep(2000);
-	
-	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-	render_map_entities(current_map_tile);
-	render_selected_cell(player_selected_cell, action_6_flag);
-	render_player_info();
-	
-	if (action_6_flag == 1) render_inventory();
-	
-	action_6_switch_inv(1, current_map_tile);
-	action_6_switch_inv(1, current_map_tile);
-	
-	render_static_entities();
-	
-	default_interface_usage(current_map_tile);
-	
-	return 0;
 }
