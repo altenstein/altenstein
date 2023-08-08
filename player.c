@@ -76,6 +76,13 @@ int default_interface_usage(void)
 		player_add_int = 15;
 		player_add_wis = 15;
 		player_add_char = 15;
+		
+		mvprintw(29, 0, "%d %d  /", player_x, player_y);
+		for (int itid = 0; itid < 15; itid++)
+		{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }
+		for (int ittag = 0; ittag < 32; ittag++)
+		{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }
+		
 	} // Not 25 so that you can use a backpack.
 	
 	player_additional_limit = player_inventory_limit;
@@ -218,15 +225,7 @@ int default_interface_usage(void)
 		
 		clear();
 		
-		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-		render_map_entities(current_map_tile);
-		render_selected_cell(player_selected_cell, action_6_flag);
-		render_player_info();
-		
-		action_6_switch_inv(1, current_map_tile);
-		action_6_switch_inv(1, current_map_tile);
-		
-		if (action_6_flag == 1) render_inventory();
+		render_full_block();
 		
 		default_interface_usage();
 	}
@@ -484,24 +483,16 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 	int n6 = 54;	int n7 = 55;
 	int n8 = 56;	int n9 = 57;
 	
-	////////////////////////////////////////////////////////////////////////// D
-	mvprintw(29, 0, "%d %d  /", player_x, player_y);						// E
-	for (int itid = 0; itid < 15; itid++)									// V
-	{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }		//   I
-	for (int ittag = 0; ittag < 32; ittag++)								//   N
-	{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }	//   F
-	//////////////////////////////////////////////////////////////////////////   O
+	if (player_x != 1 && player_y != 1 && player_x != 78 && player_y != 19) return 0;
 	
-	/*
+	//		KEYS:
 	
-	KEYS:
+	//		1 - up
+	//		2 - down
+	//		3 - left
+	//		4 - right
 	
-	1 - up
-	2 - down
-	3 - left
-	4 - right
-	
-	*/
+	preload_map_tile = tile_map_0002_dev;
 	
 	if (current_map_tile.tile[21][4] == n0 // 0004 (Central)
 	 && current_map_tile.tile[21][5] == n0 
@@ -513,25 +504,21 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 			preload_map_tile = tile_map_0005_central_admin;
 			render_transit_location(4);
 		}
-		
 		else if (player_x == 1 && player_y < 12 && player_y > 8) // Exit 2
 		{
-			render_transit_location(3);
+			render_transit_location(3); //3
 		}
-		
 		else if (player_y == 1 && player_x < 22 && player_x > 18) // Exit 3
 		{
-			render_transit_location(1);
+			render_transit_location(1); //1
 		}
-		
 		else if (player_y == 1 && player_x < 43 && player_x > 39) // Exit 4
 		{
-			render_transit_location(1);
+			render_transit_location(1); //1
 		}
-		
 		else if (player_y == 19 && player_x < 43 && player_x > 19) // Exit 5
 		{
-			render_transit_location(2);
+			render_transit_location(2); //2
 		}
 	}
 	
@@ -566,7 +553,7 @@ int launch(void)
 		do
 		{	
 			global_timer += 1;
-			refresh();
+			//_srf_ refresh();
 			Sleep(10);
 		}
 		while(work);
@@ -596,3 +583,7 @@ int launch(void)
 	
 	//---------------------------------------------------------------------------------------
 }
+
+// ENTITY STORY TRIGGER FLAGS
+
+int stf_0001_guard = 0;

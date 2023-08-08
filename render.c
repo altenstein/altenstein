@@ -51,7 +51,7 @@ int init_color_location_map(void)
 {
 	init_pair(200, 8, 0); // Map default pair
 	
-	init_pair(201, 9, 0); // Water color
+	init_pair(201, 9, 1); // Water color
 	init_pair(202, 2, 0); // Tree color
 	init_pair(203, 6, 0); // Wall/Wood color
 	init_pair(204, 4, 0); // Full fire
@@ -87,6 +87,7 @@ int init_color_service(void)
 	
 	init_pair(020, 0, 10); // Green invert
 	init_pair(021, 0, 4); // Red invert
+	init_pair(024, 0, 7); // B/W invert
 	
 	// FOR WHITE USE DEFAULT B/W (012)
 	
@@ -108,6 +109,23 @@ int init_actions(void)
 	action_2_inventory_usage(action_2_mod, 0);
 	
 	return 0;
+}
+
+int render_full_block(void)
+{
+	clear();
+	
+	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(current_map_tile);
+	render_selected_cell(player_selected_cell, action_6_flag);
+	render_player_info();
+	
+	action_6_switch_inv(1, current_map_tile);
+	action_6_switch_inv(1, current_map_tile);
+	
+	if (action_6_flag == 1) render_inventory();
+	
+	render_static_entities();
 }
 
 int render_selected_cell(int selected_cell, int action_6_flag)
@@ -1250,7 +1268,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 				//_srf_ mvprintw(fire_y + 1, fire_x + 2, "%d", fire_id);
 				attroff(COLOR_PAIR(206));
 				
-				//_srf_ refresh();
+				_srf_ refresh();
 				Sleep(300);
 				
 				attron(COLOR_PAIR(204));
@@ -1268,7 +1286,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 				_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
 				attroff(COLOR_PAIR(206));
 				
-				//_srf_ refresh();
+				_srf_ refresh();
 				Sleep(300);
 				
 				attron(COLOR_PAIR(204));
@@ -1286,7 +1304,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 				_srf_ mvaddch(fire_y - 1, fire_x, 'f');
 				attroff(COLOR_PAIR(206));
 				
-				//_srf_ refresh();
+				_srf_ refresh();
 				Sleep(300);
 			}
 			//Sleep(100);
@@ -1317,10 +1335,6 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 	
 	return 0;
 }
-
-// ENTITY STORY TRIGGER FLAGS
-
-int stf_0001_guard = 0;
 
 // CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ START ]---<<<-----------------------------V-V-V-----------------------------------<<<----------[ TODO ]<<<
 
@@ -1611,28 +1625,16 @@ int render_transit_location(int key)
 {	
 	if (transit_flag == 0) return -1;
 
-		 if (key == 1){ player_y = 1; }
-	else if (key == 2){ player_y = 20; }
+		 if (key == 1){ player_y = 1;  }
+	else if (key == 2){ player_y = 19; }
 	else if (key == 3){ player_x = 78; }
-	else if (key == 4){ player_x = 1; }
-	
-	clear();
-	
+	else if (key == 4){ player_x = 1;  }
+
 	current_map_tile = preload_map_tile;
 	
-	mvprintw(29, 0, "TRANSIT K%d", key);
+	//mvprintw(29, 0, "TRANSIT K%d", key);
 	
-	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-	render_map_entities(current_map_tile);
-	render_selected_cell(player_selected_cell, action_6_flag);
-	render_player_info();
-	
-	action_6_switch_inv(1, current_map_tile);
-	action_6_switch_inv(1, current_map_tile);
-	
-	if (action_6_flag == 1) render_inventory();
-	
-	render_static_entities();
+	render_full_block();
 	
 	//default_interface_usage(current_map_tile);
 	

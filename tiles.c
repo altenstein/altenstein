@@ -219,7 +219,7 @@ interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
 
 interface_tile tile_map_0004_central = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------------------[TITLE]------------------------------------+",
-	 "| WBS             |   | WBS            |   | |          WWWWW           |T   T |",
+	 "|                 |   |                |   | |          WWWWW           |T   T |",
 	 "|                 |   |                |   | |           WWWWW          |  T   |",
 	 "|                 |   |                |   | |           WWWWW          |     T|",
 	 "|                 |   |                |   | |          WWWWW           |T  T  |",  // BOROVIA-CENTRAL EXIT MAP
@@ -231,7 +231,7 @@ interface_tile tile_map_0004_central = {.tile = {	// tile_map_ID_TAG
 	 "|                                                                              |",  //              5
 	 "|                                                                              |",
 	 "|-------o==o------------+------o==o----+   +===================================|",
-	 "| WBS                   | WBS          |   |\\           _____           | T   T|",
+	 "|                       |              |   |\\           _____           | T   T|",
 	 "|                       |              |   | \\_________/WWWWW\\__________|    T |", 
 	 "|                       |              |   | |          WWWWW           |T     |",
 	 "|                       |              |   | |         WWWWW            |T  T  |",
@@ -249,7 +249,7 @@ interface_tile tile_map_0005_central_admin = {.tile = {	// tile_map_ID_TAG
 	 "|T  |                                                                          |",
 	 "|  T|       ___     ___     ___                                                |",
 	 "|T  |      [-F-]   [-F-]   [-F-]                                               |",
-	 "|   |       \\|/     \\|/     \\|/                                                |",
+	 "|   |       |||     |||     |||                                                |",
 	 "|  T|                                                                          |",
 	 "|T  |                                                                          |",
 	 "|===o                                                                          |",
@@ -261,7 +261,7 @@ interface_tile tile_map_0005_central_admin = {.tile = {	// tile_map_ID_TAG
 	 "|   |                                                                          |",
 	 "|T  |       ___     ___     ___                                                |",
 	 "| T |      [-F-]   [-F-]   [-F-]                                               |",
-	 "|   |       \\|/     \\|/     \\|/                                                |",
+	 "|   |       |||     |||     |||                                                |",
 	 "|T  |                                                                          |",
 	 "|  T|                                                                          |",
 	 "+-----------------------+------------------------------------------------------+",
