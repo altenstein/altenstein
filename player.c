@@ -11,6 +11,7 @@ unsigned int global_timer = 100;
 
 bool dev_mode = 0;
 bool quit_diu_flag;
+bool transit_flag = 1;
 
 int player_askp = 27;
 
@@ -57,8 +58,9 @@ int buffer_player_x;
 
 int current_inventory_item = 0;
 
-int default_interface_usage(interface_tile map)
+int default_interface_usage(void)
 {
+	
 	if(dev_mode == 1)
 	{
 		player_hp = 4200;
@@ -101,10 +103,10 @@ int default_interface_usage(interface_tile map)
 		if(dev_mode == 1 ) mvprintw(19, 1, "DEV MODE");
 		attroff(COLOR_PAIR(004));
 		
-		if ((player_action == 'w') && ((player_y - 1) != 0) && (map.tile[player_y - 1][player_x] == ' ')) player_y--;
-		else if ((player_action == 's') && ((player_y + 1) != 20) && (map.tile[player_y + 1][player_x] == ' ')) player_y++;
-		else if ((player_action == 'a') && ((player_x - 1) != 0) && (map.tile[player_y][player_x - 1] == ' ')) player_x--;
-		else if ((player_action == 'd') && ((player_x - 1) != 77) && (map.tile[player_y][player_x + 1] == ' ')) player_x++;
+		if ((player_action == 'w') && ((player_y - 1) != 0) && (current_map_tile.tile[player_y - 1][player_x] == ' ')) player_y--;
+		else if ((player_action == 's') && ((player_y + 1) != 20) && (current_map_tile.tile[player_y + 1][player_x] == ' ')) player_y++;
+		else if ((player_action == 'a') && ((player_x - 1) != 0) && (current_map_tile.tile[player_y][player_x - 1] == ' ')) player_x--;
+		else if ((player_action == 'd') && ((player_x - 1) != 77) && (current_map_tile.tile[player_y][player_x + 1] == ' ')) player_x++;
 		
 		char key_buffer = player_action;
 		
@@ -136,18 +138,18 @@ int default_interface_usage(interface_tile map)
 		
 		if (player_action == '6')
 		{ 
-			action_6_switch_inv(action_6_mod, map); // Action 6 button
+			action_6_switch_inv(action_6_mod, current_map_tile); // Action 6 button
 			if(action_6_flag == 1) render_inventory();
 		}
 		
 		else if (player_action == '1')
 		{
-			if (action_1_mod == 1) action_1_special(11, map);
-			else if (action_1_mod == 2) { action_1_special(22, map); return 1; }
-			else if (action_1_mod == 3) { action_1_special(22, map); return 1; }
+			if (action_1_mod == 1) action_1_special(11, current_map_tile);
+			else if (action_1_mod == 2) { action_1_special(22, current_map_tile); return 1; }
+			else if (action_1_mod == 3) { action_1_special(22, current_map_tile); return 1; }
 			else if (action_1_mod == 4)
 			{
-				action_1_special(44, map);
+				action_1_special(44, current_map_tile);
 				
 				//stop_render_flag = 0;
 		
@@ -193,10 +195,12 @@ int default_interface_usage(interface_tile map)
 		attroff(COLOR_PAIR(100));
 		
 		render_selected_cell(player_selected_cell, action_6_flag);
-		render_map_entities(map);
+		render_map_entities(current_map_tile);
 		render_player_info();
 		
 		//Sleep(50);
+		
+		location_transit(); // World player location check and move to another location
 		
 		player_action = getch();
 	}
@@ -224,7 +228,7 @@ int default_interface_usage(interface_tile map)
 		
 		if (action_6_flag == 1) render_inventory();
 		
-		default_interface_usage(current_map_tile);
+		default_interface_usage();
 	}
 	
 	return 0;
@@ -472,7 +476,81 @@ int chargen_interface_usage(void)
 	return 0;
 }
 
-int launch(interface_tile current_map)
+int location_transit(void) // Hardcode (only non-generative locations) transitions
+{
+	int n0 = 48;	int n1 = 49;
+	int n2 = 50;	int n3 = 51;
+	int n4 = 52;	int n5 = 53;
+	int n6 = 54;	int n7 = 55;
+	int n8 = 56;	int n9 = 57;
+	
+	////////////////////////////////////////////////////////////////////////// D
+	mvprintw(29, 0, "%d %d  /", player_x, player_y);						// E
+	for (int itid = 0; itid < 15; itid++)									// V
+	{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }		//   I
+	for (int ittag = 0; ittag < 32; ittag++)								//   N
+	{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }	//   F
+	//////////////////////////////////////////////////////////////////////////   O
+	
+	/*
+	
+	KEYS:
+	
+	1 - up
+	2 - down
+	3 - left
+	4 - right
+	
+	*/
+	
+	if (current_map_tile.tile[21][4] == n0 // 0004 (Central)
+	 && current_map_tile.tile[21][5] == n0 
+	 && current_map_tile.tile[21][6] == n0 
+	 && current_map_tile.tile[21][7] == n4)
+	{
+		if (player_x == 78 && player_y < 12 && player_y > 8) // Exit 1 (Central Administration)
+		{
+			preload_map_tile = tile_map_0005_central_admin;
+			render_transit_location(4);
+		}
+		
+		else if (player_x == 1 && player_y < 12 && player_y > 8) // Exit 2
+		{
+			render_transit_location(3);
+		}
+		
+		else if (player_y == 1 && player_x < 22 && player_x > 18) // Exit 3
+		{
+			render_transit_location(1);
+		}
+		
+		else if (player_y == 1 && player_x < 43 && player_x > 39) // Exit 4
+		{
+			render_transit_location(1);
+		}
+		
+		else if (player_y == 19 && player_x < 43 && player_x > 19) // Exit 5
+		{
+			render_transit_location(2);
+		}
+	}
+	
+	else if (current_map_tile.tile[21][4] == n0 // 0005
+	 && current_map_tile.tile[21][5] == n0 
+	 && current_map_tile.tile[21][6] == n0 
+	 && current_map_tile.tile[21][7] == n5)
+	{
+		if (player_x == 1 && player_y < 12 && player_y > 8)
+		{
+			preload_map_tile = tile_map_0004_central;
+			render_transit_location(3);
+		}
+	}
+	
+	return 0;
+}
+
+int launch(void)
 {
 	//---------------------------------------------------------------------------------------
 	
@@ -486,7 +564,7 @@ int launch(interface_tile current_map)
 	void *thread_func_global_timer(void * arg) 
 	{
 		do
-		{
+		{	
 			global_timer += 1;
 			refresh();
 			Sleep(10);
@@ -510,7 +588,7 @@ int launch(interface_tile current_map)
 	
 	//---------------------------------------------------------------------------------------
 	
-	default_interface_usage(current_map);
+	default_interface_usage();
 	
 	//---------------------------------------------------------------------------------------
 	

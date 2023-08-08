@@ -40,6 +40,8 @@ int map_color_num(char char_for_find_color, int map_type)
 		return 012;
 	else if(char_for_find_color == '^')
 		return 012;
+	else if(char_for_find_color == 'g')
+		return 202;
 	}
 	
 	return 200;
@@ -1535,11 +1537,21 @@ int render_static_entities(void)
 		render_map_fire_3x2(9, 52, 1, "0003");
 	}
 	
-	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
+	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
 	{ // 0002
 		render_map_fire_3x2(3, 3, 1, "0002");
 		render_map_fire_3x2(3, 8, 2, "0002");
 		render_map_fire_3x2(3, 13, 3, "0002");
+	}
+	
+	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 53)
+	{ // 0005
+		render_map_fire_3x2(4, 12, 1, "0005");
+		render_map_fire_3x2(4, 20, 2, "0005");
+		render_map_fire_3x2(4, 28, 3, "0005");
+		render_map_fire_3x2(16, 12, 4, "0005");
+		render_map_fire_3x2(16, 20, 5, "0005");
+		render_map_fire_3x2(16, 28, 6, "0005");
 	}
 	
 	return 0;
@@ -1583,14 +1595,46 @@ int render_loaded_location(void)
 	render_selected_cell(player_selected_cell, action_6_flag);
 	render_player_info();
 	
-	if (action_6_flag == 1) render_inventory();
+	action_6_switch_inv(1, current_map_tile);
+	action_6_switch_inv(1, current_map_tile);
 	
-	action_6_switch_inv(1, current_map_tile);
-	action_6_switch_inv(1, current_map_tile);
+	if (action_6_flag == 1) render_inventory();
 	
 	render_static_entities();
 	
-	default_interface_usage(current_map_tile);
+	default_interface_usage();
+	
+	return 0;
+}
+
+int render_transit_location(int key)
+{	
+	if (transit_flag == 0) return -1;
+
+		 if (key == 1){ player_y = 1; }
+	else if (key == 2){ player_y = 20; }
+	else if (key == 3){ player_x = 78; }
+	else if (key == 4){ player_x = 1; }
+	
+	clear();
+	
+	current_map_tile = preload_map_tile;
+	
+	mvprintw(29, 0, "TRANSIT K%d", key);
+	
+	render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+	render_map_entities(current_map_tile);
+	render_selected_cell(player_selected_cell, action_6_flag);
+	render_player_info();
+	
+	action_6_switch_inv(1, current_map_tile);
+	action_6_switch_inv(1, current_map_tile);
+	
+	if (action_6_flag == 1) render_inventory();
+	
+	render_static_entities();
+	
+	//default_interface_usage(current_map_tile);
 	
 	return 0;
 }

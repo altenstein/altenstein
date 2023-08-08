@@ -18,16 +18,16 @@ int init_actions(void);
 
 // Functions
 
-int launch(interface_tile current_map);
+int launch(void);
 
 int action_6_switch_inv(int mod, interface_tile map);
 int action_1_special(int mod, interface_tile map);
 int action_2_inventory_usage(int mod, int item_id);
 
 int map_color_num(char char_for_find_color, int map_type);
-int default_interface_usage(interface_tile map);
-
+int default_interface_usage(void);
 int chargen_interface_usage(void);
+int location_transit(void);
 
 int render_map_entities(interface_tile map);
 int render_selected_cell(int selected_cell, int action_6_flag);
@@ -38,6 +38,7 @@ int render_chest_selected_cell(int chest_selected_cell,int chest_id);
 int render_chest_items(int chest_id);
 int render_player_info(void);
 int render_loaded_location(void);
+int render_transit_location(int key);
 int render_message(int mod, int msg_id);
 int render_text_cbc(int cbc_y, int cbc_x, char cbc_text[]);
 int render_text_frame(int frame_y, int frame_x, int frame_height, int frame_width);
@@ -55,6 +56,7 @@ extern bool dev_mode;
 extern bool stop_render_flag;
 extern bool quit_cbc_flag;
 extern bool quit_diu_flag;
+extern bool transit_flag;
 
 extern char npc_name[256];
 

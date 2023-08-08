@@ -161,8 +161,8 @@ interface_tile tile_map_0001_default = {.tile = {	// tile_map_ID_TAG
 	 "|                             T                   WWW                 WWWWWWW  |",
 	 "|                                               WWWWWWWW               WWWWWWWW|",
 	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0001-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: DEFAULT"
+	 "ID: 0001-2-1  /",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: DEFAULT                   /"
 } };
 
 interface_tile tile_map_0002_dev = {.tile = {	// tile_map_ID_TAG
@@ -187,8 +187,8 @@ interface_tile tile_map_0002_dev = {.tile = {	// tile_map_ID_TAG
 	 "+--------+                                                                     |",
 	 "|DEV-LCTN|                                                                     |",
 	 "+--------+--------------+------------------------------------------------------+",
-	 "ID: 0002-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: DEV"
+	 "ID: 0002-2-1  /",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: DEV                       /"
 } };
 
 interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
@@ -213,58 +213,58 @@ interface_tile tile_map_0003_chargen = {.tile = {	// tile_map_ID_TAG
 	 "|T      WWWWW         T            T       <         <       >    ^            |",
 	 "|   T  WWWWW                 T            <     <        ^          >      >   |",
 	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0003-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: CHARGEN"
+	 "ID: 0003-2-1  /",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: CHARGEN                   /"
 } };
 
 interface_tile tile_map_0004_central = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------------------[TITLE]------------------------------------+",
-	 "|                 |   |                |   | |          WWWWW           |T   T |",
+	 "| WBS             |   | WBS            |   | |          WWWWW           |T   T |",
 	 "|                 |   |                |   | |           WWWWW          |  T   |",
 	 "|                 |   |                |   | |           WWWWW          |     T|",
 	 "|                 |   |                |   | |          WWWWW           |T  T  |",  // BOROVIA-CENTRAL EXIT MAP
 	 "|                 |   |                |   | |         WWWWW            |      |",
-	 "|                 |   |                |   | |         WWWWW            | T   T|",  //           3  5
+	 "|                 |   |                |   | |         WWWWW            | T   T|",  //           3  4
 	 "|                 |   |                |   | |          WWWWW           |    T |",  //	       |  |
-	 "|-------o  o------+   +------o  o------+   +===================================|",  //    	2--+--+--1 (Admin house)
-	 "|                                                                              |",  //           |  |
-	 "|                                                                              |",  //           4  6
+	 "|-------o==o------+   +------o==o------+   +===================================|",  //    	2--+--+--1 (Admin house)
+	 "|                                                                              |",  //              |
+	 "|                                                                              |",  //              5
 	 "|                                                                              |",
-	 "|-------o  o------+   +------o  o------+   +===================================|",
-	 "|                 |   |                |   |\\           _____           | T   T|",
-	 "|                 |   |                |   | \\_________/WWWWW\\__________|    T |",
-	 "|                 |   |                |   | |          WWWWW           |T     |",
-	 "|                 |   |                |   | |         WWWWW            |T  T  |",
-	 "|                 |   |                |   | |        WWWWW             | T    |",
-	 "|                 |   |                |   | |        WWWWW             |    T |",
-	 "|                 |   |                |   | |         WWWWW            | T   T|",
-	 "+--------+--------------+------------------------------------------------------+",
-	 "ID: 0004-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: CENTRAL"
+	 "|-------o==o------------+------o==o----+   +===================================|",
+	 "| WBS                   | WBS          |   |\\           _____           | T   T|",
+	 "|                       |              |   | \\_________/WWWWW\\__________|    T |", 
+	 "|                       |              |   | |          WWWWW           |T     |",
+	 "|                       |              |   | |         WWWWW            |T  T  |",
+	 "|                       |              |   | |        WWWWW             | T    |", //	WBS - WILL BE ADDED SOON (and open)
+	 "|                       |              |   | |        WWWWW             |    T |",
+	 "|                       |              |   | |         WWWWW            | T   T|",
+	 "+--------+--------------+------------------------------------------------------+", 
+	 "ID: 0004-2-1  /",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: CENTRAL                   /"
 } };
 
 interface_tile tile_map_0005_central_admin = {.tile = {	// tile_map_ID_TAG
 	 "+-----------------------------------[TITLE]------------------------------------+",
+	 "| T |                                                                          |",
+	 "|T  |                                                                          |",
+	 "|  T|       ___     ___     ___                                                |",
+	 "|T  |      [-F-]   [-F-]   [-F-]                                               |",
+	 "|   |       \\|/     \\|/     \\|/                                                |",
+	 "|  T|                                                                          |",
+	 "|T  |                                                                          |",
+	 "|===o                                                                          |",
 	 "|                                                                              |",
 	 "|                                                                              |",
 	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
-	 "|                                                                              |",
+	 "|===o                                                                          |",
+	 "| T |                                                                          |",
+	 "|   |                                                                          |",
+	 "|T  |       ___     ___     ___                                                |",
+	 "| T |      [-F-]   [-F-]   [-F-]                                               |",
+	 "|   |       \\|/     \\|/     \\|/                                                |",
+	 "|T  |                                                                          |",
+	 "|  T|                                                                          |",
 	 "+-----------------------+------------------------------------------------------+",
-	 "ID: 0005-2-1",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
-	 "TAG: CENTRALADMIN"
+	 "ID: 0005-2-1  /",	// XXXX-... - location id; ...-X-... - map type (world/location/dungeon/house); ...-X - location difficulty (1-3)
+	 "TAG: CENTRAL_ADMIN             /"
 } };
