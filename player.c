@@ -219,15 +219,27 @@ int default_interface_usage(void)
 	bool quit_res = render_message(20000, 3);
 	
 	if (quit_res == 1) return 1;
-	else if (quit_res == 0)
+	else if (quit_res == 0) // CPU -->> 100% -- WHY? -- //                                    NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (START)
 	{
 		stop_render_flag = 0;
 		
 		clear();
+	
+		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+		render_map_entities(current_map_tile);
+		render_selected_cell(player_selected_cell, action_6_flag);
+		render_player_info();
+	
+		action_6_switch_inv(1, current_map_tile);
+		action_6_switch_inv(1, current_map_tile);
+	
+		if (action_6_flag == 1) render_inventory();
+	
+		render_static_entities();
 		
-		render_full_block();
+		//render_full_block(); -- DO NOT WORK -- WHY? --^^^--
 		
-		default_interface_usage();
+		default_interface_usage(); //                                                         NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (END)
 	}
 	
 	return 0;
