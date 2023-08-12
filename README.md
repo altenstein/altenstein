@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Build-0.0.4.8	-success" alt="Build">
+   <img src="https://img.shields.io/badge/Build-0.0.4.8-success" alt="Build">
    <img src="https://img.shields.io/badge/Ready-alpha-orange" alt="Developer">
    <img src="https://img.shields.io/badge/License-BSD--3_Clause-red" alt="License">
 </p>
