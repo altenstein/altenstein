@@ -24,6 +24,8 @@ cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.
 
 -lpdcurses -> -lncurses (for linux build)
 
+!NOW WE HAVE WINDOWS AND LINUX MAKEFILES!
+
 ### Dependencies 
 [Current Libs](https://github.com/altenstein/altenstein/issues/2)
 

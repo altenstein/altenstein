@@ -565,6 +565,7 @@ int launch(void)
 		{	
 			global_timer += 1;
 			//_srf_ refresh();
+			//mvprintw(29, 0, "%d", global_timer);
 			Sleep(10);
 		}
 		while(work);
