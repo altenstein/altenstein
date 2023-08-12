@@ -5,7 +5,7 @@
 
 #elif __linux__
 	#include <unistd.h>
-	#define Sleep(x) sleep(x%1000)
+	#define Sleep(n) usleep(n*1000)
 #endif
 
 #ifndef RENDER_INCLUDE_GUARDIAN

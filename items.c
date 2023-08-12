@@ -3,7 +3,6 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<unistd.h>
 #include"render.h"
 #include"items.h"
 
