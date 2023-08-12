@@ -4,7 +4,6 @@
 #include<string.h>
 #include<pthread.h>
 #include<unistd.h>
-#include<windows.h> // Comment for linux build
 #include"render.h"
 #include"items.h"
 

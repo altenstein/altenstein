@@ -1,5 +1,13 @@
 #define _srf_ if(stop_render_flag == 0)
 
+#ifdef _WIN32
+	#include <windows.h>
+
+#elif __linux__
+	#include <unistd.h>
+	#define Sleep(x) sleep(x%1000)
+#endif
+
 #ifndef RENDER_INCLUDE_GUARDIAN
 #define RENDER_INCLUDE_GUARDIAN
 

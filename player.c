@@ -3,7 +3,6 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<windows.h> // Comment for linux build
 #include"render.h"
 #include"items.h"
 
