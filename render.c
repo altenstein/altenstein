@@ -1204,135 +1204,8 @@ int render_inventory(void)
 }
 
 int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4]) // NEED TO FULL REWRITE <<<----------------------------[ TODO ]----------------------------<<<
-{/*
-	int res;
-	
-	typedef struct {
-		int fire_y;
-		int fire_x;
-		int fire_map_id_1;
-		int fire_map_id_2;
-		int fire_map_id_3;
-		int fire_map_id_4;
-		int fire_id;
-	} fireArgs_t;
-	
-	fireArgs_t fire_arg_struct[128];
-	
-	fire_arg_struct[id].fire_y = in_fire_y;
-	fire_arg_struct[id].fire_x = in_fire_x;
-	fire_arg_struct[id].fire_map_id_1 = in_fire_map_id[0];
-	fire_arg_struct[id].fire_map_id_2 = in_fire_map_id[1];
-	fire_arg_struct[id].fire_map_id_3 = in_fire_map_id[2];
-	fire_arg_struct[id].fire_map_id_4 = in_fire_map_id[3];
-	fire_arg_struct[id].fire_id = id;
-	
-	//---------------------------------------------------------------------------------------
-	
-	pthread_t thread_fire_engine[128];
-	
-	void *thread_func_fire_engine(void *arg) 
-	{
-		fireArgs_t *fire_arg = (fireArgs_t*) arg;
-		
-		int fire_y = fire_arg->fire_y;
-		int fire_x = fire_arg->fire_x;
-		
-		int fire_map_id_1 = fire_arg->fire_map_id_1;
-		int fire_map_id_2 = fire_arg->fire_map_id_2;
-		int fire_map_id_3 = fire_arg->fire_map_id_3;
-		int fire_map_id_4 = fire_arg->fire_map_id_4;
-		
-		int fire_id = fire_arg->fire_id;
-		
-		do
-		{
-			//mvprintw(29, 1, "                                               ");
-			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%33), (global_timer%(33+fire_id)));
-			if (global_timer%(33+fire_id) == 0)
-			{
-				attron(COLOR_PAIR(204));
-				_srf_ mvaddch(fire_y, fire_x, 'f');
-				_srf_ mvaddch(fire_y, fire_x + 1, 'F');
-				_srf_ mvaddch(fire_y, fire_x + 2, 'F');
-				attroff(COLOR_PAIR(204));
-		
-				attron(COLOR_PAIR(205));
-				_srf_ mvaddch(fire_y - 1, fire_x, '.');
-				attroff(COLOR_PAIR(205));
-		
-				attron(COLOR_PAIR(206));
-				_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
-				_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
-				//_srf_ mvprintw(fire_y + 1, fire_x + 2, "%d", fire_id);
-				attroff(COLOR_PAIR(206));
-				
-				_srf_ refresh();
-				Sleep(300);
-				
-				attron(COLOR_PAIR(204));
-				_srf_ mvaddch(fire_y, fire_x, 'F');
-				_srf_ mvaddch(fire_y, fire_x + 1, 'F');
-				_srf_ mvaddch(fire_y, fire_x + 2, 'f');
-				attroff(COLOR_PAIR(204));
-		
-				attron(COLOR_PAIR(205));
-				_srf_ mvaddch(fire_y - 1, fire_x + 1, '"');
-				attroff(COLOR_PAIR(205));
-		
-				attron(COLOR_PAIR(206));
-				_srf_ mvaddch(fire_y - 1, fire_x, 'f');
-				_srf_ mvaddch(fire_y - 1, fire_x + 2, 'f');
-				attroff(COLOR_PAIR(206));
-				
-				_srf_ refresh();
-				Sleep(300);
-				
-				attron(COLOR_PAIR(204));
-				_srf_ mvaddch(fire_y, fire_x, 'F');
-				_srf_ mvaddch(fire_y, fire_x + 1, 'f');
-				_srf_ mvaddch(fire_y, fire_x + 2, 'F');
-				attroff(COLOR_PAIR(204));
-		
-				attron(COLOR_PAIR(205));
-				_srf_ mvaddch(fire_y - 1, fire_x + 2, '.');
-				attroff(COLOR_PAIR(205));
-		
-				attron(COLOR_PAIR(206));
-				_srf_ mvaddch(fire_y - 1, fire_x + 1, 'f');
-				_srf_ mvaddch(fire_y - 1, fire_x, 'f');
-				attroff(COLOR_PAIR(206));
-				
-				_srf_ refresh();
-				Sleep(300);
-			}
-			Sleep(100);
-		}
-		while(current_map_tile.tile[21][4] == fire_map_id_1 && current_map_tile.tile[21][5] == fire_map_id_2
-		   && current_map_tile.tile[21][6] == fire_map_id_3 && current_map_tile.tile[21][7] == fire_map_id_4);
-		
-		//mvprintw(29,0,"OK %d %d %d %d", fire_y, fire_x, current_map_tile.tile[21][7], fire_map_id_4);
-		
-		pthread_exit(NULL);
-	}
-	
-	//---------------------------------------------------------------------------------------
-	
-	res = pthread_create (&thread_fire_engine[id], NULL, thread_func_fire_engine, &fire_arg_struct[id]);
-	
-	if (res != 0) {
-		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
-		exit(-10);
-	}
-
-	res = pthread_detach(thread_fire_engine[id]);
-	
-	if (res != 0) {
-		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
-		exit(-11);
-	}
-	*/
-	return 0;
+{	
+		return 0;
 }
 
 // CREATE FUNCTIONS TO USE IN BLOCKS (Ex.: add_entity_plate(y, x, text);) <-----------------------------------------<<<-----[ START ]---<<<-----------------------------V-V-V-----------------------------------<<<----------[ TODO ]<<<
@@ -1553,8 +1426,8 @@ int render_static_entities(void)
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
 	{ // 0002
 		render_map_fire_3x2(3, 3, 1, "0002");
-		render_map_fire_3x2(3, 8, 2, "0002");
-		render_map_fire_3x2(3, 13, 3, "0002");
+		//render_map_fire_3x2(3, 8, 2, "0002");
+		//render_map_fire_3x2(3, 13, 3, "0002");
 	}
 	
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 53)

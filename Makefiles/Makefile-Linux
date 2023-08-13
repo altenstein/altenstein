@@ -1,0 +1,2 @@
+main.out: ../main.c ../render.c ../tiles.c ../player.c ../items.c ../spells.c ../actions.c ../messages.c
+	gcc -o ../main.out ../main.c ../render.c ../tiles.c ../player.c ../items.c ../spells.c ../actions.c ../messages.c -lncurses -lpthread -std=gnu99

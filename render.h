@@ -13,6 +13,8 @@
 
 // Structures
 
+int launch_f(void);
+
 typedef struct {
 	char tile[30][120];
 } interface_tile;
