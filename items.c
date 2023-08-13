@@ -118,6 +118,8 @@ int init_items_with_info(void)
 	strcpy(item_with_info[9].item_description, "");
 	item_with_info[9].item_usable = 0;
 	item_with_info[9].item_cost = 1;
+
+	return 0;
 }
 
 item_tile tile_empty = {.item = {

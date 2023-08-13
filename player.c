@@ -58,8 +58,7 @@ int buffer_player_x;
 int current_inventory_item = 0;
 
 int default_interface_usage(void)
-{
-	
+{	
 	if(dev_mode == 1)
 	{
 		player_hp = 4200;
@@ -543,34 +542,6 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 			preload_map_tile = tile_map_0004_central;
 			render_transit_location(3);
 		}
-	}
-	
-	return 0;
-}
-
-int launch_f(void) // TEST FUNC <<<-------------[ D E L E T E ]----------------
-{
-	int res;
-	
-	pthread_t thread_global_f;
-	
-	void *thread_func_global_f(void * arg) 
-	{
-		pthread_exit(NULL);
-	}
-	
-	res = pthread_create (&thread_global_f, NULL, thread_func_global_f, NULL);
-	
-	if (res != 0) {
-		mvprintw(29, 0, "main error: can't create thread, status = %d\n", res);
-		exit(-10);
-	}
-
-	res = pthread_detach(thread_global_f);
-	
-	if (res != 0) {
-		mvprintw(29, 0, "main error: can't detach thread, status = %d\n", res);
-		exit(-11);
 	}
 	
 	return 0;
