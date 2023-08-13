@@ -1306,7 +1306,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 				_srf_ refresh();
 				Sleep(300);
 			}
-			Sleep(100);
+			//Sleep(100);
 		}
 		while(current_map_tile.tile[21][4] == fire_map_id_1 && current_map_tile.tile[21][5] == fire_map_id_2
 		   && current_map_tile.tile[21][6] == fire_map_id_3 && current_map_tile.tile[21][7] == fire_map_id_4);
