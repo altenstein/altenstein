@@ -1332,7 +1332,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		exit(-11);
 	}
 
-	default_interface_usage();
+	//default_interface_usage(); // NEED TO FIX AND FELETE THIS SHIT TODO
 
 	return 0;
 }
@@ -1549,24 +1549,24 @@ int render_static_entities(void)
 {
 	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
 	{ // 0003
-		render_map_fire_3x2(9, 52, 1, "0003");
+		//render_map_fire_3x2(9, 52, 1, "0003");
 	}
 	
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
 	{ // 0002
-		render_map_fire_3x2(3, 3, 1, "0002");
+		//render_map_fire_3x2(3, 3, 1, "0002");
 		//render_map_fire_3x2(3, 8, 2, "0002");
 		//render_map_fire_3x2(3, 13, 3, "0002");
 	}
 	
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 53)
 	{ // 0005
-		render_map_fire_3x2(4, 12, 1, "0005");
-		render_map_fire_3x2(4, 20, 2, "0005");
-		render_map_fire_3x2(4, 28, 3, "0005");
-		render_map_fire_3x2(16, 12, 4, "0005");
-		render_map_fire_3x2(16, 20, 5, "0005");
-		render_map_fire_3x2(16, 28, 6, "0005");
+		//render_map_fire_3x2(4, 12, 1, "0005");
+		//render_map_fire_3x2(4, 20, 2, "0005");
+		//render_map_fire_3x2(4, 28, 3, "0005");
+		//render_map_fire_3x2(16, 12, 4, "0005");
+		//render_map_fire_3x2(16, 20, 5, "0005");
+		//render_map_fire_3x2(16, 28, 6, "0005");
 	}
 	
 	return 0;
@@ -1628,8 +1628,8 @@ int render_transit_location(int key)
 
 		 if (key == 1){ player_y = 1;  }
 	else if (key == 2){ player_y = 19; }
-	else if (key == 3){ player_x = 78; }
-	else if (key == 4){ player_x = 1;  }
+	else if (key == 3){ player_x = 77; }
+	else if (key == 4){ player_x = 2;  }
 
 	current_map_tile = preload_map_tile;
 	

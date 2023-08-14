@@ -205,8 +205,8 @@ int default_interface_usage(void)
 		
 		//Sleep(50);
 		
-		location_transit(); // World player location check and move to another location
-		
+		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
+				
 		player_action = getch();
 	}
 	while (player_action != 27);
@@ -487,6 +487,11 @@ int chargen_interface_usage(void)
 
 int location_transit(void) // Hardcode (only non-generative locations) transitions
 {
+	//pthread_t transit_thread;
+
+	//void * func_transit_thread(void * arg)
+	//{
+
 	int n0 = 48;	int n1 = 49;
 	int n2 = 50;	int n3 = 51;
 	int n4 = 52;	int n5 = 53;
@@ -543,7 +548,16 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 			render_transit_location(3);
 		}
 	}
+	//}
+
+	//int res_tr = pthread_create(&transit_thread, NULL, func_transit_thread, NULL);
+
+	//if (res_tr != 0) exit(-10);
 	
+	//int res_tr_d = pthread_detach(transit_thread);
+
+	//if (res_tr_d != 0) exit(-11);
+
 	return 0;
 }
 
@@ -563,8 +577,9 @@ int launch(void)
 		do
 		{	
 			global_timer += 1;
-			//_srf_ refresh();
+
 			//mvprintw(29, 0, "%d", global_timer);
+			
 			Sleep(10);
 		}
 		while(work);
@@ -586,6 +601,7 @@ int launch(void)
 	
 	//---------------------------------------------------------------------------------------
 	
+	location_transit();
 	default_interface_usage();
 	
 	//---------------------------------------------------------------------------------------
