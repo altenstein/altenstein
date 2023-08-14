@@ -3,7 +3,6 @@
 #include<curses.h>
 #include<string.h>
 #include<pthread.h>
-#include<windows.h> // Comment for linux build
 #include"render.h"
 #include"items.h"
 
@@ -59,8 +58,7 @@ int buffer_player_x;
 int current_inventory_item = 0;
 
 int default_interface_usage(void)
-{
-	
+{	
 	if(dev_mode == 1)
 	{
 		player_hp = 4200;
@@ -207,8 +205,8 @@ int default_interface_usage(void)
 		
 		//Sleep(50);
 		
-		location_transit(); // World player location check and move to another location
-		
+		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
+				
 		player_action = getch();
 	}
 	while (player_action != 27);
@@ -489,6 +487,11 @@ int chargen_interface_usage(void)
 
 int location_transit(void) // Hardcode (only non-generative locations) transitions
 {
+	//pthread_t transit_thread;
+
+	//void * func_transit_thread(void * arg)
+	//{
+
 	int n0 = 48;	int n1 = 49;
 	int n2 = 50;	int n3 = 51;
 	int n4 = 52;	int n5 = 53;
@@ -545,8 +548,33 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 			render_transit_location(3);
 		}
 	}
+	//}
+
+	//int res_tr = pthread_create(&transit_thread, NULL, func_transit_thread, NULL);
+
+	//if (res_tr != 0) exit(-10);
 	
+	//int res_tr_d = pthread_detach(transit_thread);
+
+	//if (res_tr_d != 0) exit(-11);
+
 	return 0;
+}
+
+bool work = 1;
+
+void *thread_func_global_timer(void * arg)
+{
+	do
+	{	
+		global_timer += 1;
+
+		//mvprintw(29, 0, "%d", global_timer);
+	
+		Sleep(10);
+
+	}
+	while(work);
 }
 
 int launch(void)
@@ -554,22 +582,10 @@ int launch(void)
 	//---------------------------------------------------------------------------------------
 	
 	int res;
-	bool work = 1;
 	
 	//---------------------------------------------------------------------------------------
 	
 	pthread_t thread_global_timer;
-	
-	void *thread_func_global_timer(void * arg) 
-	{
-		do
-		{	
-			global_timer += 1;
-			//_srf_ refresh();
-			Sleep(10);
-		}
-		while(work);
-	}
 	
 	res = pthread_create (&thread_global_timer, NULL, thread_func_global_timer, NULL);
 	
@@ -587,6 +603,7 @@ int launch(void)
 	
 	//---------------------------------------------------------------------------------------
 	
+	location_transit();
 	default_interface_usage();
 	
 	//---------------------------------------------------------------------------------------

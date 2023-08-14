@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Build-0.0.4.8	-success" alt="Build">
+   <img src="https://img.shields.io/badge/Build-0.0.4.9-success" alt="Build">
    <img src="https://img.shields.io/badge/Ready-alpha-orange" alt="Developer">
    <img src="https://img.shields.io/badge/License-BSD--3_Clause-red" alt="License">
 </p>
@@ -23,6 +23,8 @@ Additions coming soon..
 cmd /k cd "C:\Dev\altenstein" && gcc -o main.exe main.c render.c tiles.c player.c items.c spells.c actions.c messages.c -lpdcurses -lpthread && main.exe
 
 -lpdcurses -> -lncurses (for linux build)
+
+!NOW WE HAVE WINDOWS AND LINUX MAKEFILES!
 
 ### Dependencies 
 [Current Libs](https://github.com/altenstein/altenstein/issues/2)

@@ -1,5 +1,13 @@
 #define _srf_ if(stop_render_flag == 0)
 
+#ifdef _WIN32
+	#include <windows.h>
+
+#elif __linux__
+	#include <unistd.h>
+	#define Sleep(n) usleep(n*1000)
+#endif
+
 #ifndef RENDER_INCLUDE_GUARDIAN
 #define RENDER_INCLUDE_GUARDIAN
 
@@ -46,6 +54,12 @@ int render_map_fire_3x2(int fire_y, int fire_x, int id, char fire_map_id[4]);
 int render_static_entities(void);
 int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose);
 int render_full_block(void);
+
+// Thread Functions
+
+void *thread_func_global_timer(void * arg); 
+void *thread_func_fire_engine(void *arg); 
+void *thread_func_heal(void *arg);
 
 // Variables
 
