@@ -1203,11 +1203,7 @@ int render_inventory(void)
 	return 0;
 }
 
-int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4]) // NEED TO FULL REWRITE <<<----------------------------[ TODO ]----------------------------<<<
-{
-	int res;
-	
-	typedef struct {
+typedef struct {
 		int fire_y;
 		int fire_x;
 		int fire_map_id_1;
@@ -1216,22 +1212,8 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		int fire_map_id_4;
 		int fire_id;
 	} fireArgs_t;
-	
-	fireArgs_t fire_arg_struct[128];
-	
-	fire_arg_struct[id].fire_y = in_fire_y;
-	fire_arg_struct[id].fire_x = in_fire_x;
-	fire_arg_struct[id].fire_map_id_1 = in_fire_map_id[0];
-	fire_arg_struct[id].fire_map_id_2 = in_fire_map_id[1];
-	fire_arg_struct[id].fire_map_id_3 = in_fire_map_id[2];
-	fire_arg_struct[id].fire_map_id_4 = in_fire_map_id[3];
-	fire_arg_struct[id].fire_id = id;
-	
-	//---------------------------------------------------------------------------------------
-	
-	pthread_t thread_fire_engine[128];
-	
-	void *thread_func_fire_engine(void *arg) 
+
+void *thread_func_fire_engine(void *arg) 
 	{
 		fireArgs_t *fire_arg = (fireArgs_t*) arg;
 		
@@ -1248,8 +1230,8 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		do
 		{
 			//mvprintw(29, 1, "                                               ");
-			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%33), (global_timer%(33+fire_id)));
-			if (global_timer%(33+fire_id) == 0)
+			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%100), (global_timer%(100+fire_id)));
+			if (global_timer%(100+fire_id) == 0)
 			{
 				attron(COLOR_PAIR(204));
 				_srf_ mvaddch(fire_y, fire_x, 'f');
@@ -1315,6 +1297,24 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		
 		pthread_exit(NULL);
 	}
+
+int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_id[4]) // NEED TO FULL REWRITE <<<----------------------------[ TODO ]----------------------------<<<
+{
+	int res;
+	
+	fireArgs_t fire_arg_struct[128];
+	
+	fire_arg_struct[id].fire_y = in_fire_y;
+	fire_arg_struct[id].fire_x = in_fire_x;
+	fire_arg_struct[id].fire_map_id_1 = in_fire_map_id[0];
+	fire_arg_struct[id].fire_map_id_2 = in_fire_map_id[1];
+	fire_arg_struct[id].fire_map_id_3 = in_fire_map_id[2];
+	fire_arg_struct[id].fire_map_id_4 = in_fire_map_id[3];
+	fire_arg_struct[id].fire_id = id;
+	
+	//---------------------------------------------------------------------------------------
+	
+	pthread_t thread_fire_engine[128];	
 	
 	//---------------------------------------------------------------------------------------
 	
@@ -1549,24 +1549,24 @@ int render_static_entities(void)
 {
 	if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 51)
 	{ // 0003
-		//render_map_fire_3x2(9, 52, 1, "0003");
+		render_map_fire_3x2(9, 52, 1, "0003");
 	}
 	
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 50)
 	{ // 0002
-		//render_map_fire_3x2(3, 3, 1, "0002");
-		//render_map_fire_3x2(3, 8, 2, "0002");
-		//render_map_fire_3x2(3, 13, 3, "0002");
+		render_map_fire_3x2(3, 3, 1, "0002");
+		render_map_fire_3x2(3, 8, 2, "0002");
+		render_map_fire_3x2(3, 13, 3, "0002");
 	}
 	
 	else if (current_map_tile.tile[21][4] == 48 && current_map_tile.tile[21][5] == 48 && current_map_tile.tile[21][6] == 48 && current_map_tile.tile[21][7] == 53)
 	{ // 0005
-		//render_map_fire_3x2(4, 12, 1, "0005");
-		//render_map_fire_3x2(4, 20, 2, "0005");
-		//render_map_fire_3x2(4, 28, 3, "0005");
-		//render_map_fire_3x2(16, 12, 4, "0005");
-		//render_map_fire_3x2(16, 20, 5, "0005");
-		//render_map_fire_3x2(16, 28, 6, "0005");
+		render_map_fire_3x2(4, 12, 1, "0005");
+		render_map_fire_3x2(4, 20, 2, "0005");
+		render_map_fire_3x2(4, 28, 3, "0005");
+		render_map_fire_3x2(16, 12, 4, "0005");
+		render_map_fire_3x2(16, 20, 5, "0005");
+		render_map_fire_3x2(16, 28, 6, "0005");
 	}
 	
 	return 0;

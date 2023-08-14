@@ -140,13 +140,7 @@ item_tile tile_potion = {.item = {
 "  (%%)"
 } };
 
-int usage_item_potion_heal(int potion_id)
-{
-	int res;
-	
-	if (player_hp >= player_hp_max - 2) return -1; // Do not replace potion to empty bottle
-	
-	void *thread_func_heal(void *arg) // Heal function by ID
+void *thread_func_heal(void *arg) // Heal function by ID
 	{
 		int arg_potion_id = * (int *) arg;
 		int potion_hps;
@@ -199,7 +193,14 @@ int usage_item_potion_heal(int potion_id)
 		
 		pthread_exit(NULL);
 	}
+
+
+int usage_item_potion_heal(int potion_id)
+{
+	int res;
 	
+	if (player_hp >= player_hp_max - 2) return -1; // Do not replace potion to empty bottle
+		
 	pthread_t item_thread_potion_heal;
 	
 	res = pthread_create (&item_thread_potion_heal, NULL, thread_func_heal, &potion_id);

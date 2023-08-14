@@ -561,29 +561,31 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 	return 0;
 }
 
+bool work = 1;
+
+void *thread_func_global_timer(void * arg)
+{
+	do
+	{	
+		global_timer += 1;
+
+		//mvprintw(29, 0, "%d", global_timer);
+	
+		Sleep(10);
+
+	}
+	while(work);
+}
+
 int launch(void)
 {
 	//---------------------------------------------------------------------------------------
 	
 	int res;
-	bool work = 1;
 	
 	//---------------------------------------------------------------------------------------
 	
 	pthread_t thread_global_timer;
-	
-	void *thread_func_global_timer(void * arg) 
-	{
-		do
-		{	
-			global_timer += 1;
-
-			//mvprintw(29, 0, "%d", global_timer);
-			
-			Sleep(10);
-		}
-		while(work);
-	}
 	
 	res = pthread_create (&thread_global_timer, NULL, thread_func_global_timer, NULL);
 	

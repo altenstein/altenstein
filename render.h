@@ -55,6 +55,12 @@ int render_static_entities(void);
 int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose);
 int render_full_block(void);
 
+// Thread Functions
+
+void *thread_func_global_timer(void * arg); 
+void *thread_func_fire_engine(void *arg); 
+void *thread_func_heal(void *arg);
+
 // Variables
 
 extern unsigned int global_timer;
