@@ -1252,7 +1252,7 @@ void *thread_func_fire_engine(void *arg)
 		{
 			//mvprintw(29, 1, "                                               ");
 			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%100), (global_timer%(100+fire_id)));
-			if (global_timer%(100+fire_id) == 0)
+			if (global_timer%(33+fire_id) == 0)
 			{
 				attron(COLOR_PAIR(204));
 				_srf_ mvaddch(fire_y, fire_x, 'f');
