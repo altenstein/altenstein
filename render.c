@@ -127,6 +127,27 @@ int render_full_block(void)
 	render_static_entities();
 }
 
+int render_map(void)
+{
+	int color_for_map_element;
+	int map_type = current_map_tile.tile[21][9];
+	
+	for(int i = 0; i < 21; i++)
+	{
+		for(int j = 0; j < 80; j++) //Load current map to interface
+		{
+			color_for_map_element = map_color_num(current_map_tile.tile[i][j], map_type);
+			attron(COLOR_PAIR(color_for_map_element));
+			mvprintw(i, j, "%c", current_map_tile.tile[i][j]);
+			attroff(COLOR_PAIR(color_for_map_element));
+		}
+	}
+	
+	render_map_entities(current_map_tile);
+	
+	render_static_entities();
+}
+
 int render_selected_cell(int selected_cell, int action_6_flag)
 {	
 	int current_backpack_id = 0;

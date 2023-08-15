@@ -59,32 +59,6 @@ int current_inventory_item = 0;
 
 int default_interface_usage(void)
 {	
-	if(dev_mode == 1)
-	{
-		player_hp = 4200;
-		player_hp_max = 5000;
-		player_balance = 5000;
-		player_inventory_limit = 24;
-		
-		player_askp = 0;
-		
-		player_add_str = 15;
-		player_add_dex = 15;
-		player_add_con = 15;
-		player_add_int = 15;
-		player_add_wis = 15;
-		player_add_char = 15;
-		
-		mvprintw(29, 0, "%d %d  /", player_x, player_y);
-		for (int itid = 0; itid < 15; itid++)
-		{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }
-		for (int ittag = 0; ittag < 32; ittag++)
-		{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }
-		
-	} // Not 25 so that you can use a backpack.
-	
-	player_additional_limit = player_inventory_limit;
-	
 	attron(COLOR_PAIR(100));
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
@@ -98,147 +72,128 @@ int default_interface_usage(void)
 	
 	do
 	{
-		if (quit_diu_flag == 1) { return 1; }
-		
-		buffer_player_y = player_y;
-		buffer_player_x = player_x;
-		
-		if(dev_mode == 1 && player_hp < 1000) player_hp = 1000;
-		attron(COLOR_PAIR(004));
-		if(dev_mode == 1 ) mvprintw(19, 1, "DEV MODE");
-		attroff(COLOR_PAIR(004));
-		
-		if ((player_action == 'w') && ((player_y - 1) != 0) && (current_map_tile.tile[player_y - 1][player_x] == ' ')) player_y--;
-		else if ((player_action == 's') && ((player_y + 1) != 20) && (current_map_tile.tile[player_y + 1][player_x] == ' ')) player_y++;
-		else if ((player_action == 'a') && ((player_x - 1) != 0) && (current_map_tile.tile[player_y][player_x - 1] == ' ')) player_x--;
-		else if ((player_action == 'd') && ((player_x - 1) != 77) && (current_map_tile.tile[player_y][player_x + 1] == ' ')) player_x++;
-		
-		char key_buffer = player_action;
-		
-		if(action_6_flag == 1){ // Player cell selection
-			
-			if((key_buffer) == 2) player_selected_cell += 5;
-			else if((key_buffer) == 3) player_selected_cell -= 5;
-			else if((key_buffer) == 4) player_selected_cell -= 1;
-			else if((key_buffer) == 5) player_selected_cell += 1;
-			
-			if(player_selected_cell > player_additional_limit) player_selected_cell = 1;
-			else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
-			
-		} else if (action_6_flag == 0){
-			
-			if((key_buffer) == 2  && player_selected_cell + 1 <= player_spell_book_limit) player_selected_cell += 1;
-			else if((key_buffer) == 3) player_selected_cell -= 1;
-			
-			if(player_selected_cell > 10) player_selected_cell = 1;
-			else if(player_selected_cell < 1) player_selected_cell = 10;
-		}
-		
-		//int *asd = &player_y;
-		//int *bsd = &player_x;
-	
-		//attron(COLOR_PAIR(001));
-		//mvprintw(29, 0, "%d", global_timer); // Underline information
-		//attroff(COLOR_PAIR(001));
-		
-		if (player_action == '6')
-		{ 
-			action_6_switch_inv(action_6_mod, current_map_tile); // Action 6 button
-			if(action_6_flag == 1) render_inventory();
-		}
-		
-		else if (player_action == '1')
-		{
-			if (action_1_mod == 1) action_1_special(11, current_map_tile);
-			else if (action_1_mod == 2) { action_1_special(22, current_map_tile); return 1; }
-			else if (action_1_mod == 3) { action_1_special(22, current_map_tile); return 1; }
-			else if (action_1_mod == 4)
-			{
-				action_1_special(44, current_map_tile);
-				
-				//stop_render_flag = 0;
-		
-				render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-				render_map_entities(current_map_tile);
-				render_selected_cell(player_selected_cell, action_6_flag);
-				render_player_info();
-				
-				action_6_switch_inv(1, current_map_tile);
-				action_6_switch_inv(1, current_map_tile);
-				
-				if (action_6_flag == 1) render_inventory();
-			}
-			else if (action_1_mod == 5)
-			{
-				if (stf_0001_guard == 0)
-				{
-					stf_0001_guard = 1;
-					action_1_special(55, current_map_tile);
-					chargen_interface_usage();
-				}
-				
-				return 1;
-			}
-		}
-		
-		else if (player_action == '\n') 
-		{
-			if(action_6_flag == 1) { action_transfer_inside_inventory(); render_inventory(); }
-		}
-		
-		else if (player_action == '2') 
-		{
-			if(action_2_mod == 1) { action_2_inventory_usage(3, inventory_cell[buffer_inventory_selected_cell]); }
-			//render_inventory();
-		}
-		
-		attron(COLOR_PAIR(200));
-		mvaddch(buffer_player_y, buffer_player_x, ' ');
-		attroff(COLOR_PAIR(200));
-		attron(COLOR_PAIR(100));
-		mvaddch(player_y, player_x, '@');
-		attroff(COLOR_PAIR(100));
-		
-		render_selected_cell(player_selected_cell, action_6_flag);
-		render_map_entities(current_map_tile);
-		render_player_info();
-		
-		//Sleep(50);
-		
-		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
-				
-		player_action = getch();
-	}
-	while (player_action != 27);
-	
-	
-	stop_render_flag = 1;
-	
-	bool quit_res = render_message(20000, 3);
-	
-	if (quit_res == 1) return 1;
-	else if (quit_res == 0) // CPU -->> 100% -- WHY? -- //                                    NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (START)
-	{
 		stop_render_flag = 0;
+		render_map();
 		
-		clear();
-	
-		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-		render_map_entities(current_map_tile);
-		render_selected_cell(player_selected_cell, action_6_flag);
-		render_player_info();
-	
-		action_6_switch_inv(1, current_map_tile);
-		action_6_switch_inv(1, current_map_tile);
-	
-		if (action_6_flag == 1) render_inventory();
-	
-		render_static_entities();
+		do
+		{
+			if (quit_diu_flag == 1) { break; }
+			
+			buffer_player_y = player_y;
+			buffer_player_x = player_x;
+			
+			if(dev_mode == 1 && player_hp < 1000) player_hp = 1000;
+			attron(COLOR_PAIR(004));
+			if(dev_mode == 1 ) mvprintw(19, 1, "DEV MODE");
+			attroff(COLOR_PAIR(004));
+			
+			if ((player_action == 'w') && ((player_y - 1) != 0) && (current_map_tile.tile[player_y - 1][player_x] == ' ')) player_y--;
+			else if ((player_action == 's') && ((player_y + 1) != 20) && (current_map_tile.tile[player_y + 1][player_x] == ' ')) player_y++;
+			else if ((player_action == 'a') && ((player_x - 1) != 0) && (current_map_tile.tile[player_y][player_x - 1] == ' ')) player_x--;
+			else if ((player_action == 'd') && ((player_x - 1) != 77) && (current_map_tile.tile[player_y][player_x + 1] == ' ')) player_x++;
+			
+			char key_buffer = player_action;
+			
+			if(action_6_flag == 1){ // Player cell selection
+				
+				if((key_buffer) == 2) player_selected_cell += 5;
+				else if((key_buffer) == 3) player_selected_cell -= 5;
+				else if((key_buffer) == 4) player_selected_cell -= 1;
+				else if((key_buffer) == 5) player_selected_cell += 1;
+				
+				if(player_selected_cell > player_additional_limit) player_selected_cell = 1;
+				else if(player_selected_cell < 1) player_selected_cell = player_additional_limit;
+				
+			} else if (action_6_flag == 0){
+				
+				if((key_buffer) == 2  && player_selected_cell + 1 <= player_spell_book_limit) player_selected_cell += 1;
+				else if((key_buffer) == 3) player_selected_cell -= 1;
+				
+				if(player_selected_cell > 10) player_selected_cell = 1;
+				else if(player_selected_cell < 1) player_selected_cell = 10;
+			}
+			
+			//int *asd = &player_y;
+			//int *bsd = &player_x;
 		
-		//render_full_block(); -- DO NOT WORK -- WHY? --^^^--
+			//attron(COLOR_PAIR(001));
+			//mvprintw(29, 0, "%d", global_timer); // Underline information
+			//attroff(COLOR_PAIR(001));
+			
+			if (player_action == '6')
+			{ 
+				action_6_switch_inv(action_6_mod, current_map_tile); // Action 6 button
+				if(action_6_flag == 1) render_inventory();
+			}
+			
+			else if (player_action == '1')
+			{
+				if (action_1_mod == 1) action_1_special(11, current_map_tile);
+				else if (action_1_mod == 2) { action_1_special(22, current_map_tile); return 1; }
+				else if (action_1_mod == 3) { action_1_special(22, current_map_tile); return 1; }
+				else if (action_1_mod == 4)
+				{
+					action_1_special(44, current_map_tile);
+					
+					//stop_render_flag = 0;
+			
+					render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
+					render_map_entities(current_map_tile);
+					render_selected_cell(player_selected_cell, action_6_flag);
+					render_player_info();
+					
+					action_6_switch_inv(1, current_map_tile);
+					action_6_switch_inv(1, current_map_tile);
+					
+					if (action_6_flag == 1) render_inventory();
+				}
+				else if (action_1_mod == 5)
+				{
+					if (stf_0001_guard == 0)
+					{
+						stf_0001_guard = 1;
+						action_1_special(55, current_map_tile);
+						chargen_interface_usage();
+					}
+					
+					return 1;
+				}
+			}
+			
+			else if (player_action == '\n') 
+			{
+				if(action_6_flag == 1) { action_transfer_inside_inventory(); render_inventory(); }
+			}
+			
+			else if (player_action == '2') 
+			{
+				if(action_2_mod == 1) { action_2_inventory_usage(3, inventory_cell[buffer_inventory_selected_cell]); }
+				//render_inventory();
+			}
+			
+			attron(COLOR_PAIR(200));
+			mvaddch(buffer_player_y, buffer_player_x, ' ');
+			attroff(COLOR_PAIR(200));
+			attron(COLOR_PAIR(100));
+			mvaddch(player_y, player_x, '@');
+			attroff(COLOR_PAIR(100));
+			
+			render_selected_cell(player_selected_cell, action_6_flag);
+			render_map_entities(current_map_tile);
+			render_player_info();
+			
+			//Sleep(50);
+			
+			location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
+					
+			player_action = getch();
+		}
+		while (player_action != 27);
 		
-		default_interface_usage(); //                                                         NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (END)
+		if (quit_diu_flag == 1) { break; }
+		stop_render_flag = 1;
 	}
+	while (render_message(20000, 3) == 0);
 	
 	return 0;
 }
@@ -603,7 +558,33 @@ int launch(void)
 	
 	//---------------------------------------------------------------------------------------
 	
-	location_transit();
+	if(dev_mode == 1)
+	{
+		player_hp = 4200;
+		player_hp_max = 5000;
+		player_balance = 5000;
+		player_inventory_limit = 24;
+		
+		player_askp = 0;
+		
+		player_add_str = 15;
+		player_add_dex = 15;
+		player_add_con = 15;
+		player_add_int = 15;
+		player_add_wis = 15;
+		player_add_char = 15;
+		
+		mvprintw(29, 0, "%d %d  /", player_x, player_y);
+		for (int itid = 0; itid < 15; itid++)
+		{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }
+		for (int ittag = 0; ittag < 32; ittag++)
+		{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }
+		
+	} // Not 25 so that you can use a backpack.
+	
+	player_additional_limit = player_inventory_limit;
+	
+	//location_transit();
 	default_interface_usage();
 	
 	//---------------------------------------------------------------------------------------
