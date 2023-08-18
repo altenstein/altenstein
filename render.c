@@ -143,6 +143,19 @@ int render_map(void)
 		}
 	}
 	
+		 if(current_map_tile.tile[21][11] == 49) attron(COLOR_PAIR(002)); // Set low difficulty
+	else if(current_map_tile.tile[21][11] == 50) attron(COLOR_PAIR(003)); // Set medium difficulty
+	else if(current_map_tile.tile[21][11] == 51) attron(COLOR_PAIR(004)); // Set high difficulty
+
+	     if(current_map_tile.tile[21][9] == 49) mvprintw(0, 34, "[WORLD MAP]");
+	else if(current_map_tile.tile[21][9] == 50) mvprintw(0, 33, "[LOCATION MAP]");
+	else if(current_map_tile.tile[21][9] == 51) mvprintw(0, 35, "[DUNGEON]");
+	else if(current_map_tile.tile[21][9] == 52) mvprintw(0, 36, "[HOUSE]");
+	
+	attroff(COLOR_PAIR(002));
+	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(004));
+	
 	render_map_entities(current_map_tile);
 	
 	render_static_entities();
