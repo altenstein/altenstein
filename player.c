@@ -70,15 +70,17 @@ int default_interface_usage(void)
 	
 	char player_action;
 	
-	stop_render_flag = 0;
+	char key_buffer;
 	
-	lable_restart_diu:
+	lable_restart_diu:												/*JMP POINT*/
+	
+	stop_render_flag = 0;
 	
 	render_map();
 	
 	do
 	{
-		if (quit_diu_flag == 1) { break; }
+		//if (quit_diu_flag == 1) { break; }
 		
 		buffer_player_y = player_y;
 		buffer_player_x = player_x;
@@ -93,7 +95,7 @@ int default_interface_usage(void)
 		else if ((player_action == 'a') && ((player_x - 1) != 0) && (current_map_tile.tile[player_y][player_x - 1] == ' ')) player_x--;
 		else if ((player_action == 'd') && ((player_x - 1) != 77) && (current_map_tile.tile[player_y][player_x + 1] == ' ')) player_x++;
 		
-		char key_buffer = player_action;
+		key_buffer = player_action;
 		
 		if(action_6_flag == 1){ // Player cell selection
 			
@@ -185,7 +187,7 @@ int default_interface_usage(void)
 		
 		//Sleep(50);
 		
-		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
+		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR (unix) <<----------------[PRIMARY TODO]
 				
 		player_action = getch();
 	}
@@ -519,8 +521,6 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 	return 0;
 }
 
-bool work = 1;
-
 void *thread_func_global_timer(void * arg)
 {
 	do
@@ -532,7 +532,7 @@ void *thread_func_global_timer(void * arg)
 		Sleep(10);
 
 	}
-	while(work);
+	while(1);
 }
 
 int launch(void)
