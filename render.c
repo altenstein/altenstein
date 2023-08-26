@@ -1366,7 +1366,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		exit(-11);
 	}
 
-	//default_interface_usage(); // NEED TO FIX AND FELETE THIS SHIT TODO
+	//default_interface_usage(); // NEED TO FIX AND DELETE THIS SHIT TODO
 
 	return 0;
 }
@@ -1651,7 +1651,7 @@ int render_loaded_location(void)
 	
 	render_static_entities();
 	
-	default_interface_usage();
+	//default_interface_usage();
 	
 	return 0;
 }
