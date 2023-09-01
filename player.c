@@ -59,32 +59,6 @@ int current_inventory_item = 0;
 
 int default_interface_usage(void)
 {	
-	if(dev_mode == 1)
-	{
-		player_hp = 4200;
-		player_hp_max = 5000;
-		player_balance = 5000;
-		player_inventory_limit = 24;
-		
-		player_askp = 0;
-		
-		player_add_str = 15;
-		player_add_dex = 15;
-		player_add_con = 15;
-		player_add_int = 15;
-		player_add_wis = 15;
-		player_add_char = 15;
-		
-		mvprintw(29, 0, "%d %d  /", player_x, player_y);
-		for (int itid = 0; itid < 15; itid++)
-		{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }
-		for (int ittag = 0; ittag < 32; ittag++)
-		{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }
-		
-	} // Not 25 so that you can use a backpack.
-	
-	player_additional_limit = player_inventory_limit;
-	
 	attron(COLOR_PAIR(100));
 	mvaddch(player_y, player_x, '@');
 	attroff(COLOR_PAIR(100));
@@ -96,9 +70,17 @@ int default_interface_usage(void)
 	
 	char player_action;
 	
+	char key_buffer;
+	
+	lable_restart_diu:												/*JMP POINT*/
+	
+	stop_render_flag = 0;
+	
+	render_map();
+	
 	do
 	{
-		if (quit_diu_flag == 1) { return 1; }
+		//if (quit_diu_flag == 1) { break; }
 		
 		buffer_player_y = player_y;
 		buffer_player_x = player_x;
@@ -113,7 +95,7 @@ int default_interface_usage(void)
 		else if ((player_action == 'a') && ((player_x - 1) != 0) && (current_map_tile.tile[player_y][player_x - 1] == ' ')) player_x--;
 		else if ((player_action == 'd') && ((player_x - 1) != 77) && (current_map_tile.tile[player_y][player_x + 1] == ' ')) player_x++;
 		
-		char key_buffer = player_action;
+		key_buffer = player_action;
 		
 		if(action_6_flag == 1){ // Player cell selection
 			
@@ -150,8 +132,8 @@ int default_interface_usage(void)
 		else if (player_action == '1')
 		{
 			if (action_1_mod == 1) action_1_special(11, current_map_tile);
-			else if (action_1_mod == 2) { action_1_special(22, current_map_tile); return 1; }
-			else if (action_1_mod == 3) { action_1_special(22, current_map_tile); return 1; }
+			else if (action_1_mod == 2) { action_1_special(22, current_map_tile); /*return 1;*/ }
+			else if (action_1_mod == 3) { action_1_special(22, current_map_tile); /*return 1;*/ }
 			else if (action_1_mod == 4)
 			{
 				action_1_special(44, current_map_tile);
@@ -205,39 +187,17 @@ int default_interface_usage(void)
 		
 		//Sleep(50);
 		
-		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR <<----------------[PRIMARY TODO]
+		location_transit(); // NEED TO FULL REWITE AND FIX PTHREAD_DETACH SEGFAULT ERROR (unix) <<----------------[PRIMARY TODO]
 				
 		player_action = getch();
 	}
 	while (player_action != 27);
 	
-	
 	stop_render_flag = 1;
 	
-	bool quit_res = render_message(20000, 3);
-	
-	if (quit_res == 1) return 1;
-	else if (quit_res == 0) // CPU -->> 100% -- WHY? -- //                                    NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (START)
+	if (render_message(20000, 3) == 0)
 	{
-		stop_render_flag = 0;
-		
-		clear();
-	
-		render_default_interface(current_map_tile, tile_inventory, tile_character_info, tile_actions, tile_world_info);
-		render_map_entities(current_map_tile);
-		render_selected_cell(player_selected_cell, action_6_flag);
-		render_player_info();
-	
-		action_6_switch_inv(1, current_map_tile);
-		action_6_switch_inv(1, current_map_tile);
-	
-		if (action_6_flag == 1) render_inventory();
-	
-		render_static_entities();
-		
-		//render_full_block(); -- DO NOT WORK -- WHY? --^^^--
-		
-		default_interface_usage(); //                                                         NEED TO REWRITE WITH DO-WHILE AROUND FUNCTION (END)
+		goto lable_restart_diu;
 	}
 	
 	return 0;
@@ -561,8 +521,6 @@ int location_transit(void) // Hardcode (only non-generative locations) transitio
 	return 0;
 }
 
-bool work = 1;
-
 void *thread_func_global_timer(void * arg)
 {
 	do
@@ -574,7 +532,7 @@ void *thread_func_global_timer(void * arg)
 		Sleep(10);
 
 	}
-	while(work);
+	while(1);
 }
 
 int launch(void)
@@ -603,7 +561,33 @@ int launch(void)
 	
 	//---------------------------------------------------------------------------------------
 	
-	location_transit();
+	if(dev_mode == 1)
+	{
+		player_hp = 4200;
+		player_hp_max = 5000;
+		player_balance = 5000;
+		player_inventory_limit = 24;
+		
+		player_askp = 0;
+		
+		player_add_str = 15;
+		player_add_dex = 15;
+		player_add_con = 15;
+		player_add_int = 15;
+		player_add_wis = 15;
+		player_add_char = 15;
+		
+		mvprintw(29, 0, "%d %d  /", player_x, player_y);
+		for (int itid = 0; itid < 15; itid++)
+		{ mvprintw(29, 10 + itid, "%c", current_map_tile.tile[21][itid]); }
+		for (int ittag = 0; ittag < 32; ittag++)
+		{ mvprintw(29, 26 + ittag, "%c", current_map_tile.tile[22][ittag]); }
+		
+	} // Not 25 so that you can use a backpack.
+	
+	player_additional_limit = player_inventory_limit;
+	
+	//location_transit();
 	default_interface_usage();
 	
 	//---------------------------------------------------------------------------------------

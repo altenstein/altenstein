@@ -127,6 +127,40 @@ int render_full_block(void)
 	render_static_entities();
 }
 
+int render_map(void)
+{
+	int color_for_map_element;
+	int map_type = current_map_tile.tile[21][9];
+	
+	for(int i = 0; i < 21; i++)
+	{
+		for(int j = 0; j < 80; j++) //Load current map to interface
+		{
+			color_for_map_element = map_color_num(current_map_tile.tile[i][j], map_type);
+			attron(COLOR_PAIR(color_for_map_element));
+			mvprintw(i, j, "%c", current_map_tile.tile[i][j]);
+			attroff(COLOR_PAIR(color_for_map_element));
+		}
+	}
+	
+		 if(current_map_tile.tile[21][11] == 49) attron(COLOR_PAIR(002)); // Set low difficulty
+	else if(current_map_tile.tile[21][11] == 50) attron(COLOR_PAIR(003)); // Set medium difficulty
+	else if(current_map_tile.tile[21][11] == 51) attron(COLOR_PAIR(004)); // Set high difficulty
+
+	     if(current_map_tile.tile[21][9] == 49) mvprintw(0, 34, "[WORLD MAP]");
+	else if(current_map_tile.tile[21][9] == 50) mvprintw(0, 33, "[LOCATION MAP]");
+	else if(current_map_tile.tile[21][9] == 51) mvprintw(0, 35, "[DUNGEON]");
+	else if(current_map_tile.tile[21][9] == 52) mvprintw(0, 36, "[HOUSE]");
+	
+	attroff(COLOR_PAIR(002));
+	attroff(COLOR_PAIR(003));
+	attroff(COLOR_PAIR(004));
+	
+	render_map_entities(current_map_tile);
+	
+	render_static_entities();
+}
+
 int render_selected_cell(int selected_cell, int action_6_flag)
 {	
 	int current_backpack_id = 0;
@@ -1231,7 +1265,7 @@ void *thread_func_fire_engine(void *arg)
 		{
 			//mvprintw(29, 1, "                                               ");
 			//mvprintw(29, 1, "%d %d %d", global_timer, (global_timer%100), (global_timer%(100+fire_id)));
-			if (global_timer%(100+fire_id) == 0)
+			if (global_timer%(33+fire_id) == 0)
 			{
 				attron(COLOR_PAIR(204));
 				_srf_ mvaddch(fire_y, fire_x, 'f');
@@ -1332,7 +1366,7 @@ int render_map_fire_3x2(int in_fire_y, int in_fire_x, int id, char in_fire_map_i
 		exit(-11);
 	}
 
-	//default_interface_usage(); // NEED TO FIX AND FELETE THIS SHIT TODO
+	//default_interface_usage(); // NEED TO FIX AND DELETE THIS SHIT TODO
 
 	return 0;
 }
@@ -1617,7 +1651,7 @@ int render_loaded_location(void)
 	
 	render_static_entities();
 	
-	default_interface_usage();
+	//default_interface_usage();
 	
 	return 0;
 }

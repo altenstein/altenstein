@@ -5,6 +5,8 @@
 #include"render.h"
 #include"items.h"
 
+/* BIG TODO: REPLACE ALL WINDOWS (not real) TO NCURSES WINDOWS (after initscr) */// <<<-----------------------------------------------
+
 /*
 
 D E V E L O P M E N T  B Y

@@ -54,6 +54,7 @@ int render_map_fire_3x2(int fire_y, int fire_x, int id, char fire_map_id[4]);
 int render_static_entities(void);
 int render_chargen_interface(int chargen_page, int chargen_column, int chargen_line, int class_choose);
 int render_full_block(void);
+int render_map(void);
 
 // Thread Functions
 
