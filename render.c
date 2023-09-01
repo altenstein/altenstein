@@ -168,7 +168,10 @@ int render_selected_cell(int selected_cell, int action_6_flag)
 
 	for (int i = 1; i <= 25; i++)
 	{
-		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
+		if (inventory_cell[i] > 999 
+				&& inventory_cell[i] < 1256 
+				&& (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i)
+		{
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
 			if (player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells >= 25) player_additional_limit = 25;
 			
