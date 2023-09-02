@@ -183,7 +183,7 @@ void *thread_func_heal(void *arg) // Heal function by ID
 			Sleep(1000); // usleep(x1000) for linux build
 		}
 		
-		for (int cooldown = 180; cooldown >= 0; cooldown--)
+		for (int cooldown = 18; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
 			_srf_ { render_player_info(); refresh(); }
