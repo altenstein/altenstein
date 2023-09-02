@@ -37,10 +37,16 @@ int init_default_items(void)
 	strcpy(backpack[1].backpack_description, "Add slots: 20");
 	
 	for (int i = 1; i <= 25; i++){
-		if (inventory_cell[i] > 999 && inventory_cell[i] < 1256 && (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i){
+		if (inventory_cell[i] > 999 
+				&& inventory_cell[i] < 1256 
+				&& (player_additional_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells) >= i)
+		{
 			player_additional_limit = player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells;
-			if (player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells >= 25) player_additional_limit = 25;
-	}   }
+
+			if (player_inventory_limit + backpack[inventory_cell[i] - 1000].backpack_add_cells >= 25)
+			{ player_additional_limit = 25; }
+		}   
+	}
 	
 	chest[0].chest_cell[7] = 3;
 	chest[0].chest_cell[1] = 1;
@@ -80,42 +86,60 @@ int init_items_with_info(void)
 {
 	strcpy(item_with_info[1].item_name, "Treatment Potion");
 	strcpy(item_with_info[1].item_description, "2 HP/Sec; 60 Sec;"); // YOU CAN USE DESCR-2 FOR SECOND DESCRIPTION LINE
+	item_with_info[1].item_usable_self = 1;
+	item_with_info[1].item_usable_ta = 0;
 	item_with_info[1].item_usable = 1;
 	item_with_info[1].item_cost = 50;
 	
 	strcpy(item_with_info[2].item_name, "Toxic Poison");
 	strcpy(item_with_info[2].item_description, "[Description 2]");
+	item_with_info[2].item_usable_self = 0;
+	item_with_info[2].item_usable_ta = 1;
 	item_with_info[2].item_usable = 1;
 	item_with_info[2].item_cost = 25;
 	
 	strcpy(item_with_info[3].item_name, "Empty bottle");
 	strcpy(item_with_info[3].item_description, "");
+	item_with_info[3].item_usable_self = 0;
+	item_with_info[3].item_usable_ta = 0;
 	item_with_info[3].item_usable = 0;
 	item_with_info[3].item_cost = 1;
 	
 	strcpy(item_with_info[4].item_name, "Mug of Ale");
 	strcpy(item_with_info[4].item_description, "1 HP/Sec; 30 Sec;");
+	item_with_info[4].item_usable_self = 1;
+	item_with_info[4].item_usable_ta = 0;
 	item_with_info[4].item_usable = 1;
 	item_with_info[4].item_cost = 2;
 	
 	strcpy(item_with_info[5].item_name, "1 GC");
 	strcpy(item_with_info[5].item_description, "Gold Coin");
+	item_with_info[5].item_usable_self = 0;	
+	item_with_info[5].item_usable_ta = 0;
 	item_with_info[5].item_usable = 0;
 	
 	strcpy(item_with_info[6].item_name, "10 GC");
 	strcpy(item_with_info[6].item_description, "Some Gold Coins");
+	item_with_info[6].item_usable_self = 0;
+	item_with_info[6].item_usable_ta = 0;
 	item_with_info[6].item_usable = 0;
 	
 	strcpy(item_with_info[7].item_name, "100 GC");
 	strcpy(item_with_info[7].item_description, "Many Gold Coins");
+	item_with_info[7].item_usable_self = 0;
+	item_with_info[7].item_usable_ta = 0;
 	item_with_info[7].item_usable = 0;
 	
 	strcpy(item_with_info[8].item_name, "1000 GC");
 	strcpy(item_with_info[8].item_description, "A lot of Gold");
+	item_with_info[8].item_usable_self = 0;
+	item_with_info[8].item_usable_ta = 0;
 	item_with_info[8].item_usable = 0;
 	
 	strcpy(item_with_info[9].item_name, "Empty mug");
 	strcpy(item_with_info[9].item_description, "");
+	item_with_info[9].item_usable_self = 0;
+	item_with_info[9].item_usable_ta = 0;
 	item_with_info[9].item_usable = 0;
 	item_with_info[9].item_cost = 1;
 
@@ -180,15 +204,15 @@ void *thread_func_heal(void *arg) // Heal function by ID
 			
 			refresh();
 			
-			Sleep(1000); // usleep(x1000) for linux build
+			Sleep(1000); 
 		}
 		
-		for (int cooldown = 18; cooldown >= 0; cooldown--)
+		for (int cooldown = 180; cooldown >= 0; cooldown--)
 		{
 			player_potion_cooldown = cooldown; 
 			_srf_ { render_player_info(); refresh(); }
 			
-			Sleep(1000); // usleep(x1000) for linux build
+			Sleep(1000); 
 		}
 		
 		pthread_exit(NULL);
