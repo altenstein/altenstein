@@ -1,0 +1,8 @@
+.vscode/
+*.ipch
+*.vsidx
+.vs/altenstein/v17/.wsuo
+.vs/altenstein/v17/Browse.VC.db
+*.json
+*.sqlite
+*.session

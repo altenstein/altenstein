@@ -464,7 +464,10 @@ int action_1_special(int mod, interface_tile map)
 
 int action_2_inventory_usage(int mod, int item_id)
 {	
-	if (mod != -1 && item_with_info[item_id].item_usable == 1 && player_potion_cooldown != 0) mod = 2;
+	if (mod != -1 && item_with_info[item_id].item_usable_self == 1 && player_potion_cooldown != 0) mod = 2;
+	
+	if (mod != -1 && player_hp == player_hp_max && item_id == 1) mod = 2;
+	else if (mod != -1 && player_hp == player_hp_max && item_id == 4) mod = 2;
 
 	if(mod == -1) // Staff usage passive
 	{

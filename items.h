@@ -11,8 +11,11 @@ typedef struct {
 	char item_name[32];
 	char item_description[32];
 	char item_description2[32];
-	bool item_usable;
+	bool item_usable_self;
+	bool item_usable_ta; // ta - to another (object/summon)
+	bool item_usable; // just usable tag; functional flags ^^^
 	
+
 	int item_drop_map_id_1; // X...
 	int item_drop_map_id_2; // .X..
 	int item_drop_map_id_3; // ..X.
